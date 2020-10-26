@@ -1,0 +1,9 @@
+grammar su.nsk.iae.post.PoST with org.eclipse.xtext.common.Terminals
+
+generate poST "http://www.nsk.su/iae/post/PoST"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
