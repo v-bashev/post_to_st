@@ -67,7 +67,7 @@ ProcessStatements:
 	StartProcessStatement | StopProcessStatement | ErrorProcessStatement;
 
 ProcessStatusExpression:
-	'PROCESS' process=[Process] 'IN' 'STATE' (stateName=[State] | stop?='STOP' | error?='ERROR');
+	'PROCESS' process=[Process] 'IN' 'STATE' (active?='ACTIVE' | inactive?="INACTIVE" | stop?='STOP' | error?='ERROR');
 
 StartProcessStatement:
 	{StartProcessStatement} 'START' 'PROCESS' process=[Process];

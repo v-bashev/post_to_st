@@ -74,8 +74,8 @@ public class ProgramGenerator {
       ProcessGenerator _processGenerator = new ProcessGenerator(this, p);
       this.processList.add(_processGenerator);
     }
-    this.addVar("ALL_PROCESSES_STOP_CONSTANT", "INT", "254", true);
-    this.addVar("ALL_PROCESSES_ERROR_CONSTANT", "INT", "255", true);
+    this.addVar(this.generateStopConstant(), "INT", "254", true);
+    this.addVar(this.generateErrorConstant(), "INT", "255", true);
   }
   
   public void generate(final IFileSystemAccess2 fsa, final String path) {
@@ -132,6 +132,18 @@ public class ProgramGenerator {
     _builder.append("END_PROGRAM");
     _builder.newLine();
     _builder.newLine();
+    return _builder.toString();
+  }
+  
+  public String generateStopConstant() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("ALL_PROCESSES_STOP_CONSTANT");
+    return _builder.toString();
+  }
+  
+  public String generateErrorConstant() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("ALL_PROCESSES_ERROR_CONSTANT");
     return _builder.toString();
   }
   

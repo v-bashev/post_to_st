@@ -811,7 +811,7 @@ public class PoSTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     ProcessStatusExpression returns ProcessStatusExpression
 	 *
 	 * Constraint:
-	 *     (process=[Process|ID] (stateName=[State|ID] | stop?='STOP' | error?='ERROR'))
+	 *     (process=[Process|ID] (active?='ACTIVE' | inactive?='INACTIVE' | stop?='STOP' | error?='ERROR'))
 	 */
 	protected void sequence_ProcessStatusExpression(ISerializationContext context, ProcessStatusExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

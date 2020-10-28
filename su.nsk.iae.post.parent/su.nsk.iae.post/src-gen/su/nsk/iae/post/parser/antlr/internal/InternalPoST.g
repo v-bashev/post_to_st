@@ -639,44 +639,60 @@ ruleProcessStatusExpression returns [EObject current=null]
 		(
 			(
 				(
+					lv_active_4_0='ACTIVE'
+					{
+						newLeafNode(lv_active_4_0, grammarAccess.getProcessStatusExpressionAccess().getActiveACTIVEKeyword_4_0_0());
+					}
 					{
 						if ($current==null) {
 							$current = createModelElement(grammarAccess.getProcessStatusExpressionRule());
 						}
-					}
-					otherlv_4=RULE_ID
-					{
-						newLeafNode(otherlv_4, grammarAccess.getProcessStatusExpressionAccess().getStateNameStateCrossReference_4_0_0());
+						setWithLastConsumed($current, "active", lv_active_4_0 != null, "ACTIVE");
 					}
 				)
 			)
 			    |
 			(
 				(
-					lv_stop_5_0='STOP'
+					lv_inactive_5_0='INACTIVE'
 					{
-						newLeafNode(lv_stop_5_0, grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_1_0());
+						newLeafNode(lv_inactive_5_0, grammarAccess.getProcessStatusExpressionAccess().getInactiveINACTIVEKeyword_4_1_0());
 					}
 					{
 						if ($current==null) {
 							$current = createModelElement(grammarAccess.getProcessStatusExpressionRule());
 						}
-						setWithLastConsumed($current, "stop", lv_stop_5_0 != null, "STOP");
+						setWithLastConsumed($current, "inactive", lv_inactive_5_0 != null, "INACTIVE");
 					}
 				)
 			)
 			    |
 			(
 				(
-					lv_error_6_0='ERROR'
+					lv_stop_6_0='STOP'
 					{
-						newLeafNode(lv_error_6_0, grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_2_0());
+						newLeafNode(lv_stop_6_0, grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_2_0());
 					}
 					{
 						if ($current==null) {
 							$current = createModelElement(grammarAccess.getProcessStatusExpressionRule());
 						}
-						setWithLastConsumed($current, "error", lv_error_6_0 != null, "ERROR");
+						setWithLastConsumed($current, "stop", lv_stop_6_0 != null, "STOP");
+					}
+				)
+			)
+			    |
+			(
+				(
+					lv_error_7_0='ERROR'
+					{
+						newLeafNode(lv_error_7_0, grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_3_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getProcessStatusExpressionRule());
+						}
+						setWithLastConsumed($current, "error", lv_error_7_0 != null, "ERROR");
 					}
 				)
 			)

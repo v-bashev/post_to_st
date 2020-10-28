@@ -70,7 +70,7 @@ public class ProcessGenerator {
       if (_isFirstProcess) {
         program.addVar(this.generateEnumName(), "INT", this.getEnumStateName(this.stateList.get(0).getName()));
       } else {
-        program.addVar(this.generateEnumName(), "INT", "ALL_PROCESSES_STOP_CONSTANT");
+        program.addVar(this.generateEnumName(), "INT", program.generateStopConstant());
       }
     }
     boolean _hasTimeouts = this.hasTimeouts();

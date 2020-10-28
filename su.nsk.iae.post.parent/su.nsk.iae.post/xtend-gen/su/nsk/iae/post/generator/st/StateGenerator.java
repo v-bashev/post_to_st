@@ -332,7 +332,10 @@ public class StateGenerator {
             _builder.append(_generateEnumName);
           }
         }
-        _builder.append(" = ALL_PROCESSES_STOP_CONSTANT;");
+        _builder.append(" = ");
+        String _generateStopConstant = this.program.generateStopConstant();
+        _builder.append(_generateStopConstant);
+        _builder.append(";");
         return _builder.toString();
       }
     }
@@ -351,7 +354,10 @@ public class StateGenerator {
             _builder.append(_generateEnumName);
           }
         }
-        _builder.append(" = ALL_PROCESSES_ERROR_CONSTANT;");
+        _builder.append(" = ");
+        String _generateErrorConstant = this.program.generateErrorConstant();
+        _builder.append(_generateErrorConstant);
+        _builder.append(";");
         return _builder.toString();
       }
     }
@@ -389,8 +395,7 @@ public class StateGenerator {
       }
     }
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("break;");
-    _builder.newLine();
+    _builder.append("RETURN");
     return _builder.toString();
   }
   
@@ -412,24 +417,8 @@ public class StateGenerator {
           boolean _tripleNotEquals_2 = (_procStatus != null);
           if (_tripleNotEquals_2) {
             StringConcatenation _builder = new StringConcatenation();
-            String _generateProcessEnum = this.program.generateProcessEnum(((PrimaryExpression)exp).getProcStatus().getProcess().getName());
-            _builder.append(_generateProcessEnum);
-            _builder.append(" = ");
-            {
-              State _stateName = ((PrimaryExpression)exp).getProcStatus().getStateName();
-              boolean _tripleNotEquals_3 = (_stateName != null);
-              if (_tripleNotEquals_3) {
-                String _upperCase = ((PrimaryExpression)exp).getProcStatus().getStateName().getName().toUpperCase();
-                _builder.append(_upperCase);
-              } else {
-                boolean _isStop = ((PrimaryExpression)exp).getProcStatus().isStop();
-                if (_isStop) {
-                  _builder.append("ALL_PROCESSES_STOP_CONSTANT");
-                } else {
-                  _builder.append("ALL_PROCESSES_ERRORs_CONSTANT");
-                }
-              }
-            }
+            String _generateProcessStatus = this.generateProcessStatus(((PrimaryExpression)exp).getProcStatus());
+            _builder.append(_generateProcessStatus);
             return _builder.toString();
           } else {
             StringConcatenation _builder_1 = new StringConcatenation();
@@ -631,5 +620,67 @@ public class StateGenerator {
       }
     }
     return null;
+  }
+  
+  private String generateProcessStatus(final ProcessStatusExpression exp) {
+    boolean _isActive = exp.isActive();
+    if (_isActive) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("((");
+      String _generateProcessEnum = this.program.generateProcessEnum(exp.getProcess().getName());
+      _builder.append(_generateProcessEnum);
+      _builder.append(" <> ");
+      String _generateStopConstant = this.program.generateStopConstant();
+      _builder.append(_generateStopConstant);
+      _builder.append(") AND (");
+      String _generateProcessEnum_1 = this.program.generateProcessEnum(exp.getProcess().getName());
+      _builder.append(_generateProcessEnum_1);
+      _builder.append(" <> ");
+      String _generateErrorConstant = this.program.generateErrorConstant();
+      _builder.append(_generateErrorConstant);
+      _builder.append("))");
+      return _builder.toString();
+    } else {
+      boolean _isInactive = exp.isInactive();
+      if (_isInactive) {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append("((");
+        String _generateProcessEnum_2 = this.program.generateProcessEnum(exp.getProcess().getName());
+        _builder_1.append(_generateProcessEnum_2);
+        _builder_1.append(" = ");
+        String _generateStopConstant_1 = this.program.generateStopConstant();
+        _builder_1.append(_generateStopConstant_1);
+        _builder_1.append(") OR (");
+        String _generateProcessEnum_3 = this.program.generateProcessEnum(exp.getProcess().getName());
+        _builder_1.append(_generateProcessEnum_3);
+        _builder_1.append(" =s ");
+        String _generateErrorConstant_1 = this.program.generateErrorConstant();
+        _builder_1.append(_generateErrorConstant_1);
+        _builder_1.append("))");
+        return _builder_1.toString();
+      } else {
+        boolean _isStop = exp.isStop();
+        if (_isStop) {
+          StringConcatenation _builder_2 = new StringConcatenation();
+          _builder_2.append("(");
+          String _generateProcessEnum_4 = this.program.generateProcessEnum(exp.getProcess().getName());
+          _builder_2.append(_generateProcessEnum_4);
+          _builder_2.append(" = ");
+          String _generateStopConstant_2 = this.program.generateStopConstant();
+          _builder_2.append(_generateStopConstant_2);
+          _builder_2.append(")");
+          return _builder_2.toString();
+        }
+      }
+    }
+    StringConcatenation _builder_3 = new StringConcatenation();
+    _builder_3.append("(");
+    String _generateProcessEnum_5 = this.program.generateProcessEnum(exp.getProcess().getName());
+    _builder_3.append(_generateProcessEnum_5);
+    _builder_3.append(" = ");
+    String _generateErrorConstant_2 = this.program.generateErrorConstant();
+    _builder_3.append(_generateErrorConstant_2);
+    _builder_3.append(")");
+    return _builder_3.toString();
   }
 }

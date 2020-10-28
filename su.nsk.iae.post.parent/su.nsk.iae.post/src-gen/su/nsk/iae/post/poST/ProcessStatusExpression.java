@@ -15,7 +15,8 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.ProcessStatusExpression#getProcess <em>Process</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.ProcessStatusExpression#getStateName <em>State Name</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.ProcessStatusExpression#isActive <em>Active</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.ProcessStatusExpression#isInactive <em>Inactive</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.ProcessStatusExpression#isStop <em>Stop</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.ProcessStatusExpression#isError <em>Error</em>}</li>
  * </ul>
@@ -49,26 +50,48 @@ public interface ProcessStatusExpression extends EObject
   void setProcess(su.nsk.iae.post.poST.Process value);
 
   /**
-   * Returns the value of the '<em><b>State Name</b></em>' reference.
+   * Returns the value of the '<em><b>Active</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>State Name</em>' reference.
-   * @see #setStateName(State)
-   * @see su.nsk.iae.post.poST.PoSTPackage#getProcessStatusExpression_StateName()
+   * @return the value of the '<em>Active</em>' attribute.
+   * @see #setActive(boolean)
+   * @see su.nsk.iae.post.poST.PoSTPackage#getProcessStatusExpression_Active()
    * @model
    * @generated
    */
-  State getStateName();
+  boolean isActive();
 
   /**
-   * Sets the value of the '{@link su.nsk.iae.post.poST.ProcessStatusExpression#getStateName <em>State Name</em>}' reference.
+   * Sets the value of the '{@link su.nsk.iae.post.poST.ProcessStatusExpression#isActive <em>Active</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>State Name</em>' reference.
-   * @see #getStateName()
+   * @param value the new value of the '<em>Active</em>' attribute.
+   * @see #isActive()
    * @generated
    */
-  void setStateName(State value);
+  void setActive(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Inactive</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Inactive</em>' attribute.
+   * @see #setInactive(boolean)
+   * @see su.nsk.iae.post.poST.PoSTPackage#getProcessStatusExpression_Inactive()
+   * @model
+   * @generated
+   */
+  boolean isInactive();
+
+  /**
+   * Sets the value of the '{@link su.nsk.iae.post.poST.ProcessStatusExpression#isInactive <em>Inactive</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Inactive</em>' attribute.
+   * @see #isInactive()
+   * @generated
+   */
+  void setInactive(boolean value);
 
   /**
    * Returns the value of the '<em><b>Stop</b></em>' attribute.

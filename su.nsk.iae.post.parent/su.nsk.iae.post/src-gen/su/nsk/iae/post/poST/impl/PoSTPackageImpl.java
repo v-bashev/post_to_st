@@ -985,9 +985,9 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EReference getProcessStatusExpression_StateName()
+  public EAttribute getProcessStatusExpression_Active()
   {
-    return (EReference)processStatusExpressionEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)processStatusExpressionEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -996,7 +996,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EAttribute getProcessStatusExpression_Stop()
+  public EAttribute getProcessStatusExpression_Inactive()
   {
     return (EAttribute)processStatusExpressionEClass.getEStructuralFeatures().get(2);
   }
@@ -1007,9 +1007,20 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EAttribute getProcessStatusExpression_Error()
+  public EAttribute getProcessStatusExpression_Stop()
   {
     return (EAttribute)processStatusExpressionEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getProcessStatusExpression_Error()
+  {
+    return (EAttribute)processStatusExpressionEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -2363,7 +2374,8 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
 
     processStatusExpressionEClass = createEClass(PROCESS_STATUS_EXPRESSION);
     createEReference(processStatusExpressionEClass, PROCESS_STATUS_EXPRESSION__PROCESS);
-    createEReference(processStatusExpressionEClass, PROCESS_STATUS_EXPRESSION__STATE_NAME);
+    createEAttribute(processStatusExpressionEClass, PROCESS_STATUS_EXPRESSION__ACTIVE);
+    createEAttribute(processStatusExpressionEClass, PROCESS_STATUS_EXPRESSION__INACTIVE);
     createEAttribute(processStatusExpressionEClass, PROCESS_STATUS_EXPRESSION__STOP);
     createEAttribute(processStatusExpressionEClass, PROCESS_STATUS_EXPRESSION__ERROR);
 
@@ -2639,7 +2651,8 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
 
     initEClass(processStatusExpressionEClass, ProcessStatusExpression.class, "ProcessStatusExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getProcessStatusExpression_Process(), this.getProcess(), null, "process", null, 0, 1, ProcessStatusExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getProcessStatusExpression_StateName(), this.getState(), null, "stateName", null, 0, 1, ProcessStatusExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getProcessStatusExpression_Active(), ecorePackage.getEBoolean(), "active", null, 0, 1, ProcessStatusExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getProcessStatusExpression_Inactive(), ecorePackage.getEBoolean(), "inactive", null, 0, 1, ProcessStatusExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getProcessStatusExpression_Stop(), ecorePackage.getEBoolean(), "stop", null, 0, 1, ProcessStatusExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getProcessStatusExpression_Error(), ecorePackage.getEBoolean(), "error", null, 0, 1, ProcessStatusExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

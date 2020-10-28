@@ -166,9 +166,10 @@ public class PoSTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getSetStateStatementAccess().getStateAssignment_2_0_1(), "rule__SetStateStatement__StateAssignment_2_0_1");
 			builder.put(grammarAccess.getSetStateStatementAccess().getNextAssignment_2_1(), "rule__SetStateStatement__NextAssignment_2_1");
 			builder.put(grammarAccess.getProcessStatusExpressionAccess().getProcessAssignment_1(), "rule__ProcessStatusExpression__ProcessAssignment_1");
-			builder.put(grammarAccess.getProcessStatusExpressionAccess().getStateNameAssignment_4_0(), "rule__ProcessStatusExpression__StateNameAssignment_4_0");
-			builder.put(grammarAccess.getProcessStatusExpressionAccess().getStopAssignment_4_1(), "rule__ProcessStatusExpression__StopAssignment_4_1");
-			builder.put(grammarAccess.getProcessStatusExpressionAccess().getErrorAssignment_4_2(), "rule__ProcessStatusExpression__ErrorAssignment_4_2");
+			builder.put(grammarAccess.getProcessStatusExpressionAccess().getActiveAssignment_4_0(), "rule__ProcessStatusExpression__ActiveAssignment_4_0");
+			builder.put(grammarAccess.getProcessStatusExpressionAccess().getInactiveAssignment_4_1(), "rule__ProcessStatusExpression__InactiveAssignment_4_1");
+			builder.put(grammarAccess.getProcessStatusExpressionAccess().getStopAssignment_4_2(), "rule__ProcessStatusExpression__StopAssignment_4_2");
+			builder.put(grammarAccess.getProcessStatusExpressionAccess().getErrorAssignment_4_3(), "rule__ProcessStatusExpression__ErrorAssignment_4_3");
 			builder.put(grammarAccess.getStartProcessStatementAccess().getProcessAssignment_3(), "rule__StartProcessStatement__ProcessAssignment_3");
 			builder.put(grammarAccess.getStopProcessStatementAccess().getProcessAssignment_3(), "rule__StopProcessStatement__ProcessAssignment_3");
 			builder.put(grammarAccess.getErrorProcessStatementAccess().getProcessAssignment_3(), "rule__ErrorProcessStatement__ProcessAssignment_3");

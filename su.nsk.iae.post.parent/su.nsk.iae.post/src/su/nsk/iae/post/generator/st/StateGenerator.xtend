@@ -26,11 +26,11 @@ import su.nsk.iae.post.poST.Statement
 import su.nsk.iae.post.poST.StatementList
 import su.nsk.iae.post.poST.StopProcessStatement
 import su.nsk.iae.post.poST.SymbolicVariable
-import su.nsk.iae.post.poST.TimeoutStatement
 import su.nsk.iae.post.poST.UnaryExpression
 import su.nsk.iae.post.poST.WhileStatement
 import su.nsk.iae.post.poST.XorExpression
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
+import su.nsk.iae.post.poST.ProcessStatusExpression
 
 class StateGenerator {
 	
@@ -127,9 +127,9 @@ class StateGenerator {
 					«program.generateProcessEnum(s.process.name)» = 0;
 				'''
 			StopProcessStatement:
-				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» = ALL_PROCESSES_STOP_CONSTANT;'''
+				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» = «program.generateStopConstant»;'''
 			ErrorProcessStatement:
-				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» = ALL_PROCESSES_ERROR_CONSTANT;'''
+				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» = «program.generateErrorConstant»;'''
 			SetStateStatement:
 				return '''
 					«process.generateEnumName» = «IF s.next»«process.getNextState(this).toUpperCase»«ELSE»«process.getEnumStateName(s.state.name)»«ENDIF»;
@@ -139,9 +139,7 @@ class StateGenerator {
 					«process.generateTimeoutName»(IN := FALSE);
 				'''
 		}
-		return '''
-			break;
-		'''
+		return '''RETURN'''
 	}
 	
 	private def String generateExpression(Expression exp) {
@@ -152,7 +150,7 @@ class StateGenerator {
 				} else if (exp.variable !== null) {
 					return exp.variable.generateVar
 				} else if (exp.procStatus !== null) {
-					return '''«program.generateProcessEnum(exp.procStatus.process.name)» = «IF exp.procStatus.stateName !== null»«exp.procStatus.stateName.name.toUpperCase»«ELSEIF exp.procStatus.stop»ALL_PROCESSES_STOP_CONSTANT«ELSE»ALL_PROCESSES_ERRORs_CONSTANT«ENDIF»'''
+					return '''«exp.procStatus.generateProcessStatus»'''
 				} else {
 					return '''(«exp.nestExpr.generateExpression»)'''
 				}
@@ -208,6 +206,17 @@ class StateGenerator {
 			case MulOperator.MOD:
 				return '''MOD'''
 		}
+	}
+	
+	private def String generateProcessStatus(ProcessStatusExpression exp) {
+		if (exp.active) {
+			return '''((«program.generateProcessEnum(exp.process.name)» <> «program.generateStopConstant») AND («program.generateProcessEnum(exp.process.name)» <> «program.generateErrorConstant»))'''
+		} else if (exp.inactive) {
+			return '''((«program.generateProcessEnum(exp.process.name)» = «program.generateStopConstant») OR («program.generateProcessEnum(exp.process.name)» =s «program.generateErrorConstant»))'''
+		} else if (exp.stop) {
+			return '''(«program.generateProcessEnum(exp.process.name)» = «program.generateStopConstant»)'''
+		}
+		return '''(«program.generateProcessEnum(exp.process.name)» = «program.generateErrorConstant»)'''
 	}
 	
 }

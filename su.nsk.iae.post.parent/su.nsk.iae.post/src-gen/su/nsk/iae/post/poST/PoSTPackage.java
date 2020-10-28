@@ -482,13 +482,22 @@ public interface PoSTPackage extends EPackage
   int PROCESS_STATUS_EXPRESSION__PROCESS = 0;
 
   /**
-   * The feature id for the '<em><b>State Name</b></em>' reference.
+   * The feature id for the '<em><b>Active</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PROCESS_STATUS_EXPRESSION__STATE_NAME = 1;
+  int PROCESS_STATUS_EXPRESSION__ACTIVE = 1;
+
+  /**
+   * The feature id for the '<em><b>Inactive</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCESS_STATUS_EXPRESSION__INACTIVE = 2;
 
   /**
    * The feature id for the '<em><b>Stop</b></em>' attribute.
@@ -497,7 +506,7 @@ public interface PoSTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int PROCESS_STATUS_EXPRESSION__STOP = 2;
+  int PROCESS_STATUS_EXPRESSION__STOP = 3;
 
   /**
    * The feature id for the '<em><b>Error</b></em>' attribute.
@@ -506,7 +515,7 @@ public interface PoSTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int PROCESS_STATUS_EXPRESSION__ERROR = 3;
+  int PROCESS_STATUS_EXPRESSION__ERROR = 4;
 
   /**
    * The number of structural features of the '<em>Process Status Expression</em>' class.
@@ -515,7 +524,7 @@ public interface PoSTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int PROCESS_STATUS_EXPRESSION_FEATURE_COUNT = 4;
+  int PROCESS_STATUS_EXPRESSION_FEATURE_COUNT = 5;
 
   /**
    * The meta object id for the '{@link su.nsk.iae.post.poST.impl.StartProcessStatementImpl <em>Start Process Statement</em>}' class.
@@ -2851,15 +2860,26 @@ public interface PoSTPackage extends EPackage
   EReference getProcessStatusExpression_Process();
 
   /**
-   * Returns the meta object for the reference '{@link su.nsk.iae.post.poST.ProcessStatusExpression#getStateName <em>State Name</em>}'.
+   * Returns the meta object for the attribute '{@link su.nsk.iae.post.poST.ProcessStatusExpression#isActive <em>Active</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>State Name</em>'.
-   * @see su.nsk.iae.post.poST.ProcessStatusExpression#getStateName()
+   * @return the meta object for the attribute '<em>Active</em>'.
+   * @see su.nsk.iae.post.poST.ProcessStatusExpression#isActive()
    * @see #getProcessStatusExpression()
    * @generated
    */
-  EReference getProcessStatusExpression_StateName();
+  EAttribute getProcessStatusExpression_Active();
+
+  /**
+   * Returns the meta object for the attribute '{@link su.nsk.iae.post.poST.ProcessStatusExpression#isInactive <em>Inactive</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Inactive</em>'.
+   * @see su.nsk.iae.post.poST.ProcessStatusExpression#isInactive()
+   * @see #getProcessStatusExpression()
+   * @generated
+   */
+  EAttribute getProcessStatusExpression_Inactive();
 
   /**
    * Returns the meta object for the attribute '{@link su.nsk.iae.post.poST.ProcessStatusExpression#isStop <em>Stop</em>}'.
@@ -4442,12 +4462,20 @@ public interface PoSTPackage extends EPackage
     EReference PROCESS_STATUS_EXPRESSION__PROCESS = eINSTANCE.getProcessStatusExpression_Process();
 
     /**
-     * The meta object literal for the '<em><b>State Name</b></em>' reference feature.
+     * The meta object literal for the '<em><b>Active</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference PROCESS_STATUS_EXPRESSION__STATE_NAME = eINSTANCE.getProcessStatusExpression_StateName();
+    EAttribute PROCESS_STATUS_EXPRESSION__ACTIVE = eINSTANCE.getProcessStatusExpression_Active();
+
+    /**
+     * The meta object literal for the '<em><b>Inactive</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PROCESS_STATUS_EXPRESSION__INACTIVE = eINSTANCE.getProcessStatusExpression_Inactive();
 
     /**
      * The meta object literal for the '<em><b>Stop</b></em>' attribute feature.

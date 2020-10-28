@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import su.nsk.iae.post.poST.PoSTPackage;
 import su.nsk.iae.post.poST.ProcessStatusExpression;
-import su.nsk.iae.post.poST.State;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +23,8 @@ import su.nsk.iae.post.poST.State;
  * </p>
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.impl.ProcessStatusExpressionImpl#getProcess <em>Process</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.impl.ProcessStatusExpressionImpl#getStateName <em>State Name</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.ProcessStatusExpressionImpl#isActive <em>Active</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.ProcessStatusExpressionImpl#isInactive <em>Inactive</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.ProcessStatusExpressionImpl#isStop <em>Stop</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.ProcessStatusExpressionImpl#isError <em>Error</em>}</li>
  * </ul>
@@ -44,14 +44,44 @@ public class ProcessStatusExpressionImpl extends MinimalEObjectImpl.Container im
   protected su.nsk.iae.post.poST.Process process;
 
   /**
-   * The cached value of the '{@link #getStateName() <em>State Name</em>}' reference.
+   * The default value of the '{@link #isActive() <em>Active</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getStateName()
+   * @see #isActive()
    * @generated
    * @ordered
    */
-  protected State stateName;
+  protected static final boolean ACTIVE_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isActive() <em>Active</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isActive()
+   * @generated
+   * @ordered
+   */
+  protected boolean active = ACTIVE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isInactive() <em>Inactive</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isInactive()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean INACTIVE_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isInactive() <em>Inactive</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isInactive()
+   * @generated
+   * @ordered
+   */
+  protected boolean inactive = INACTIVE_EDEFAULT;
 
   /**
    * The default value of the '{@link #isStop() <em>Stop</em>}' attribute.
@@ -165,29 +195,9 @@ public class ProcessStatusExpressionImpl extends MinimalEObjectImpl.Container im
    * @generated
    */
   @Override
-  public State getStateName()
+  public boolean isActive()
   {
-    if (stateName != null && stateName.eIsProxy())
-    {
-      InternalEObject oldStateName = (InternalEObject)stateName;
-      stateName = (State)eResolveProxy(oldStateName);
-      if (stateName != oldStateName)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, PoSTPackage.PROCESS_STATUS_EXPRESSION__STATE_NAME, oldStateName, stateName));
-      }
-    }
-    return stateName;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public State basicGetStateName()
-  {
-    return stateName;
+    return active;
   }
 
   /**
@@ -196,12 +206,37 @@ public class ProcessStatusExpressionImpl extends MinimalEObjectImpl.Container im
    * @generated
    */
   @Override
-  public void setStateName(State newStateName)
+  public void setActive(boolean newActive)
   {
-    State oldStateName = stateName;
-    stateName = newStateName;
+    boolean oldActive = active;
+    active = newActive;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, PoSTPackage.PROCESS_STATUS_EXPRESSION__STATE_NAME, oldStateName, stateName));
+      eNotify(new ENotificationImpl(this, Notification.SET, PoSTPackage.PROCESS_STATUS_EXPRESSION__ACTIVE, oldActive, active));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isInactive()
+  {
+    return inactive;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setInactive(boolean newInactive)
+  {
+    boolean oldInactive = inactive;
+    inactive = newInactive;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, PoSTPackage.PROCESS_STATUS_EXPRESSION__INACTIVE, oldInactive, inactive));
   }
 
   /**
@@ -267,9 +302,10 @@ public class ProcessStatusExpressionImpl extends MinimalEObjectImpl.Container im
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__PROCESS:
         if (resolve) return getProcess();
         return basicGetProcess();
-      case PoSTPackage.PROCESS_STATUS_EXPRESSION__STATE_NAME:
-        if (resolve) return getStateName();
-        return basicGetStateName();
+      case PoSTPackage.PROCESS_STATUS_EXPRESSION__ACTIVE:
+        return isActive();
+      case PoSTPackage.PROCESS_STATUS_EXPRESSION__INACTIVE:
+        return isInactive();
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__STOP:
         return isStop();
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__ERROR:
@@ -291,8 +327,11 @@ public class ProcessStatusExpressionImpl extends MinimalEObjectImpl.Container im
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__PROCESS:
         setProcess((su.nsk.iae.post.poST.Process)newValue);
         return;
-      case PoSTPackage.PROCESS_STATUS_EXPRESSION__STATE_NAME:
-        setStateName((State)newValue);
+      case PoSTPackage.PROCESS_STATUS_EXPRESSION__ACTIVE:
+        setActive((Boolean)newValue);
+        return;
+      case PoSTPackage.PROCESS_STATUS_EXPRESSION__INACTIVE:
+        setInactive((Boolean)newValue);
         return;
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__STOP:
         setStop((Boolean)newValue);
@@ -317,8 +356,11 @@ public class ProcessStatusExpressionImpl extends MinimalEObjectImpl.Container im
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__PROCESS:
         setProcess((su.nsk.iae.post.poST.Process)null);
         return;
-      case PoSTPackage.PROCESS_STATUS_EXPRESSION__STATE_NAME:
-        setStateName((State)null);
+      case PoSTPackage.PROCESS_STATUS_EXPRESSION__ACTIVE:
+        setActive(ACTIVE_EDEFAULT);
+        return;
+      case PoSTPackage.PROCESS_STATUS_EXPRESSION__INACTIVE:
+        setInactive(INACTIVE_EDEFAULT);
         return;
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__STOP:
         setStop(STOP_EDEFAULT);
@@ -342,8 +384,10 @@ public class ProcessStatusExpressionImpl extends MinimalEObjectImpl.Container im
     {
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__PROCESS:
         return process != null;
-      case PoSTPackage.PROCESS_STATUS_EXPRESSION__STATE_NAME:
-        return stateName != null;
+      case PoSTPackage.PROCESS_STATUS_EXPRESSION__ACTIVE:
+        return active != ACTIVE_EDEFAULT;
+      case PoSTPackage.PROCESS_STATUS_EXPRESSION__INACTIVE:
+        return inactive != INACTIVE_EDEFAULT;
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__STOP:
         return stop != STOP_EDEFAULT;
       case PoSTPackage.PROCESS_STATUS_EXPRESSION__ERROR:
@@ -363,7 +407,11 @@ public class ProcessStatusExpressionImpl extends MinimalEObjectImpl.Container im
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (stop: ");
+    result.append(" (active: ");
+    result.append(active);
+    result.append(", inactive: ");
+    result.append(inactive);
+    result.append(", stop: ");
     result.append(stop);
     result.append(", error: ");
     result.append(error);

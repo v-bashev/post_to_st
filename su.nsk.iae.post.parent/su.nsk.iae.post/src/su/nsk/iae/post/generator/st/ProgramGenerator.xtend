@@ -51,8 +51,8 @@ class ProgramGenerator {
 		for (p: program.processes) {
 			processList.add(new ProcessGenerator(this, p))
 		}
-		addVar("ALL_PROCESSES_STOP_CONSTANT", "INT", "254", true)
-		addVar("ALL_PROCESSES_ERROR_CONSTANT", "INT", "255", true)
+		addVar(generateStopConstant, "INT", "254", true)
+		addVar(generateErrorConstant, "INT", "255", true)
 	}
 	
 	def void generate(IFileSystemAccess2 fsa, String path) {
@@ -76,6 +76,14 @@ class ProgramGenerator {
 		END_PROGRAM
 		
 	'''
+	
+	def String generateStopConstant() {
+		return '''ALL_PROCESSES_STOP_CONSTANT'''
+	}
+	
+	def String generateErrorConstant() {
+		return '''ALL_PROCESSES_ERROR_CONSTANT'''
+	}
 	
 	def String generateProcessEnum(String processName) {
 		return processList.findFirst[name == processName].generateEnumName

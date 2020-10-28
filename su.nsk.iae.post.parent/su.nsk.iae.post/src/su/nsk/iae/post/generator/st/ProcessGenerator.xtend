@@ -50,7 +50,7 @@ class ProcessGenerator {
 			if (program.isFirstProcess(this)) {
 				program.addVar(generateEnumName, "INT", stateList.get(0).name.enumStateName)
 			} else {
-				program.addVar(generateEnumName, "INT", "ALL_PROCESSES_STOP_CONSTANT")
+				program.addVar(generateEnumName, "INT", program.generateStopConstant)
 			}
 		}
 		if (hasTimeouts) {

@@ -425,19 +425,20 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Keyword cINKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Keyword cSTATEKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		private final Alternatives cAlternatives_4 = (Alternatives)cGroup.eContents().get(4);
-		private final Assignment cStateNameAssignment_4_0 = (Assignment)cAlternatives_4.eContents().get(0);
-		private final CrossReference cStateNameStateCrossReference_4_0_0 = (CrossReference)cStateNameAssignment_4_0.eContents().get(0);
-		private final RuleCall cStateNameStateIDTerminalRuleCall_4_0_0_1 = (RuleCall)cStateNameStateCrossReference_4_0_0.eContents().get(1);
-		private final Assignment cStopAssignment_4_1 = (Assignment)cAlternatives_4.eContents().get(1);
-		private final Keyword cStopSTOPKeyword_4_1_0 = (Keyword)cStopAssignment_4_1.eContents().get(0);
-		private final Assignment cErrorAssignment_4_2 = (Assignment)cAlternatives_4.eContents().get(2);
-		private final Keyword cErrorERRORKeyword_4_2_0 = (Keyword)cErrorAssignment_4_2.eContents().get(0);
+		private final Assignment cActiveAssignment_4_0 = (Assignment)cAlternatives_4.eContents().get(0);
+		private final Keyword cActiveACTIVEKeyword_4_0_0 = (Keyword)cActiveAssignment_4_0.eContents().get(0);
+		private final Assignment cInactiveAssignment_4_1 = (Assignment)cAlternatives_4.eContents().get(1);
+		private final Keyword cInactiveINACTIVEKeyword_4_1_0 = (Keyword)cInactiveAssignment_4_1.eContents().get(0);
+		private final Assignment cStopAssignment_4_2 = (Assignment)cAlternatives_4.eContents().get(2);
+		private final Keyword cStopSTOPKeyword_4_2_0 = (Keyword)cStopAssignment_4_2.eContents().get(0);
+		private final Assignment cErrorAssignment_4_3 = (Assignment)cAlternatives_4.eContents().get(3);
+		private final Keyword cErrorERRORKeyword_4_3_0 = (Keyword)cErrorAssignment_4_3.eContents().get(0);
 		
 		//ProcessStatusExpression:
-		//	'PROCESS' process=[Process] 'IN' 'STATE' (stateName=[State] | stop?='STOP' | error?='ERROR');
+		//	'PROCESS' process=[Process] 'IN' 'STATE' (active?='ACTIVE' | inactive?="INACTIVE" | stop?='STOP' | error?='ERROR');
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'PROCESS' process=[Process] 'IN' 'STATE' (stateName=[State] | stop?='STOP' | error?='ERROR')
+		//'PROCESS' process=[Process] 'IN' 'STATE' (active?='ACTIVE' | inactive?="INACTIVE" | stop?='STOP' | error?='ERROR')
 		public Group getGroup() { return cGroup; }
 		
 		//'PROCESS'
@@ -458,29 +459,32 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//'STATE'
 		public Keyword getSTATEKeyword_3() { return cSTATEKeyword_3; }
 		
-		//(stateName=[State] | stop?='STOP' | error?='ERROR')
+		//(active?='ACTIVE' | inactive?="INACTIVE" | stop?='STOP' | error?='ERROR')
 		public Alternatives getAlternatives_4() { return cAlternatives_4; }
 		
-		//stateName=[State]
-		public Assignment getStateNameAssignment_4_0() { return cStateNameAssignment_4_0; }
+		//active?='ACTIVE'
+		public Assignment getActiveAssignment_4_0() { return cActiveAssignment_4_0; }
 		
-		//[State]
-		public CrossReference getStateNameStateCrossReference_4_0_0() { return cStateNameStateCrossReference_4_0_0; }
+		//'ACTIVE'
+		public Keyword getActiveACTIVEKeyword_4_0_0() { return cActiveACTIVEKeyword_4_0_0; }
 		
-		//ID
-		public RuleCall getStateNameStateIDTerminalRuleCall_4_0_0_1() { return cStateNameStateIDTerminalRuleCall_4_0_0_1; }
+		//inactive?="INACTIVE"
+		public Assignment getInactiveAssignment_4_1() { return cInactiveAssignment_4_1; }
+		
+		//"INACTIVE"
+		public Keyword getInactiveINACTIVEKeyword_4_1_0() { return cInactiveINACTIVEKeyword_4_1_0; }
 		
 		//stop?='STOP'
-		public Assignment getStopAssignment_4_1() { return cStopAssignment_4_1; }
+		public Assignment getStopAssignment_4_2() { return cStopAssignment_4_2; }
 		
 		//'STOP'
-		public Keyword getStopSTOPKeyword_4_1_0() { return cStopSTOPKeyword_4_1_0; }
+		public Keyword getStopSTOPKeyword_4_2_0() { return cStopSTOPKeyword_4_2_0; }
 		
 		//error?='ERROR'
-		public Assignment getErrorAssignment_4_2() { return cErrorAssignment_4_2; }
+		public Assignment getErrorAssignment_4_3() { return cErrorAssignment_4_3; }
 		
 		//'ERROR'
-		public Keyword getErrorERRORKeyword_4_2_0() { return cErrorERRORKeyword_4_2_0; }
+		public Keyword getErrorERRORKeyword_4_3_0() { return cErrorERRORKeyword_4_3_0; }
 	}
 	public class StartProcessStatementElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "su.nsk.iae.post.PoST.StartProcessStatement");
@@ -2909,7 +2913,7 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	
 	//ProcessStatusExpression:
-	//	'PROCESS' process=[Process] 'IN' 'STATE' (stateName=[State] | stop?='STOP' | error?='ERROR');
+	//	'PROCESS' process=[Process] 'IN' 'STATE' (active?='ACTIVE' | inactive?="INACTIVE" | stop?='STOP' | error?='ERROR');
 	public ProcessStatusExpressionElements getProcessStatusExpressionAccess() {
 		return pProcessStatusExpression;
 	}

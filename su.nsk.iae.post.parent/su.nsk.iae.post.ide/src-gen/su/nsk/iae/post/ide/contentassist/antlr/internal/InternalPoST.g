@@ -1683,21 +1683,27 @@ rule__ProcessStatusExpression__Alternatives_4
 	}
 :
 	(
-		{ before(grammarAccess.getProcessStatusExpressionAccess().getStateNameAssignment_4_0()); }
-		(rule__ProcessStatusExpression__StateNameAssignment_4_0)
-		{ after(grammarAccess.getProcessStatusExpressionAccess().getStateNameAssignment_4_0()); }
+		{ before(grammarAccess.getProcessStatusExpressionAccess().getActiveAssignment_4_0()); }
+		(rule__ProcessStatusExpression__ActiveAssignment_4_0)
+		{ after(grammarAccess.getProcessStatusExpressionAccess().getActiveAssignment_4_0()); }
 	)
 	|
 	(
-		{ before(grammarAccess.getProcessStatusExpressionAccess().getStopAssignment_4_1()); }
-		(rule__ProcessStatusExpression__StopAssignment_4_1)
-		{ after(grammarAccess.getProcessStatusExpressionAccess().getStopAssignment_4_1()); }
+		{ before(grammarAccess.getProcessStatusExpressionAccess().getInactiveAssignment_4_1()); }
+		(rule__ProcessStatusExpression__InactiveAssignment_4_1)
+		{ after(grammarAccess.getProcessStatusExpressionAccess().getInactiveAssignment_4_1()); }
 	)
 	|
 	(
-		{ before(grammarAccess.getProcessStatusExpressionAccess().getErrorAssignment_4_2()); }
-		(rule__ProcessStatusExpression__ErrorAssignment_4_2)
-		{ after(grammarAccess.getProcessStatusExpressionAccess().getErrorAssignment_4_2()); }
+		{ before(grammarAccess.getProcessStatusExpressionAccess().getStopAssignment_4_2()); }
+		(rule__ProcessStatusExpression__StopAssignment_4_2)
+		{ after(grammarAccess.getProcessStatusExpressionAccess().getStopAssignment_4_2()); }
+	)
+	|
+	(
+		{ before(grammarAccess.getProcessStatusExpressionAccess().getErrorAssignment_4_3()); }
+		(rule__ProcessStatusExpression__ErrorAssignment_4_3)
+		{ after(grammarAccess.getProcessStatusExpressionAccess().getErrorAssignment_4_3()); }
 	)
 ;
 finally {
@@ -8918,57 +8924,76 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__ProcessStatusExpression__StateNameAssignment_4_0
+rule__ProcessStatusExpression__ActiveAssignment_4_0
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getProcessStatusExpressionAccess().getStateNameStateCrossReference_4_0_0()); }
+		{ before(grammarAccess.getProcessStatusExpressionAccess().getActiveACTIVEKeyword_4_0_0()); }
 		(
-			{ before(grammarAccess.getProcessStatusExpressionAccess().getStateNameStateIDTerminalRuleCall_4_0_0_1()); }
-			RULE_ID
-			{ after(grammarAccess.getProcessStatusExpressionAccess().getStateNameStateIDTerminalRuleCall_4_0_0_1()); }
+			{ before(grammarAccess.getProcessStatusExpressionAccess().getActiveACTIVEKeyword_4_0_0()); }
+			'ACTIVE'
+			{ after(grammarAccess.getProcessStatusExpressionAccess().getActiveACTIVEKeyword_4_0_0()); }
 		)
-		{ after(grammarAccess.getProcessStatusExpressionAccess().getStateNameStateCrossReference_4_0_0()); }
+		{ after(grammarAccess.getProcessStatusExpressionAccess().getActiveACTIVEKeyword_4_0_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__ProcessStatusExpression__StopAssignment_4_1
+rule__ProcessStatusExpression__InactiveAssignment_4_1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_1_0()); }
+		{ before(grammarAccess.getProcessStatusExpressionAccess().getInactiveINACTIVEKeyword_4_1_0()); }
 		(
-			{ before(grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_1_0()); }
+			{ before(grammarAccess.getProcessStatusExpressionAccess().getInactiveINACTIVEKeyword_4_1_0()); }
+			'INACTIVE'
+			{ after(grammarAccess.getProcessStatusExpressionAccess().getInactiveINACTIVEKeyword_4_1_0()); }
+		)
+		{ after(grammarAccess.getProcessStatusExpressionAccess().getInactiveINACTIVEKeyword_4_1_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__ProcessStatusExpression__StopAssignment_4_2
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_2_0()); }
+		(
+			{ before(grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_2_0()); }
 			'STOP'
-			{ after(grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_1_0()); }
+			{ after(grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_2_0()); }
 		)
-		{ after(grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_1_0()); }
+		{ after(grammarAccess.getProcessStatusExpressionAccess().getStopSTOPKeyword_4_2_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__ProcessStatusExpression__ErrorAssignment_4_2
+rule__ProcessStatusExpression__ErrorAssignment_4_3
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_2_0()); }
+		{ before(grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_3_0()); }
 		(
-			{ before(grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_2_0()); }
+			{ before(grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_3_0()); }
 			'ERROR'
-			{ after(grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_2_0()); }
+			{ after(grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_3_0()); }
 		)
-		{ after(grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_2_0()); }
+		{ after(grammarAccess.getProcessStatusExpressionAccess().getErrorERRORKeyword_4_3_0()); }
 	)
 ;
 finally {

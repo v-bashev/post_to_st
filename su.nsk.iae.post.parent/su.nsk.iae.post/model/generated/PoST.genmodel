@@ -69,7 +69,8 @@
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//ProcessStatusExpression">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference PoST.ecore#//ProcessStatusExpression/process"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference PoST.ecore#//ProcessStatusExpression/stateName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//ProcessStatusExpression/active"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//ProcessStatusExpression/inactive"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//ProcessStatusExpression/stop"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//ProcessStatusExpression/error"/>
     </genClasses>
