@@ -15,11 +15,6 @@ import su.nsk.iae.post.generator.st.ProgramGenerator;
 import su.nsk.iae.post.poST.Model;
 import su.nsk.iae.post.poST.Program;
 
-/**
- * Generates code from your model files on save.
- * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
- */
 @SuppressWarnings("all")
 public class PoSTGenerator extends AbstractGenerator {
   private List<ProgramGenerator> programs = new LinkedList<ProgramGenerator>();

@@ -9,11 +9,6 @@ import java.util.List
 import su.nsk.iae.post.generator.st.ProgramGenerator
 import java.util.LinkedList
 
-/**
- * Generates code from your model files on save.
- * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
- */
 class PoSTGenerator extends AbstractGenerator {
 	
 	List<ProgramGenerator> programs = new LinkedList
