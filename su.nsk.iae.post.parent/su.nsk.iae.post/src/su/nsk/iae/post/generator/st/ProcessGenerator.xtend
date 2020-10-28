@@ -89,18 +89,23 @@ class ProcessGenerator {
 		return '''g_process_«name.toLowerCase»_timeout_TON'''
 	}
 	
+	def String generateStart() '''
+		«FOR v : varList.list»
+			«IF v.value !== null»
+				«v.name.varName» := «v.value»;
+			«ENDIF»
+		«ENDFOR»
+		«generateEnumName» = «stateList.get(0).name.enumStateName»
+	'''
+	
 	def String generateBody() '''
-		«IF stateList.size > 1»
-			CASE «generateEnumName» OF
-				«FOR s : stateList»
-					«s.name.enumStateName»:
-						«s.generateBody»
-				«ENDFOR»
-				ELSE
-			END_CASE
-		«ELSE»
-			«stateList.get(0).generateBody»
-		«ENDIF»
+		CASE «generateEnumName» OF
+			«FOR s : stateList»
+				«s.name.enumStateName»:
+					«s.generateBody»
+			«ENDFOR»
+			ELSE
+		END_CASE
 	'''
 	
 	private def boolean hasTimeouts() {

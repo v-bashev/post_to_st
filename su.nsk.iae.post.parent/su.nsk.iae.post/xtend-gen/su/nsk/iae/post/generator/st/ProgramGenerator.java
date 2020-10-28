@@ -155,6 +155,14 @@ public class ProgramGenerator {
     return IterableExtensions.<ProcessGenerator>findFirst(this.processList, _function).generateEnumName();
   }
   
+  public String generateProcessStart(final String processName) {
+    final Function1<ProcessGenerator, Boolean> _function = (ProcessGenerator it) -> {
+      String _name = it.getName();
+      return Boolean.valueOf(Objects.equal(_name, processName));
+    };
+    return IterableExtensions.<ProcessGenerator>findFirst(this.processList, _function).generateStart();
+  }
+  
   public void addVar(final EObject varDecl) {
     this.varList.add(varDecl);
   }

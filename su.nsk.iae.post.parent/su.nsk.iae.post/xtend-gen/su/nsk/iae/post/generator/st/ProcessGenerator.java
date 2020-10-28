@@ -9,6 +9,7 @@ import su.nsk.iae.post.generator.st.StateGenerator;
 import su.nsk.iae.post.generator.st.vars.SimpleVarHelper;
 import su.nsk.iae.post.generator.st.vars.TempVarHelper;
 import su.nsk.iae.post.generator.st.vars.VarHelper;
+import su.nsk.iae.post.generator.st.vars.data.VarData;
 import su.nsk.iae.post.poST.State;
 import su.nsk.iae.post.poST.SymbolicVariable;
 import su.nsk.iae.post.poST.TempVarDeclaration;
@@ -139,42 +140,61 @@ public class ProcessGenerator {
     return _builder.toString();
   }
   
-  public String generateBody() {
+  public String generateStart() {
     StringConcatenation _builder = new StringConcatenation();
     {
-      int _size = this.stateList.size();
-      boolean _greaterThan = (_size > 1);
-      if (_greaterThan) {
-        _builder.append("CASE ");
-        String _generateEnumName = this.generateEnumName();
-        _builder.append(_generateEnumName);
-        _builder.append(" OF");
-        _builder.newLineIfNotEmpty();
+      List<VarData> _list = this.varList.getList();
+      for(final VarData v : _list) {
         {
-          for(final StateGenerator s : this.stateList) {
-            _builder.append("\t");
-            String _enumStateName = this.getEnumStateName(s.getName());
-            _builder.append(_enumStateName, "\t");
-            _builder.append(":");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            _builder.append("\t");
-            String _generateBody = s.generateBody();
-            _builder.append(_generateBody, "\t\t");
+          String _value = v.getValue();
+          boolean _tripleNotEquals = (_value != null);
+          if (_tripleNotEquals) {
+            String _varName = this.getVarName(v.getName());
+            _builder.append(_varName);
+            _builder.append(" := ");
+            String _value_1 = v.getValue();
+            _builder.append(_value_1);
+            _builder.append(";");
             _builder.newLineIfNotEmpty();
           }
         }
+      }
+    }
+    String _generateEnumName = this.generateEnumName();
+    _builder.append(_generateEnumName);
+    _builder.append(" = ");
+    String _enumStateName = this.getEnumStateName(this.stateList.get(0).getName());
+    _builder.append(_enumStateName);
+    _builder.newLineIfNotEmpty();
+    return _builder.toString();
+  }
+  
+  public String generateBody() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("CASE ");
+    String _generateEnumName = this.generateEnumName();
+    _builder.append(_generateEnumName);
+    _builder.append(" OF");
+    _builder.newLineIfNotEmpty();
+    {
+      for(final StateGenerator s : this.stateList) {
         _builder.append("\t");
-        _builder.append("ELSE");
-        _builder.newLine();
-        _builder.append("END_CASE");
-        _builder.newLine();
-      } else {
-        String _generateBody_1 = this.stateList.get(0).generateBody();
-        _builder.append(_generateBody_1);
+        String _enumStateName = this.getEnumStateName(s.getName());
+        _builder.append(_enumStateName, "\t");
+        _builder.append(":");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("\t");
+        String _generateBody = s.generateBody();
+        _builder.append(_generateBody, "\t\t");
         _builder.newLineIfNotEmpty();
       }
     }
+    _builder.append("\t");
+    _builder.append("ELSE");
+    _builder.newLine();
+    _builder.append("END_CASE");
+    _builder.newLine();
     return _builder.toString();
   }
   

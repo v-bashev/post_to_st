@@ -310,9 +310,8 @@ public class StateGenerator {
       if (s instanceof StartProcessStatement) {
         _matched=true;
         StringConcatenation _builder = new StringConcatenation();
-        String _generateProcessEnum = this.program.generateProcessEnum(((StartProcessStatement)s).getProcess().getName());
-        _builder.append(_generateProcessEnum);
-        _builder.append(" = 0;");
+        String _generateProcessStart = this.program.generateProcessStart(((StartProcessStatement)s).getProcess().getName());
+        _builder.append(_generateProcessStart);
         _builder.newLineIfNotEmpty();
         return _builder.toString();
       }
@@ -371,8 +370,8 @@ public class StateGenerator {
         {
           boolean _isNext = ((SetStateStatement)s).isNext();
           if (_isNext) {
-            String _upperCase = this.process.getNextState(this).toUpperCase();
-            _builder.append(_upperCase);
+            String _nextState = this.process.getNextState(this);
+            _builder.append(_nextState);
           } else {
             String _enumStateName = this.process.getEnumStateName(((SetStateStatement)s).getState().getName());
             _builder.append(_enumStateName);

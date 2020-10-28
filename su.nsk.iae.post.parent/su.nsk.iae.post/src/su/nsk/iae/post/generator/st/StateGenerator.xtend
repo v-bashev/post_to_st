@@ -124,7 +124,7 @@ class StateGenerator {
 				'''
 			StartProcessStatement:
 				return '''
-					«program.generateProcessEnum(s.process.name)» = 0;
+					«program.generateProcessStart(s.process.name)»
 				'''
 			StopProcessStatement:
 				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» = «program.generateStopConstant»;'''
@@ -132,7 +132,7 @@ class StateGenerator {
 				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» = «program.generateErrorConstant»;'''
 			SetStateStatement:
 				return '''
-					«process.generateEnumName» = «IF s.next»«process.getNextState(this).toUpperCase»«ELSE»«process.getEnumStateName(s.state.name)»«ENDIF»;
+					«process.generateEnumName» = «IF s.next»«process.getNextState(this)»«ELSE»«process.getEnumStateName(s.state.name)»«ENDIF»;
 				'''
 			ResetTimerStatement:
 				return '''

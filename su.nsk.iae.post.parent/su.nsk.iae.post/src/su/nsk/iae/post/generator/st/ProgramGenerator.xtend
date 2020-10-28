@@ -89,6 +89,10 @@ class ProgramGenerator {
 		return processList.findFirst[name == processName].generateEnumName
 	}
 	
+	def String generateProcessStart(String processName) {
+		return processList.findFirst[name == processName].generateStart
+	}
+	
 	def void addVar(EObject varDecl) {
 		varList.add(varDecl)
 	}
