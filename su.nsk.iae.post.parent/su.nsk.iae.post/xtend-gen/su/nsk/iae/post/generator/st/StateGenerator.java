@@ -199,9 +199,19 @@ public class StateGenerator {
               EList<SignedInteger> _caseListElement = e.getCaseList().getCaseListElement();
               for(final SignedInteger c : _caseListElement) {
                 _builder.append("\t");
-                String _trim = NodeModelUtils.getNode(c).getText().trim();
-                _builder.append(_trim, "\t");
-                _builder.append(":");
+                String _generateSignedInteger = this.generateSignedInteger(c);
+                _builder.append(_generateSignedInteger, "\t");
+                {
+                  int _indexOf = e.getCaseList().getCaseListElement().indexOf(c);
+                  int _size = e.getCaseList().getCaseListElement().size();
+                  int _minus = (_size - 1);
+                  boolean _lessThan = (_indexOf < _minus);
+                  if (_lessThan) {
+                    _builder.append(", ");
+                  } else {
+                    _builder.append(":");
+                  }
+                }
                 _builder.newLineIfNotEmpty();
               }
             }
@@ -304,9 +314,17 @@ public class StateGenerator {
       if (s instanceof StartProcessStatement) {
         _matched=true;
         StringConcatenation _builder = new StringConcatenation();
-        String _generateProcessStart = this.program.generateProcessStart(((StartProcessStatement)s).getProcess().getName());
-        _builder.append(_generateProcessStart);
-        _builder.newLineIfNotEmpty();
+        {
+          su.nsk.iae.post.poST.Process _process = ((StartProcessStatement)s).getProcess();
+          boolean _tripleNotEquals = (_process != null);
+          if (_tripleNotEquals) {
+            String _generateProcessStart = this.program.generateProcessStart(((StartProcessStatement)s).getProcess().getName());
+            _builder.append(_generateProcessStart);
+          } else {
+            String _generateStart = this.process.generateStart();
+            _builder.append(_generateStart);
+          }
+        }
         return _builder.toString();
       }
     }
@@ -649,7 +667,7 @@ public class StateGenerator {
         _builder_1.append(") OR (");
         String _generateProcessEnum_3 = this.program.generateProcessEnum(exp.getProcess().getName());
         _builder_1.append(_generateProcessEnum_3);
-        _builder_1.append(" =s ");
+        _builder_1.append(" = ");
         String _generateErrorConstant_1 = this.program.generateErrorConstant();
         _builder_1.append(_generateErrorConstant_1);
         _builder_1.append("))");
@@ -678,5 +696,18 @@ public class StateGenerator {
     _builder_3.append(_generateErrorConstant_2);
     _builder_3.append(")");
     return _builder_3.toString();
+  }
+  
+  private String generateSignedInteger(final SignedInteger sint) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      boolean _isISig = sint.isISig();
+      if (_isISig) {
+        _builder.append("-");
+      }
+    }
+    int _value = sint.getValue();
+    _builder.append(_value);
+    return _builder.toString();
   }
 }

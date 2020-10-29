@@ -31,6 +31,7 @@ import su.nsk.iae.post.poST.WhileStatement
 import su.nsk.iae.post.poST.XorExpression
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import su.nsk.iae.post.poST.ProcessStatusExpression
+import su.nsk.iae.post.poST.SignedInteger
 
 class StateGenerator {
 	
@@ -92,7 +93,7 @@ class StateGenerator {
 					CASE «s.cond.generateExpression» OF
 						«FOR e : s.caseElements»
 							«FOR c : e.caseList.caseListElement»
-								«NodeModelUtils.getNode(c).text.trim»:
+								«c.generateSignedInteger»«IF e.caseList.caseListElement.indexOf(c) < e.caseList.caseListElement.size - 1», «ELSE»:«ENDIF»
 							«ENDFOR»
 								«e.statement.generateStatementList»
 						«ENDFOR»
@@ -121,9 +122,7 @@ class StateGenerator {
 					UNTIL «s.cond.generateExpression» END_REPEAT
 				'''
 			StartProcessStatement:
-				return '''
-					«program.generateProcessStart(s.process.name)»
-				'''
+				return '''«IF s.process !== null»«program.generateProcessStart(s.process.name)»«ELSE»«process.generateStart»«ENDIF»'''
 			StopProcessStatement:
 				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» := «program.generateStopConstant»;'''
 			ErrorProcessStatement:
@@ -210,11 +209,15 @@ class StateGenerator {
 		if (exp.active) {
 			return '''((«program.generateProcessEnum(exp.process.name)» <> «program.generateStopConstant») AND («program.generateProcessEnum(exp.process.name)» <> «program.generateErrorConstant»))'''
 		} else if (exp.inactive) {
-			return '''((«program.generateProcessEnum(exp.process.name)» = «program.generateStopConstant») OR («program.generateProcessEnum(exp.process.name)» =s «program.generateErrorConstant»))'''
+			return '''((«program.generateProcessEnum(exp.process.name)» = «program.generateStopConstant») OR («program.generateProcessEnum(exp.process.name)» = «program.generateErrorConstant»))'''
 		} else if (exp.stop) {
 			return '''(«program.generateProcessEnum(exp.process.name)» = «program.generateStopConstant»)'''
 		}
 		return '''(«program.generateProcessEnum(exp.process.name)» = «program.generateErrorConstant»)'''
+	}
+	
+	private def String generateSignedInteger(SignedInteger sint) {
+		return '''«IF sint.ISig»-«ENDIF»«sint.value»''' 
 	}
 	
 }
