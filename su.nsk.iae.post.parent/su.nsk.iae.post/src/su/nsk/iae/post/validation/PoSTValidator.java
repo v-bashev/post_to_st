@@ -207,38 +207,27 @@ public class PoSTValidator extends AbstractPoSTValidator {
 	}
 	
 	@Check
-	public void checkUselessState(su.nsk.iae.post.poST.State state) {
-		EList<Statement> list = state.getStatement().getStatements();
-		if (list.size() == 1) {
-			if (!(list.get(0) instanceof SelectionStatement) &&
-					!(list.get(0) instanceof IterationStatement) &&
-					!(list.get(0) instanceof TimeoutStatement)) {
-				warning("Useless state",
-						PoSTPackage.eINSTANCE.getState_Name());
-			}
-		}
-		for (Statement s : list) {
-			if (!(s instanceof AssignmentStatement) &&
-					!(s instanceof ProcessStatements)) {
-				return;
-			}
-		}
-		warning("Useless state",
-				PoSTPackage.eINSTANCE.getState_Name());
-	}
-	
-	@Check
 	public void checkLoopedState(su.nsk.iae.post.poST.State state) {
-		boolean hasSet = containsStatement(state.getStatement(), SetStateStatement.class);
+		boolean check = containsStatement(state.getStatement(), SetStateStatement.class);
 		if (state.getTimeout() != null)
-			hasSet |= containsStatement(state.getTimeout().getStatement(), SetStateStatement.class);
+			check |= containsStatement(state.getTimeout().getStatement(), SetStateStatement.class);
+		if (!check) {
+			check |= containsStatement(state.getTimeout().getStatement(), StopProcessStatement.class);
+			if (state.getTimeout() != null)
+				check |= containsStatement(state.getTimeout().getStatement(), StopProcessStatement.class);
+		}
+		if (!check) {
+			check |= containsStatement(state.getTimeout().getStatement(), ErrorProcessStatement.class);
+			if (state.getTimeout() != null)
+				check |= containsStatement(state.getTimeout().getStatement(), ErrorProcessStatement.class);
+		}
 		if (state.isLooped()) {
-			if (hasSet) {
+			if (check) {
 				warning("State mustn't be LOOPED", 
 						PoSTPackage.eINSTANCE.getState_Looped());
 			}
 		} else {
-			if (!hasSet) {
+			if (!check) {
 				warning("State must be LOOPED", 
 						PoSTPackage.eINSTANCE.getState_Name());
 			}
