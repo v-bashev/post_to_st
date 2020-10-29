@@ -175,7 +175,7 @@ public class PoSTValidator extends AbstractPoSTValidator {
 	
 	@Check
 	public void checkEmptyState(su.nsk.iae.post.poST.State state) {
-		if (state.getStatement().getStatements().isEmpty()) {
+		if (state.getStatement().getStatements().isEmpty() && state.getTimeout() == null) {
 			error("Statement error: State can't be empty",
 					PoSTPackage.eINSTANCE.getState_Name());
 		}
@@ -276,6 +276,9 @@ public class PoSTValidator extends AbstractPoSTValidator {
 	
 	@Check
 	public void checkStartProcessStatement(StartProcessStatement statement) {
+		if (statement.getProcess() == null) {
+			return;
+		}
 		Program program = EcoreUtil2.getContainerOfType(statement, Program.class);
 		if (!program.getProcesses().contains(statement.getProcess())) {
 			error("Invalide statement: No process with this name", null);
