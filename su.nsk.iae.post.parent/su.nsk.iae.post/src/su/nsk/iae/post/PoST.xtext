@@ -45,6 +45,32 @@ FunctionBlock:
 	
 /* ======================= START poST Expression ======================= */
 
+SetStateStatement:
+	{SetStateStatement} 'SET' ('STATE' state=[State] | next?='NEXT');
+
+ProcessStatements:
+	StartProcessStatement | StopProcessStatement | ErrorProcessStatement;
+
+ProcessStatusExpression:
+	'PROCESS' process=[Process] 'IN' 'STATE' (active?='ACTIVE' | inactive?="INACTIVE" | stop?='STOP' | error?='ERROR');
+
+StartProcessStatement:
+	{StartProcessStatement} ('START' 'PROCESS' process=[Process]) | {StartProcessStatement} 'RESTART';
+
+StopProcessStatement:
+	{StopProcessStatement} 'STOP' ('PROCESS' process=[Process])?;
+
+ErrorProcessStatement:
+	{ErrorProcessStatement} 'ERROR' ('PROCESS' process=[Process])?;
+
+TimeoutStatement:
+	'TIMEOUT' (const=Constant | variable=[SymbolicVariable]) 'THEN'
+		statement=StatementList
+	'END_TIMEOUT';
+
+ResetTimerStatement:
+	{ResetTimerStatement} 'RESET' 'TIMER';
+	
 Process: 
 	'PROCESS' name=ID 
 		(
@@ -59,32 +85,7 @@ State:
 		statement=StatementList
 		timeout=TimeoutStatement?
 	'END_STATE';
-
-SetStateStatement:
-	{SetStateStatement} 'SET' ('STATE' state=[State] | next?='NEXT');
-
-ProcessStatements:
-	StartProcessStatement | StopProcessStatement | ErrorProcessStatement;
-
-ProcessStatusExpression:
-	'PROCESS' process=[Process] 'IN' 'STATE' (active?='ACTIVE' | inactive?="INACTIVE" | stop?='STOP' | error?='ERROR');
-
-StartProcessStatement:
-	{StartProcessStatement} 'START' 'PROCESS' process=[Process];
-
-StopProcessStatement:
-	{StopProcessStatement} 'STOP' 'PROCESS' process=[Process]?;
-
-ErrorProcessStatement:
-	{ErrorProcessStatement} 'ERROR' 'PROCESS' process=[Process]?;
-
-TimeoutStatement:
-	'TIMEOUT' (const=Constant | variable=[SymbolicVariable]) 'THEN'
-		statement=StatementList
-	'END_TIMEOUT';
-
-ResetTimerStatement:
-	{ResetTimerStatement} 'RESET' 'TIMER';
+	
 
 /* ======================= END poST Expression ======================= */
 	
@@ -398,7 +399,7 @@ terminal ID returns ecore::EString:
 	LETTER (LETTER | DIGIT)*;
 
 terminal ML_COMMENT:
-    '/*' -> '*/';
+    '/*' -> '*/' | '(*' -> '*)';
  
 terminal SL_COMMENT:
     '//' !('\n'|'\r')* ('\r'? '\n')?;

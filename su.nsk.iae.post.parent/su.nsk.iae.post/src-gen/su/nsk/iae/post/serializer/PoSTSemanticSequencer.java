@@ -947,16 +947,10 @@ public class PoSTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     Statement returns StartProcessStatement
 	 *
 	 * Constraint:
-	 *     process=[Process|ID]
+	 *     process=[Process|ID]?
 	 */
 	protected void sequence_StartProcessStatement(ISerializationContext context, StartProcessStatement semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, PoSTPackage.Literals.PROCESS_STATEMENTS__PROCESS) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, PoSTPackage.Literals.PROCESS_STATEMENTS__PROCESS));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getStartProcessStatementAccess().getProcessProcessIDTerminalRuleCall_3_0_1(), semanticObject.eGet(PoSTPackage.Literals.PROCESS_STATEMENTS__PROCESS, false));
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

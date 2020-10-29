@@ -2,11 +2,10 @@ package su.nsk.iae.post.generator.st
 
 import java.util.LinkedList
 import java.util.List
-import su.nsk.iae.post.poST.Process
-import su.nsk.iae.post.generator.st.vars.VarHelper
 import su.nsk.iae.post.generator.st.vars.SimpleVarHelper
 import su.nsk.iae.post.generator.st.vars.TempVarHelper
-import su.nsk.iae.post.poST.VarDeclaration
+import su.nsk.iae.post.generator.st.vars.VarHelper
+import su.nsk.iae.post.poST.Process
 
 class ProcessGenerator {
 	
@@ -54,7 +53,7 @@ class ProcessGenerator {
 			}
 		}
 		if (hasTimeouts) {
-			program.addVar(generateTimeoutName, "TON")
+			program.addVar(generateTimeoutName, "TIME")
 		}
 	}
 	
@@ -86,7 +85,7 @@ class ProcessGenerator {
 	}
 	
 	def String generateTimeoutName() {
-		return '''g_process_«name.toLowerCase»_timeout_TON'''
+		return '''g_process_«name.toLowerCase»_start_time'''
 	}
 	
 	def String generateStart() '''
@@ -95,7 +94,7 @@ class ProcessGenerator {
 				«v.name.varName» := «v.value»;
 			«ENDIF»
 		«ENDFOR»
-		«generateEnumName» = «stateList.get(0).name.enumStateName»
+		«generateEnumName» := «stateList.get(0).name.enumStateName»
 	'''
 	
 	def String generateBody() '''
@@ -104,7 +103,6 @@ class ProcessGenerator {
 				«s.name.enumStateName»:
 					«s.generateBody»
 			«ENDFOR»
-			ELSE
 		END_CASE
 	'''
 	

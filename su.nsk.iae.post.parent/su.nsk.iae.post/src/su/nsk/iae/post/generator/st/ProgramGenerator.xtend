@@ -47,7 +47,7 @@ class ProgramGenerator {
 		for (v : program.progTempVars) {
 			tempVarList.add(v)
 		}
-		
+		addVar(generateGlobalTime, "TIME")
 		for (p: program.processes) {
 			processList.add(new ProcessGenerator(this, p))
 		}
@@ -62,19 +62,20 @@ class ProgramGenerator {
 	private def String generateCode() '''
 		PROGRAM «program.name»
 
-			«inVarList.generate»
-			«outVarList.generate»
-			«inOutVarList.generate»
-			«externalVarList.generate»
-			«varList.generate»
-			«tempVarList.generate»
+		«inVarList.generate»
+		«outVarList.generate»
+		«inOutVarList.generate»
+		«externalVarList.generate»
+		«varList.generate»
+		«tempVarList.generate»
 		
-			«FOR p : processList»
-				«p.generateBody»
-				
-			«ENDFOR»
+		«generateGlobalTime» := TIME();
+		
+		«FOR p : processList»
+			«p.generateBody»
+			
+		«ENDFOR»
 		END_PROGRAM
-		
 	'''
 	
 	def String generateStopConstant() {
@@ -83,6 +84,10 @@ class ProgramGenerator {
 	
 	def String generateErrorConstant() {
 		return '''ALL_PROCESSES_ERROR_CONSTANT'''
+	}
+	
+	def String generateGlobalTime() {
+		return '''cycle_global_time'''
 	}
 	
 	def String generateProcessEnum(String processName) {

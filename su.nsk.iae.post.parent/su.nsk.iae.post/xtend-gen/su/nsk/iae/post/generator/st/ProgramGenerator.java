@@ -69,6 +69,7 @@ public class ProgramGenerator {
     for (final TempVarDeclaration v_5 : _progTempVars) {
       this.tempVarList.add(v_5);
     }
+    this.addVar(this.generateGlobalTime(), "TIME");
     EList<su.nsk.iae.post.poST.Process> _processes = program.getProcesses();
     for (final su.nsk.iae.post.poST.Process p : _processes) {
       ProcessGenerator _processGenerator = new ProcessGenerator(this, p);
@@ -94,43 +95,39 @@ public class ProgramGenerator {
     _builder.append(_name);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
-    _builder.append("\t");
     String _generate = this.inVarList.generate();
-    _builder.append(_generate, "\t");
+    _builder.append(_generate);
     _builder.newLineIfNotEmpty();
-    _builder.append("\t");
     String _generate_1 = this.outVarList.generate();
-    _builder.append(_generate_1, "\t");
+    _builder.append(_generate_1);
     _builder.newLineIfNotEmpty();
-    _builder.append("\t");
     String _generate_2 = this.inOutVarList.generate();
-    _builder.append(_generate_2, "\t");
+    _builder.append(_generate_2);
     _builder.newLineIfNotEmpty();
-    _builder.append("\t");
     String _generate_3 = this.externalVarList.generate();
-    _builder.append(_generate_3, "\t");
+    _builder.append(_generate_3);
     _builder.newLineIfNotEmpty();
-    _builder.append("\t");
     String _generate_4 = this.varList.generate();
-    _builder.append(_generate_4, "\t");
+    _builder.append(_generate_4);
     _builder.newLineIfNotEmpty();
-    _builder.append("\t");
     String _generate_5 = this.tempVarList.generate();
-    _builder.append(_generate_5, "\t");
+    _builder.append(_generate_5);
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    String _generateGlobalTime = this.generateGlobalTime();
+    _builder.append(_generateGlobalTime);
+    _builder.append(" := TIME();");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     {
       for(final ProcessGenerator p : this.processList) {
-        _builder.append("\t");
         String _generateBody = p.generateBody();
-        _builder.append(_generateBody, "\t");
+        _builder.append(_generateBody);
         _builder.newLineIfNotEmpty();
-        _builder.append("\t");
         _builder.newLine();
       }
     }
     _builder.append("END_PROGRAM");
-    _builder.newLine();
     _builder.newLine();
     return _builder.toString();
   }
@@ -144,6 +141,12 @@ public class ProgramGenerator {
   public String generateErrorConstant() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("ALL_PROCESSES_ERROR_CONSTANT");
+    return _builder.toString();
+  }
+  
+  public String generateGlobalTime() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("cycle_global_time");
     return _builder.toString();
   }
   

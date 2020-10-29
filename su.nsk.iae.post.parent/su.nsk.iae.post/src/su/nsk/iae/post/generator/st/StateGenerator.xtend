@@ -47,9 +47,7 @@ class StateGenerator {
 	def String generateBody() '''
 		«state.statement.generateStatementList»
 		«IF state.timeout !== null»
-			«process.generateTimeoutName»(IN := TRUE, PT := «IF state.timeout.variable !== null»«state.timeout.variable.generateVar»«ELSE»«NodeModelUtils.getNode(state.timeout.const).text.trim»«ENDIF»);
-			IF «process.generateTimeoutName».Q THEN
-				«process.generateTimeoutName»(IN := FALSE);
+			IF («program.generateGlobalTime» - «process.generateTimeoutName») >= «IF state.timeout.variable !== null»«state.timeout.variable.generateVar»«ELSE»«NodeModelUtils.getNode(state.timeout.const).text.trim»«ENDIF» THEN
 				«state.timeout.statement.generateStatementList»
 			END_IF
 		«ENDIF»
@@ -127,16 +125,16 @@ class StateGenerator {
 					«program.generateProcessStart(s.process.name)»
 				'''
 			StopProcessStatement:
-				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» = «program.generateStopConstant»;'''
+				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» := «program.generateStopConstant»;'''
 			ErrorProcessStatement:
-				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» = «program.generateErrorConstant»;'''
+				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» := «program.generateErrorConstant»;'''
 			SetStateStatement:
 				return '''
-					«process.generateEnumName» = «IF s.next»«process.getNextState(this)»«ELSE»«process.getEnumStateName(s.state.name)»«ENDIF»;
+					«process.generateEnumName» := «IF s.next»«process.getNextState(this)»«ELSE»«process.getEnumStateName(s.state.name)»«ENDIF»;
 				'''
 			ResetTimerStatement:
 				return '''
-					«process.generateTimeoutName»(IN := FALSE);
+					«process.generateTimeoutName» := «program.generateGlobalTime»;
 				'''
 		}
 		return '''RETURN'''

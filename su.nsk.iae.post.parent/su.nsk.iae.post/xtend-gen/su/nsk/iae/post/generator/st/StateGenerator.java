@@ -65,9 +65,13 @@ public class StateGenerator {
       TimeoutStatement _timeout = this.state.getTimeout();
       boolean _tripleNotEquals = (_timeout != null);
       if (_tripleNotEquals) {
+        _builder.append("IF (");
+        String _generateGlobalTime = this.program.generateGlobalTime();
+        _builder.append(_generateGlobalTime);
+        _builder.append(" - ");
         String _generateTimeoutName = this.process.generateTimeoutName();
         _builder.append(_generateTimeoutName);
-        _builder.append("(IN := TRUE, PT := ");
+        _builder.append(") >= ");
         {
           SymbolicVariable _variable = this.state.getTimeout().getVariable();
           boolean _tripleNotEquals_1 = (_variable != null);
@@ -79,17 +83,7 @@ public class StateGenerator {
             _builder.append(_trim);
           }
         }
-        _builder.append(");");
-        _builder.newLineIfNotEmpty();
-        _builder.append("IF ");
-        String _generateTimeoutName_1 = this.process.generateTimeoutName();
-        _builder.append(_generateTimeoutName_1);
-        _builder.append(".Q THEN");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        String _generateTimeoutName_2 = this.process.generateTimeoutName();
-        _builder.append(_generateTimeoutName_2, "\t");
-        _builder.append("(IN := FALSE);");
+        _builder.append(" THEN");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         String _generateStatementList_1 = this.generateStatementList(this.state.getTimeout().getStatement());
@@ -331,7 +325,7 @@ public class StateGenerator {
             _builder.append(_generateEnumName);
           }
         }
-        _builder.append(" = ");
+        _builder.append(" := ");
         String _generateStopConstant = this.program.generateStopConstant();
         _builder.append(_generateStopConstant);
         _builder.append(";");
@@ -353,7 +347,7 @@ public class StateGenerator {
             _builder.append(_generateEnumName);
           }
         }
-        _builder.append(" = ");
+        _builder.append(" := ");
         String _generateErrorConstant = this.program.generateErrorConstant();
         _builder.append(_generateErrorConstant);
         _builder.append(";");
@@ -366,7 +360,7 @@ public class StateGenerator {
         StringConcatenation _builder = new StringConcatenation();
         String _generateEnumName = this.process.generateEnumName();
         _builder.append(_generateEnumName);
-        _builder.append(" = ");
+        _builder.append(" := ");
         {
           boolean _isNext = ((SetStateStatement)s).isNext();
           if (_isNext) {
@@ -388,7 +382,10 @@ public class StateGenerator {
         StringConcatenation _builder = new StringConcatenation();
         String _generateTimeoutName = this.process.generateTimeoutName();
         _builder.append(_generateTimeoutName);
-        _builder.append("(IN := FALSE);");
+        _builder.append(" := ");
+        String _generateGlobalTime = this.program.generateGlobalTime();
+        _builder.append(_generateGlobalTime);
+        _builder.append(";");
         _builder.newLineIfNotEmpty();
         return _builder.toString();
       }

@@ -76,7 +76,7 @@ public class ProcessGenerator {
     }
     boolean _hasTimeouts = this.hasTimeouts();
     if (_hasTimeouts) {
-      program.addVar(this.generateTimeoutName(), "TON");
+      program.addVar(this.generateTimeoutName(), "TIME");
     }
   }
   
@@ -136,7 +136,7 @@ public class ProcessGenerator {
     _builder.append("g_process_");
     String _lowerCase = this.getName().toLowerCase();
     _builder.append(_lowerCase);
-    _builder.append("_timeout_TON");
+    _builder.append("_start_time");
     return _builder.toString();
   }
   
@@ -162,7 +162,7 @@ public class ProcessGenerator {
     }
     String _generateEnumName = this.generateEnumName();
     _builder.append(_generateEnumName);
-    _builder.append(" = ");
+    _builder.append(" := ");
     String _enumStateName = this.getEnumStateName(this.stateList.get(0).getName());
     _builder.append(_enumStateName);
     _builder.newLineIfNotEmpty();
@@ -190,9 +190,6 @@ public class ProcessGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
-    _builder.append("\t");
-    _builder.append("ELSE");
-    _builder.newLine();
     _builder.append("END_CASE");
     _builder.newLine();
     return _builder.toString();
