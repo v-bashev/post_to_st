@@ -11,13 +11,16 @@ import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
+import su.nsk.iae.post.generator.st.CodeGenerator;
+import su.nsk.iae.post.generator.st.FBGenerator;
 import su.nsk.iae.post.generator.st.ProgramGenerator;
+import su.nsk.iae.post.poST.FunctionBlock;
 import su.nsk.iae.post.poST.Model;
 import su.nsk.iae.post.poST.Program;
 
 @SuppressWarnings("all")
 public class PoSTGenerator extends AbstractGenerator {
-  private List<ProgramGenerator> programs = new LinkedList<ProgramGenerator>();
+  private List<CodeGenerator> codes = new LinkedList<CodeGenerator>();
   
   @Override
   public void beforeGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
@@ -25,14 +28,19 @@ public class PoSTGenerator extends AbstractGenerator {
     EList<Program> _programs = model.getPrograms();
     for (final Program p : _programs) {
       ProgramGenerator _programGenerator = new ProgramGenerator(p);
-      this.programs.add(_programGenerator);
+      this.codes.add(_programGenerator);
+    }
+    EList<FunctionBlock> _fbs = model.getFbs();
+    for (final FunctionBlock fb : _fbs) {
+      FBGenerator _fBGenerator = new FBGenerator(fb);
+      this.codes.add(_fBGenerator);
     }
   }
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    for (final ProgramGenerator p : this.programs) {
-      p.generate(fsa, "");
+    for (final CodeGenerator c : this.codes) {
+      c.generate(fsa, "");
     }
   }
 }

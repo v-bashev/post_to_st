@@ -78,13 +78,22 @@ public interface PoSTPackage extends EPackage
   int MODEL__PROGRAMS = 0;
 
   /**
+   * The feature id for the '<em><b>Fbs</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MODEL__FBS = 1;
+
+  /**
    * The number of structural features of the '<em>Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL_FEATURE_COUNT = 1;
+  int MODEL_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link su.nsk.iae.post.poST.impl.ProgramImpl <em>Program</em>}' class.
@@ -2482,6 +2491,17 @@ public interface PoSTPackage extends EPackage
   EReference getModel_Programs();
 
   /**
+   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.Model#getFbs <em>Fbs</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Fbs</em>'.
+   * @see su.nsk.iae.post.poST.Model#getFbs()
+   * @see #getModel()
+   * @generated
+   */
+  EReference getModel_Fbs();
+
+  /**
    * Returns the meta object for class '{@link su.nsk.iae.post.poST.Program <em>Program</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4166,6 +4186,14 @@ public interface PoSTPackage extends EPackage
      * @generated
      */
     EReference MODEL__PROGRAMS = eINSTANCE.getModel_Programs();
+
+    /**
+     * The meta object literal for the '<em><b>Fbs</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MODEL__FBS = eINSTANCE.getModel_Fbs();
 
     /**
      * The meta object literal for the '{@link su.nsk.iae.post.poST.impl.ProgramImpl <em>Program</em>}' class.

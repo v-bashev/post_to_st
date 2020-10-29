@@ -6,23 +6,28 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import su.nsk.iae.post.poST.Model
 import java.util.List
-import su.nsk.iae.post.generator.st.ProgramGenerator
 import java.util.LinkedList
+import su.nsk.iae.post.generator.st.CodeGenerator
+import su.nsk.iae.post.generator.st.ProgramGenerator
+import su.nsk.iae.post.generator.st.FBGenerator
 
 class PoSTGenerator extends AbstractGenerator {
 	
-	List<ProgramGenerator> programs = new LinkedList
+	List<CodeGenerator> codes = new LinkedList
 	
 	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val model = input.allContents.toIterable.filter(Model).get(0)
 		for (p : model.programs) {
-			programs.add(new ProgramGenerator(p))
+			codes.add(new ProgramGenerator(p))
+		}
+		for (fb : model.fbs) {
+			codes.add(new FBGenerator(fb))
 		}
 	}
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		for (p : programs) {
-			p.generate(fsa, "")
+		for (c : codes) {
+			c.generate(fsa, "")
 		}
 	}
 }

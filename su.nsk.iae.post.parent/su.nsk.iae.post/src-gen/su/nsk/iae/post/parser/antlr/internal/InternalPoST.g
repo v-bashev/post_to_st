@@ -78,23 +78,45 @@ ruleModel returns [EObject current=null]
 }:
 	(
 		(
-			{
-				newCompositeNode(grammarAccess.getModelAccess().getProgramsProgramParserRuleCall_0());
-			}
-			lv_programs_0_0=ruleProgram
-			{
-				if ($current==null) {
-					$current = createModelElementForParent(grammarAccess.getModelRule());
+			(
+				{
+					newCompositeNode(grammarAccess.getModelAccess().getProgramsProgramParserRuleCall_0_0());
 				}
-				add(
-					$current,
-					"programs",
-					lv_programs_0_0,
-					"su.nsk.iae.post.PoST.Program");
-				afterParserOrEnumRuleCall();
-			}
+				lv_programs_0_0=ruleProgram
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getModelRule());
+					}
+					add(
+						$current,
+						"programs",
+						lv_programs_0_0,
+						"su.nsk.iae.post.PoST.Program");
+					afterParserOrEnumRuleCall();
+				}
+			)
 		)
-	)*
+		    |
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getModelAccess().getFbsFunctionBlockParserRuleCall_1_0());
+				}
+				lv_fbs_1_0=ruleFunctionBlock
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getModelRule());
+					}
+					add(
+						$current,
+						"fbs",
+						lv_fbs_1_0,
+						"su.nsk.iae.post.PoST.FunctionBlock");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+	)+
 ;
 
 // Entry rule entryRuleProgram
@@ -278,6 +300,191 @@ ruleProgram returns [EObject current=null]
 		otherlv_9='END_PROGRAM'
 		{
 			newLeafNode(otherlv_9, grammarAccess.getProgramAccess().getEND_PROGRAMKeyword_4());
+		}
+	)
+;
+
+// Entry rule entryRuleFunctionBlock
+entryRuleFunctionBlock returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getFunctionBlockRule()); }
+	iv_ruleFunctionBlock=ruleFunctionBlock
+	{ $current=$iv_ruleFunctionBlock.current; }
+	EOF;
+
+// Rule FunctionBlock
+ruleFunctionBlock returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='FUNCTION_BLOCK'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getFunctionBlockAccess().getFUNCTION_BLOCKKeyword_0());
+		}
+		(
+			(
+				lv_name_1_0=RULE_ID
+				{
+					newLeafNode(lv_name_1_0, grammarAccess.getFunctionBlockAccess().getNameIDTerminalRuleCall_1_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getFunctionBlockRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_1_0,
+						"su.nsk.iae.post.PoST.ID");
+				}
+			)
+		)
+		(
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getFunctionBlockAccess().getProgInVarsInputVarDeclarationParserRuleCall_2_0_0());
+					}
+					lv_progInVars_2_0=ruleInputVarDeclaration
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getFunctionBlockRule());
+						}
+						add(
+							$current,
+							"progInVars",
+							lv_progInVars_2_0,
+							"su.nsk.iae.post.PoST.InputVarDeclaration");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getFunctionBlockAccess().getProgOutVarsOutputVarDeclarationParserRuleCall_2_1_0());
+					}
+					lv_progOutVars_3_0=ruleOutputVarDeclaration
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getFunctionBlockRule());
+						}
+						add(
+							$current,
+							"progOutVars",
+							lv_progOutVars_3_0,
+							"su.nsk.iae.post.PoST.OutputVarDeclaration");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getFunctionBlockAccess().getProgInOutVarsInputOutputVarDeclarationParserRuleCall_2_2_0());
+					}
+					lv_progInOutVars_4_0=ruleInputOutputVarDeclaration
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getFunctionBlockRule());
+						}
+						add(
+							$current,
+							"progInOutVars",
+							lv_progInOutVars_4_0,
+							"su.nsk.iae.post.PoST.InputOutputVarDeclaration");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getFunctionBlockAccess().getProgVarsVarDeclarationParserRuleCall_2_3_0());
+					}
+					lv_progVars_5_0=ruleVarDeclaration
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getFunctionBlockRule());
+						}
+						add(
+							$current,
+							"progVars",
+							lv_progVars_5_0,
+							"su.nsk.iae.post.PoST.VarDeclaration");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getFunctionBlockAccess().getProgTempVarsTempVarDeclarationParserRuleCall_2_4_0());
+					}
+					lv_progTempVars_6_0=ruleTempVarDeclaration
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getFunctionBlockRule());
+						}
+						add(
+							$current,
+							"progTempVars",
+							lv_progTempVars_6_0,
+							"su.nsk.iae.post.PoST.TempVarDeclaration");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getFunctionBlockAccess().getProgExternVarsExternalVarDeclarationParserRuleCall_2_5_0());
+					}
+					lv_progExternVars_7_0=ruleExternalVarDeclaration
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getFunctionBlockRule());
+						}
+						add(
+							$current,
+							"progExternVars",
+							lv_progExternVars_7_0,
+							"su.nsk.iae.post.PoST.ExternalVarDeclaration");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)*
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getFunctionBlockAccess().getProcessesProcessParserRuleCall_3_0());
+				}
+				lv_processes_8_0=ruleProcess
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getFunctionBlockRule());
+					}
+					add(
+						$current,
+						"processes",
+						lv_processes_8_0,
+						"su.nsk.iae.post.PoST.Process");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)*
+		otherlv_9='END_FUNCTION_BLOCK'
+		{
+			newLeafNode(otherlv_9, grammarAccess.getFunctionBlockAccess().getEND_FUNCTION_BLOCKKeyword_4());
 		}
 	)
 ;

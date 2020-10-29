@@ -16,7 +16,7 @@ class ProcessGenerator {
 	
 	List<StateGenerator> stateList = new LinkedList
 	
-	new(ProgramGenerator program, Process process) {
+	new(CodeGenerator program, Process process) {
 		this.process = process
 		
 		for (v : process.procVars) {

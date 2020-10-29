@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import su.nsk.iae.post.poST.FunctionBlock;
 import su.nsk.iae.post.poST.Model;
 import su.nsk.iae.post.poST.PoSTPackage;
 import su.nsk.iae.post.poST.Program;
@@ -30,6 +31,7 @@ import su.nsk.iae.post.poST.Program;
  * </p>
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.impl.ModelImpl#getPrograms <em>Programs</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.ModelImpl#getFbs <em>Fbs</em>}</li>
  * </ul>
  *
  * @generated
@@ -45,6 +47,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @ordered
    */
   protected EList<Program> programs;
+
+  /**
+   * The cached value of the '{@link #getFbs() <em>Fbs</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFbs()
+   * @generated
+   * @ordered
+   */
+  protected EList<FunctionBlock> fbs;
 
   /**
    * <!-- begin-user-doc -->
@@ -88,12 +100,29 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    */
   @Override
+  public EList<FunctionBlock> getFbs()
+  {
+    if (fbs == null)
+    {
+      fbs = new EObjectContainmentEList<FunctionBlock>(FunctionBlock.class, this, PoSTPackage.MODEL__FBS);
+    }
+    return fbs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case PoSTPackage.MODEL__PROGRAMS:
         return ((InternalEList<?>)getPrograms()).basicRemove(otherEnd, msgs);
+      case PoSTPackage.MODEL__FBS:
+        return ((InternalEList<?>)getFbs()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -110,6 +139,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
     {
       case PoSTPackage.MODEL__PROGRAMS:
         return getPrograms();
+      case PoSTPackage.MODEL__FBS:
+        return getFbs();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -129,6 +160,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         getPrograms().clear();
         getPrograms().addAll((Collection<? extends Program>)newValue);
         return;
+      case PoSTPackage.MODEL__FBS:
+        getFbs().clear();
+        getFbs().addAll((Collection<? extends FunctionBlock>)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -146,6 +181,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
       case PoSTPackage.MODEL__PROGRAMS:
         getPrograms().clear();
         return;
+      case PoSTPackage.MODEL__FBS:
+        getFbs().clear();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -162,6 +200,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
     {
       case PoSTPackage.MODEL__PROGRAMS:
         return programs != null && !programs.isEmpty();
+      case PoSTPackage.MODEL__FBS:
+        return fbs != null && !fbs.isEmpty();
     }
     return super.eIsSet(featureID);
   }

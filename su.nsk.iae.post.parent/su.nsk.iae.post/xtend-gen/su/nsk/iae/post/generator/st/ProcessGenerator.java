@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import su.nsk.iae.post.generator.st.ProgramGenerator;
+import su.nsk.iae.post.generator.st.CodeGenerator;
 import su.nsk.iae.post.generator.st.StateGenerator;
 import su.nsk.iae.post.generator.st.vars.SimpleVarHelper;
 import su.nsk.iae.post.generator.st.vars.TempVarHelper;
@@ -26,7 +26,7 @@ public class ProcessGenerator {
   
   private List<StateGenerator> stateList = new LinkedList<StateGenerator>();
   
-  public ProcessGenerator(final ProgramGenerator program, final su.nsk.iae.post.poST.Process process) {
+  public ProcessGenerator(final CodeGenerator program, final su.nsk.iae.post.poST.Process process) {
     this.process = process;
     EList<VarDeclaration> _procVars = process.getProcVars();
     for (final VarDeclaration v : _procVars) {

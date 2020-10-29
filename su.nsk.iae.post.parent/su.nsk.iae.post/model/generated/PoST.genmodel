@@ -27,6 +27,7 @@
     </genEnums>
     <genClasses ecoreClass="PoST.ecore#//Model">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//Model/programs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//Model/fbs"/>
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//Program">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//Program/name"/>

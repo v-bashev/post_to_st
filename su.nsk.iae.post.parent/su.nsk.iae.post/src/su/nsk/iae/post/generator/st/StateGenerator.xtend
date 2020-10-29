@@ -35,11 +35,11 @@ import su.nsk.iae.post.poST.SignedInteger
 
 class StateGenerator {
 	
-	ProgramGenerator program
+	CodeGenerator program
 	ProcessGenerator process
 	State state
 	
-	new(ProgramGenerator program, ProcessGenerator process, State state) {
+	new(CodeGenerator program, ProcessGenerator process, State state) {
 		this.program = program
 		this.process = process
 		this.state = state

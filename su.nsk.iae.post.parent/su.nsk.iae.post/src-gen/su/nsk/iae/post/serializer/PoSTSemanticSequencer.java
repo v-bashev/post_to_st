@@ -685,7 +685,7 @@ public class PoSTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     programs+=Program+
+	 *     (programs+=Program | fbs+=FunctionBlock)+
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

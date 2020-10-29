@@ -27,18 +27,30 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	
 	public class ModelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "su.nsk.iae.post.PoST.Model");
-		private final Assignment cProgramsAssignment = (Assignment)rule.eContents().get(1);
-		private final RuleCall cProgramsProgramParserRuleCall_0 = (RuleCall)cProgramsAssignment.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Assignment cProgramsAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
+		private final RuleCall cProgramsProgramParserRuleCall_0_0 = (RuleCall)cProgramsAssignment_0.eContents().get(0);
+		private final Assignment cFbsAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
+		private final RuleCall cFbsFunctionBlockParserRuleCall_1_0 = (RuleCall)cFbsAssignment_1.eContents().get(0);
 		
 		//Model:
-		//	programs+=Program*;
+		//	(programs+=Program | fbs+=FunctionBlock)+;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//programs+=Program*
-		public Assignment getProgramsAssignment() { return cProgramsAssignment; }
+		//(programs+=Program | fbs+=FunctionBlock)+
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//programs+=Program
+		public Assignment getProgramsAssignment_0() { return cProgramsAssignment_0; }
 		
 		//Program
-		public RuleCall getProgramsProgramParserRuleCall_0() { return cProgramsProgramParserRuleCall_0; }
+		public RuleCall getProgramsProgramParserRuleCall_0_0() { return cProgramsProgramParserRuleCall_0_0; }
+		
+		//fbs+=FunctionBlock
+		public Assignment getFbsAssignment_1() { return cFbsAssignment_1; }
+		
+		//FunctionBlock
+		public RuleCall getFbsFunctionBlockParserRuleCall_1_0() { return cFbsFunctionBlockParserRuleCall_1_0; }
 	}
 	public class ProgramElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "su.nsk.iae.post.PoST.Program");
@@ -2856,7 +2868,7 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 
 	
 	//Model:
-	//	programs+=Program*;
+	//	(programs+=Program | fbs+=FunctionBlock)+;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}

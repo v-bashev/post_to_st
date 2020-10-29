@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.Model#getPrograms <em>Programs</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.Model#getFbs <em>Fbs</em>}</li>
  * </ul>
  *
  * @see su.nsk.iae.post.poST.PoSTPackage#getModel()
@@ -36,5 +37,17 @@ public interface Model extends EObject
    * @generated
    */
   EList<Program> getPrograms();
+
+  /**
+   * Returns the value of the '<em><b>Fbs</b></em>' containment reference list.
+   * The list contents are of type {@link su.nsk.iae.post.poST.FunctionBlock}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Fbs</em>' containment reference list.
+   * @see su.nsk.iae.post.poST.PoSTPackage#getModel_Fbs()
+   * @model containment="true"
+   * @generated
+   */
+  EList<FunctionBlock> getFbs();
 
 } // Model

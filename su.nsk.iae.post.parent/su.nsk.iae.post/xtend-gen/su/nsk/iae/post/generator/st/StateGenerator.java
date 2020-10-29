@@ -5,8 +5,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.xbase.lib.IntegerRange;
+import su.nsk.iae.post.generator.st.CodeGenerator;
 import su.nsk.iae.post.generator.st.ProcessGenerator;
-import su.nsk.iae.post.generator.st.ProgramGenerator;
 import su.nsk.iae.post.poST.AddExpression;
 import su.nsk.iae.post.poST.AddOperator;
 import su.nsk.iae.post.poST.AndExpression;
@@ -44,13 +44,13 @@ import su.nsk.iae.post.poST.XorExpression;
 
 @SuppressWarnings("all")
 public class StateGenerator {
-  private ProgramGenerator program;
+  private CodeGenerator program;
   
   private ProcessGenerator process;
   
   private State state;
   
-  public StateGenerator(final ProgramGenerator program, final ProcessGenerator process, final State state) {
+  public StateGenerator(final CodeGenerator program, final ProcessGenerator process, final State state) {
     this.program = program;
     this.process = process;
     this.state = state;

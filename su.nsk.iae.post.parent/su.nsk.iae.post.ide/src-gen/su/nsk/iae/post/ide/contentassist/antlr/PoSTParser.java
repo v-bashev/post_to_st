@@ -31,6 +31,7 @@ public class PoSTParser extends AbstractContentAssistParser {
 		}
 		
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, PoSTGrammarAccess grammarAccess) {
+			builder.put(grammarAccess.getModelAccess().getAlternatives(), "rule__Model__Alternatives");
 			builder.put(grammarAccess.getProgramAccess().getAlternatives_2(), "rule__Program__Alternatives_2");
 			builder.put(grammarAccess.getFunctionBlockAccess().getAlternatives_2(), "rule__FunctionBlock__Alternatives_2");
 			builder.put(grammarAccess.getSetStateStatementAccess().getAlternatives_2(), "rule__SetStateStatement__Alternatives_2");
@@ -143,7 +144,8 @@ public class PoSTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getIntegerLiteralAccess().getGroup_0(), "rule__IntegerLiteral__Group_0__0");
 			builder.put(grammarAccess.getRealLiteralAccess().getGroup(), "rule__RealLiteral__Group__0");
 			builder.put(grammarAccess.getRealLiteralAccess().getGroup_0(), "rule__RealLiteral__Group_0__0");
-			builder.put(grammarAccess.getModelAccess().getProgramsAssignment(), "rule__Model__ProgramsAssignment");
+			builder.put(grammarAccess.getModelAccess().getProgramsAssignment_0(), "rule__Model__ProgramsAssignment_0");
+			builder.put(grammarAccess.getModelAccess().getFbsAssignment_1(), "rule__Model__FbsAssignment_1");
 			builder.put(grammarAccess.getProgramAccess().getNameAssignment_1(), "rule__Program__NameAssignment_1");
 			builder.put(grammarAccess.getProgramAccess().getProgInVarsAssignment_2_0(), "rule__Program__ProgInVarsAssignment_2_0");
 			builder.put(grammarAccess.getProgramAccess().getProgOutVarsAssignment_2_1(), "rule__Program__ProgOutVarsAssignment_2_1");
