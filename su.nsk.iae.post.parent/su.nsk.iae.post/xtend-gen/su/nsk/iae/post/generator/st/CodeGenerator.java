@@ -39,10 +39,16 @@ public class CodeGenerator {
   private List<ProcessGenerator> processList = new LinkedList<ProcessGenerator>();
   
   protected void parseProcesses(final EList<su.nsk.iae.post.poST.Process> processes) {
-    this.addVar(this.generateGlobalTime(), "TIME");
     for (final su.nsk.iae.post.poST.Process p : processes) {
       ProcessGenerator _processGenerator = new ProcessGenerator(this, p);
       this.processList.add(_processGenerator);
+    }
+    this.addVar(this.generateGlobalTime(), "TIME");
+    for (final ProcessGenerator p_1 : this.processList) {
+      p_1.addTimeVars();
+    }
+    for (final ProcessGenerator p_2 : this.processList) {
+      p_2.addStateVars();
     }
     this.addVar(this.generateStopConstant(), "INT", "254", true);
     this.addVar(this.generateErrorConstant(), "INT", "255", true);
@@ -161,6 +167,7 @@ public class CodeGenerator {
   }
   
   public boolean isFirstProcess(final ProcessGenerator process) {
-    return this.processList.isEmpty();
+    ProcessGenerator _get = this.processList.get(0);
+    return Objects.equal(_get, process);
   }
 }

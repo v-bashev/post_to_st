@@ -173,7 +173,7 @@ SelectionStatement:
 IfStatement:
 	'IF' mainCond=Expression 'THEN'
 		mainStatement=StatementList
-	('ELSEIF' elseIfCond+=Expression 'THEN'
+	('ELSIF' elseIfCond+=Expression 'THEN'
 		elseIfStatements+=StatementList
 	)*
 	('ELSE'

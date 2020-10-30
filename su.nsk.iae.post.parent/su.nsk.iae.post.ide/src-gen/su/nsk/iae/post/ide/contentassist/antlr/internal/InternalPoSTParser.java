@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalPoSTParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_BIT_STRING_TYPE_NAME", "RULE_TIME_TYPE_NAME", "RULE_STRING_TYPE_NAME", "RULE_REAL_TYPE_NAME", "RULE_SIGNED_INTEGER_TYPE_NAME", "RULE_UNSIGNED_INTEGER_TYPE_NAME", "RULE_OR_OPERATOR", "RULE_XOR_OPERATOR", "RULE_AND_OPERATOR", "RULE_POWER_OPERATOR", "RULE_UNARY_OPERATOR", "RULE_TIME_PREF_LITERAL", "RULE_BINARY_INTEGER", "RULE_OCTAL_INTEGER", "RULE_HEX_INTEGER", "RULE_BOOLEAN_LITERAL", "RULE_ID", "RULE_DIRECT_VARIABLE", "RULE_INTERVAL", "RULE_INTEGER", "RULE_REAL", "RULE_DIRECT_TYPE_PREFIX", "RULE_DIRECT_SIZE_PREFIX", "RULE_DIGIT", "RULE_BIT", "RULE_OCTAL_DIGIT", "RULE_HEX_DIGIT", "RULE_LETTER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'='", "'<>'", "'<'", "'>'", "'<='", "'>='", "'+'", "'-'", "'*'", "'/'", "'MOD'", "'PROGRAM'", "'END_PROGRAM'", "'FUNCTION_BLOCK'", "'END_FUNCTION_BLOCK'", "'SET'", "'STATE'", "'PROCESS'", "'IN'", "'START'", "'RESTART'", "'STOP'", "'ERROR'", "'TIMEOUT'", "'THEN'", "'END_TIMEOUT'", "'RESET'", "'TIMER'", "'END_PROCESS'", "'END_STATE'", "'('", "')'", "';'", "':='", "'IF'", "'END_IF'", "'ELSEIF'", "'ELSE'", "'CASE'", "'OF'", "'END_CASE'", "':'", "','", "'FOR'", "'DO'", "'END_FOR'", "'TO'", "'BY'", "'WHILE'", "'END_WHILE'", "'REPEAT'", "'UNTIL'", "'END_REPEAT'", "'RETURN'", "'EXIT'", "'VAR_INPUT'", "'END_VAR'", "'VAR_OUTPUT'", "'VAR_IN_OUT'", "'VAR'", "'VAR_TEMP'", "'VAR_EXTERNAL'", "'AT'", "'#'", "'NEXT'", "'ACTIVE'", "'INACTIVE'", "'LOOPED'", "'CONSTANT'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_BIT_STRING_TYPE_NAME", "RULE_TIME_TYPE_NAME", "RULE_STRING_TYPE_NAME", "RULE_REAL_TYPE_NAME", "RULE_SIGNED_INTEGER_TYPE_NAME", "RULE_UNSIGNED_INTEGER_TYPE_NAME", "RULE_OR_OPERATOR", "RULE_XOR_OPERATOR", "RULE_AND_OPERATOR", "RULE_POWER_OPERATOR", "RULE_UNARY_OPERATOR", "RULE_TIME_PREF_LITERAL", "RULE_BINARY_INTEGER", "RULE_OCTAL_INTEGER", "RULE_HEX_INTEGER", "RULE_BOOLEAN_LITERAL", "RULE_ID", "RULE_DIRECT_VARIABLE", "RULE_INTERVAL", "RULE_INTEGER", "RULE_REAL", "RULE_DIRECT_TYPE_PREFIX", "RULE_DIRECT_SIZE_PREFIX", "RULE_DIGIT", "RULE_BIT", "RULE_OCTAL_DIGIT", "RULE_HEX_DIGIT", "RULE_LETTER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'='", "'<>'", "'<'", "'>'", "'<='", "'>='", "'+'", "'-'", "'*'", "'/'", "'MOD'", "'PROGRAM'", "'END_PROGRAM'", "'FUNCTION_BLOCK'", "'END_FUNCTION_BLOCK'", "'SET'", "'STATE'", "'PROCESS'", "'IN'", "'START'", "'RESTART'", "'STOP'", "'ERROR'", "'TIMEOUT'", "'THEN'", "'END_TIMEOUT'", "'RESET'", "'TIMER'", "'END_PROCESS'", "'END_STATE'", "'('", "')'", "';'", "':='", "'IF'", "'END_IF'", "'ELSIF'", "'ELSE'", "'CASE'", "'OF'", "'END_CASE'", "':'", "','", "'FOR'", "'DO'", "'END_FOR'", "'TO'", "'BY'", "'WHILE'", "'END_WHILE'", "'REPEAT'", "'UNTIL'", "'END_REPEAT'", "'RETURN'", "'EXIT'", "'VAR_INPUT'", "'END_VAR'", "'VAR_OUTPUT'", "'VAR_IN_OUT'", "'VAR'", "'VAR_TEMP'", "'VAR_EXTERNAL'", "'AT'", "'#'", "'NEXT'", "'ACTIVE'", "'INACTIVE'", "'LOOPED'", "'CONSTANT'"
     };
     public static final int T__50=50;
     public static final int RULE_INTERVAL=22;
@@ -17924,21 +17924,21 @@ public class InternalPoSTParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__IfStatement__Group_4__0__Impl"
-    // InternalPoST.g:5642:1: rule__IfStatement__Group_4__0__Impl : ( 'ELSEIF' ) ;
+    // InternalPoST.g:5642:1: rule__IfStatement__Group_4__0__Impl : ( 'ELSIF' ) ;
     public final void rule__IfStatement__Group_4__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalPoST.g:5646:1: ( ( 'ELSEIF' ) )
-            // InternalPoST.g:5647:1: ( 'ELSEIF' )
+            // InternalPoST.g:5646:1: ( ( 'ELSIF' ) )
+            // InternalPoST.g:5647:1: ( 'ELSIF' )
             {
-            // InternalPoST.g:5647:1: ( 'ELSEIF' )
-            // InternalPoST.g:5648:2: 'ELSEIF'
+            // InternalPoST.g:5647:1: ( 'ELSIF' )
+            // InternalPoST.g:5648:2: 'ELSIF'
             {
-             before(grammarAccess.getIfStatementAccess().getELSEIFKeyword_4_0()); 
+             before(grammarAccess.getIfStatementAccess().getELSIFKeyword_4_0()); 
             match(input,72,FOLLOW_2); 
-             after(grammarAccess.getIfStatementAccess().getELSEIFKeyword_4_0()); 
+             after(grammarAccess.getIfStatementAccess().getELSIFKeyword_4_0()); 
 
             }
 

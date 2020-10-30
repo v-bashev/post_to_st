@@ -1278,7 +1278,7 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Assignment cMainStatementAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cMainStatementStatementListParserRuleCall_3_0 = (RuleCall)cMainStatementAssignment_3.eContents().get(0);
 		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
-		private final Keyword cELSEIFKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Keyword cELSIFKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
 		private final Assignment cElseIfCondAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
 		private final RuleCall cElseIfCondExpressionParserRuleCall_4_1_0 = (RuleCall)cElseIfCondAssignment_4_1.eContents().get(0);
 		private final Keyword cTHENKeyword_4_2 = (Keyword)cGroup_4.eContents().get(2);
@@ -1292,13 +1292,13 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		
 		//IfStatement:
 		//	'IF' mainCond=Expression 'THEN'
-		//	mainStatement=StatementList ('ELSEIF' elseIfCond+=Expression 'THEN'
+		//	mainStatement=StatementList ('ELSIF' elseIfCond+=Expression 'THEN'
 		//	elseIfStatements+=StatementList)* ('ELSE'
 		//	elseStatement=StatementList)?
 		//	'END_IF';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'IF' mainCond=Expression 'THEN' mainStatement=StatementList ('ELSEIF' elseIfCond+=Expression 'THEN'
+		//'IF' mainCond=Expression 'THEN' mainStatement=StatementList ('ELSIF' elseIfCond+=Expression 'THEN'
 		//elseIfStatements+=StatementList)* ('ELSE' elseStatement=StatementList)? 'END_IF'
 		public Group getGroup() { return cGroup; }
 		
@@ -1320,11 +1320,11 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//StatementList
 		public RuleCall getMainStatementStatementListParserRuleCall_3_0() { return cMainStatementStatementListParserRuleCall_3_0; }
 		
-		//('ELSEIF' elseIfCond+=Expression 'THEN' elseIfStatements+=StatementList)*
+		//('ELSIF' elseIfCond+=Expression 'THEN' elseIfStatements+=StatementList)*
 		public Group getGroup_4() { return cGroup_4; }
 		
-		//'ELSEIF'
-		public Keyword getELSEIFKeyword_4_0() { return cELSEIFKeyword_4_0; }
+		//'ELSIF'
+		public Keyword getELSIFKeyword_4_0() { return cELSIFKeyword_4_0; }
 		
 		//elseIfCond+=Expression
 		public Assignment getElseIfCondAssignment_4_1() { return cElseIfCondAssignment_4_1; }
@@ -3228,7 +3228,7 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	
 	//IfStatement:
 	//	'IF' mainCond=Expression 'THEN'
-	//	mainStatement=StatementList ('ELSEIF' elseIfCond+=Expression 'THEN'
+	//	mainStatement=StatementList ('ELSIF' elseIfCond+=Expression 'THEN'
 	//	elseIfStatements+=StatementList)* ('ELSE'
 	//	elseStatement=StatementList)?
 	//	'END_IF';

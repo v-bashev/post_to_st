@@ -153,7 +153,7 @@ public class StateGenerator {
               int _minus = (_size - 1);
               IntegerRange _upTo = new IntegerRange(0, _minus);
               for(final Integer i : _upTo) {
-                _builder.append("ELSEIF ");
+                _builder.append("ELSIF ");
                 String _generateExpression_1 = this.generateExpression(((IfStatement)s).getElseIfCond().get((i).intValue()));
                 _builder.append(_generateExpression_1);
                 _builder.append(" THEN");
@@ -376,21 +376,16 @@ public class StateGenerator {
       if (s instanceof SetStateStatement) {
         _matched=true;
         StringConcatenation _builder = new StringConcatenation();
-        String _generateEnumName = this.process.generateEnumName();
-        _builder.append(_generateEnumName);
-        _builder.append(" := ");
         {
           boolean _isNext = ((SetStateStatement)s).isNext();
           if (_isNext) {
-            String _nextState = this.process.getNextState(this);
-            _builder.append(_nextState);
+            String _generateNextState = this.process.generateNextState(this);
+            _builder.append(_generateNextState);
           } else {
-            String _enumStateName = this.process.getEnumStateName(((SetStateStatement)s).getState().getName());
-            _builder.append(_enumStateName);
+            String _generateSetState = this.process.generateSetState(((SetStateStatement)s).getState().getName());
+            _builder.append(_generateSetState);
           }
         }
-        _builder.append(";");
-        _builder.newLineIfNotEmpty();
         return _builder.toString();
       }
     }

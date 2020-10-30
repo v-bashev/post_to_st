@@ -78,7 +78,7 @@ class StateGenerator {
 						«s.mainStatement.generateStatementList»
 					«IF !s.elseIfCond.empty»
 						«FOR i : 0..(s.elseIfCond.size - 1)»
-							ELSEIF «s.elseIfCond.get(i).generateExpression» THEN
+							ELSIF «s.elseIfCond.get(i).generateExpression» THEN
 								«s.elseIfStatements.get(i).generateStatementList»
 						«ENDFOR»
 					«ENDIF»
@@ -128,9 +128,7 @@ class StateGenerator {
 			ErrorProcessStatement:
 				return '''«IF s.process !== null»«program.generateProcessEnum(s.process.name)»«ELSE»«process.generateEnumName»«ENDIF» := «program.generateErrorConstant»;'''
 			SetStateStatement:
-				return '''
-					«process.generateEnumName» := «IF s.next»«process.getNextState(this)»«ELSE»«process.getEnumStateName(s.state.name)»«ENDIF»;
-				'''
+				return '''«IF s.next»«process.generateNextState(this)»«ELSE»«process.generateSetState(s.state.name)»«ENDIF»'''
 			ResetTimerStatement:
 				return '''
 					«process.generateTimeoutName» := «program.generateGlobalTime»;

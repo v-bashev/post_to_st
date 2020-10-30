@@ -29,9 +29,15 @@ class CodeGenerator {
 	List<ProcessGenerator> processList = new LinkedList
 	
 	protected def parseProcesses(EList<Process> processes) {
-		addVar(generateGlobalTime, "TIME")
 		for (p: processes) {
 			processList.add(new ProcessGenerator(this, p))
+		}
+		addVar(generateGlobalTime, "TIME")
+		for (p : processList) {
+			p.addTimeVars()
+		}
+		for (p : processList) {
+			p.addStateVars()
 		}
 		addVar(generateStopConstant, "INT", "254", true)
 		addVar(generateErrorConstant, "INT", "255", true)
@@ -105,6 +111,6 @@ class CodeGenerator {
 	}
 	
 	def boolean isFirstProcess(ProcessGenerator process) {
-		return processList.empty
+		return processList.get(0) == process
 	}
 }

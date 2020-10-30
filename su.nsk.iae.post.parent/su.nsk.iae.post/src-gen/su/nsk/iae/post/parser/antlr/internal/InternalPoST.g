@@ -2201,9 +2201,9 @@ ruleIfStatement returns [EObject current=null]
 			)
 		)
 		(
-			otherlv_4='ELSEIF'
+			otherlv_4='ELSIF'
 			{
-				newLeafNode(otherlv_4, grammarAccess.getIfStatementAccess().getELSEIFKeyword_4_0());
+				newLeafNode(otherlv_4, grammarAccess.getIfStatementAccess().getELSIFKeyword_4_0());
 			}
 			(
 				(

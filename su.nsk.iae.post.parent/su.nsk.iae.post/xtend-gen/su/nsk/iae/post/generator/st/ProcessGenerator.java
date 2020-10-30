@@ -1,9 +1,12 @@
 package su.nsk.iae.post.generator.st;
 
+import com.google.common.base.Objects;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import su.nsk.iae.post.generator.st.CodeGenerator;
 import su.nsk.iae.post.generator.st.StateGenerator;
 import su.nsk.iae.post.generator.st.vars.SimpleVarHelper;
@@ -18,6 +21,8 @@ import su.nsk.iae.post.poST.VarInitDeclaration;
 
 @SuppressWarnings("all")
 public class ProcessGenerator {
+  private CodeGenerator program;
+  
   private su.nsk.iae.post.poST.Process process;
   
   private VarHelper varList = new SimpleVarHelper();
@@ -27,6 +32,7 @@ public class ProcessGenerator {
   private List<StateGenerator> stateList = new LinkedList<StateGenerator>();
   
   public ProcessGenerator(final CodeGenerator program, final su.nsk.iae.post.poST.Process process) {
+    this.program = program;
     this.process = process;
     EList<VarDeclaration> _procVars = process.getProcVars();
     for (final VarDeclaration v : _procVars) {
@@ -61,22 +67,24 @@ public class ProcessGenerator {
       StateGenerator _stateGenerator = new StateGenerator(program, this, s);
       this.stateList.add(_stateGenerator);
     }
-    int _size = this.stateList.size();
-    boolean _greaterThan = (_size > 1);
-    if (_greaterThan) {
-      for (int i = 0; (i < this.stateList.size()); i++) {
-        program.addVar(this.getEnumStateName(this.stateList.get(i).getName()), "INT", Integer.valueOf(i).toString(), true);
-      }
-      boolean _isFirstProcess = program.isFirstProcess(this);
-      if (_isFirstProcess) {
-        program.addVar(this.generateEnumName(), "INT", this.getEnumStateName(this.stateList.get(0).getName()));
-      } else {
-        program.addVar(this.generateEnumName(), "INT", program.generateStopConstant());
-      }
+  }
+  
+  public void addStateVars() {
+    for (int i = 0; (i < this.stateList.size()); i++) {
+      this.program.addVar(this.getEnumStateName(this.stateList.get(i).getName()), "INT", Integer.valueOf(i).toString(), true);
     }
+    boolean _isFirstProcess = this.program.isFirstProcess(this);
+    if (_isFirstProcess) {
+      this.program.addVar(this.generateEnumName(), "INT", this.getEnumStateName(this.stateList.get(0).getName()));
+    } else {
+      this.program.addVar(this.generateEnumName(), "INT", this.program.generateStopConstant());
+    }
+  }
+  
+  public void addTimeVars() {
     boolean _hasTimeouts = this.hasTimeouts();
     if (_hasTimeouts) {
-      program.addVar(this.generateTimeoutName(), "TIME");
+      this.program.addVar(this.generateTimeoutName(), "TIME");
     }
   }
   
@@ -109,7 +117,35 @@ public class ProcessGenerator {
     return _builder.toString();
   }
   
-  public String getNextState(final StateGenerator state) {
+  public String generateSetState(final String stateName) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      final Function1<StateGenerator, Boolean> _function = (StateGenerator it) -> {
+        String _name = it.getName();
+        return Boolean.valueOf(Objects.equal(_name, stateName));
+      };
+      boolean _hasTimeout = IterableExtensions.<StateGenerator>findFirst(this.stateList, _function).hasTimeout();
+      if (_hasTimeout) {
+        String _generateTimeoutName = this.generateTimeoutName();
+        _builder.append(_generateTimeoutName);
+        _builder.append(" := ");
+        String _generateGlobalTime = this.program.generateGlobalTime();
+        _builder.append(_generateGlobalTime);
+        _builder.append(";");
+      }
+    }
+    _builder.newLineIfNotEmpty();
+    String _generateEnumName = this.generateEnumName();
+    _builder.append(_generateEnumName);
+    _builder.append(" := ");
+    String _enumStateName = this.getEnumStateName(stateName);
+    _builder.append(_enumStateName);
+    _builder.append(";");
+    _builder.newLineIfNotEmpty();
+    return _builder.toString();
+  }
+  
+  public String generateNextState(final StateGenerator state) {
     int _indexOf = this.stateList.indexOf(state);
     int _plus = (_indexOf + 1);
     int _size = this.stateList.size();
@@ -117,9 +153,51 @@ public class ProcessGenerator {
     if (_lessThan) {
       int _indexOf_1 = this.stateList.indexOf(state);
       int _plus_1 = (_indexOf_1 + 1);
-      return this.getEnumStateName(this.stateList.get(_plus_1).getName());
+      final StateGenerator s = this.stateList.get(_plus_1);
+      StringConcatenation _builder = new StringConcatenation();
+      {
+        boolean _hasTimeout = s.hasTimeout();
+        if (_hasTimeout) {
+          String _generateTimeoutName = this.generateTimeoutName();
+          _builder.append(_generateTimeoutName);
+          _builder.append(" := ");
+          String _generateGlobalTime = this.program.generateGlobalTime();
+          _builder.append(_generateGlobalTime);
+          _builder.append(";");
+        }
+      }
+      _builder.newLineIfNotEmpty();
+      String _generateEnumName = this.generateEnumName();
+      _builder.append(_generateEnumName);
+      _builder.append(" := ");
+      String _enumStateName = this.getEnumStateName(s.getName());
+      _builder.append(_enumStateName);
+      _builder.append(";");
+      _builder.newLineIfNotEmpty();
+      return _builder.toString();
     }
-    return this.getEnumStateName(this.stateList.get(0).getName());
+    final StateGenerator s_1 = this.stateList.get(0);
+    StringConcatenation _builder_1 = new StringConcatenation();
+    {
+      boolean _hasTimeout_1 = s_1.hasTimeout();
+      if (_hasTimeout_1) {
+        String _generateTimeoutName_1 = this.generateTimeoutName();
+        _builder_1.append(_generateTimeoutName_1);
+        _builder_1.append(" := ");
+        String _generateGlobalTime_1 = this.program.generateGlobalTime();
+        _builder_1.append(_generateGlobalTime_1);
+        _builder_1.append(";");
+      }
+    }
+    _builder_1.newLineIfNotEmpty();
+    String _generateEnumName_1 = this.generateEnumName();
+    _builder_1.append(_generateEnumName_1);
+    _builder_1.append(" := ");
+    String _enumStateName_1 = this.getEnumStateName(s_1.getName());
+    _builder_1.append(_enumStateName_1);
+    _builder_1.append(";");
+    _builder_1.newLineIfNotEmpty();
+    return _builder_1.toString();
   }
   
   public String generateEnumName() {
@@ -160,11 +238,24 @@ public class ProcessGenerator {
         }
       }
     }
+    {
+      boolean _hasTimeout = this.stateList.get(0).hasTimeout();
+      if (_hasTimeout) {
+        String _generateTimeoutName = this.generateTimeoutName();
+        _builder.append(_generateTimeoutName);
+        _builder.append(" := ");
+        String _generateGlobalTime = this.program.generateGlobalTime();
+        _builder.append(_generateGlobalTime);
+        _builder.append(";");
+      }
+    }
+    _builder.newLineIfNotEmpty();
     String _generateEnumName = this.generateEnumName();
     _builder.append(_generateEnumName);
     _builder.append(" := ");
     String _enumStateName = this.getEnumStateName(this.stateList.get(0).getName());
     _builder.append(_enumStateName);
+    _builder.append(";");
     _builder.newLineIfNotEmpty();
     return _builder.toString();
   }

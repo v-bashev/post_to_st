@@ -5645,9 +5645,9 @@ rule__IfStatement__Group_4__0__Impl
 	}
 :
 (
-	{ before(grammarAccess.getIfStatementAccess().getELSEIFKeyword_4_0()); }
-	'ELSEIF'
-	{ after(grammarAccess.getIfStatementAccess().getELSEIFKeyword_4_0()); }
+	{ before(grammarAccess.getIfStatementAccess().getELSIFKeyword_4_0()); }
+	'ELSIF'
+	{ after(grammarAccess.getIfStatementAccess().getELSIFKeyword_4_0()); }
 )
 ;
 finally {
