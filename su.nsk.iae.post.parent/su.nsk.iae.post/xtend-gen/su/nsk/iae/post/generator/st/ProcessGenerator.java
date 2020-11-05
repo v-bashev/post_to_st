@@ -94,10 +94,10 @@ public class ProcessGenerator {
   
   public String getEnumStateName(final String name) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("PROCESS_");
+    _builder.append("_P_");
     String _upperCase = this.getName().toUpperCase();
     _builder.append(_upperCase);
-    _builder.append("_STATE_");
+    _builder.append("_S_");
     String _upperCase_1 = name.toUpperCase();
     _builder.append(_upperCase_1);
     return _builder.toString();
@@ -109,10 +109,10 @@ public class ProcessGenerator {
   
   public String getVarName(final String variable) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("process_");
-    String _lowerCase = this.getName().toLowerCase();
-    _builder.append(_lowerCase);
-    _builder.append("_var_");
+    _builder.append("_p_");
+    String _name = this.getName();
+    _builder.append(_name);
+    _builder.append("_v_");
     _builder.append(variable);
     return _builder.toString();
   }
@@ -202,19 +202,19 @@ public class ProcessGenerator {
   
   public String generateEnumName() {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("g_process_");
-    String _lowerCase = this.getName().toLowerCase();
-    _builder.append(_lowerCase);
-    _builder.append("_current_state");
+    _builder.append("_g_p_");
+    String _name = this.getName();
+    _builder.append(_name);
+    _builder.append("_state");
     return _builder.toString();
   }
   
   public String generateTimeoutName() {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("g_process_");
-    String _lowerCase = this.getName().toLowerCase();
-    _builder.append(_lowerCase);
-    _builder.append("_start_time");
+    _builder.append("_g_p_");
+    String _name = this.getName();
+    _builder.append(_name);
+    _builder.append("_time");
     return _builder.toString();
   }
   
@@ -224,14 +224,12 @@ public class ProcessGenerator {
       List<VarData> _list = this.varList.getList();
       for(final VarData v : _list) {
         {
-          String _value = v.getValue();
-          boolean _tripleNotEquals = (_value != null);
-          if (_tripleNotEquals) {
+          if (((v.getValue() != null) && (!v.isConstant()))) {
             String _varName = this.getVarName(v.getName());
             _builder.append(_varName);
             _builder.append(" := ");
-            String _value_1 = v.getValue();
-            _builder.append(_value_1);
+            String _value = v.getValue();
+            _builder.append(_value);
             _builder.append(";");
             _builder.newLineIfNotEmpty();
           }

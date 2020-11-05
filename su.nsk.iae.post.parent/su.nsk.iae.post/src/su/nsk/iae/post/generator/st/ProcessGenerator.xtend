@@ -67,7 +67,7 @@ class ProcessGenerator {
 	}
 	
 	def String getEnumStateName(String name) {
-		return '''PROCESS_«this.name.toUpperCase»_STATE_«name.toUpperCase»'''
+		return '''_P_«this.name.toUpperCase»_S_«name.toUpperCase»'''
 	}
 	
 	def boolean containsVar(String name) {
@@ -75,7 +75,7 @@ class ProcessGenerator {
 	}
 	
 	def String getVarName(String variable) {
-		return '''process_«name.toLowerCase»_var_«variable»'''
+		return '''_p_«name»_v_«variable»'''
 	}
 	
 	def String generateSetState(String stateName) '''
@@ -99,16 +99,16 @@ class ProcessGenerator {
 	}
 	
 	def String generateEnumName() {
-		return '''g_process_«name.toLowerCase»_current_state'''
+		return '''_g_p_«name»_state'''
 	}
 	
 	def String generateTimeoutName() {
-		return '''g_process_«name.toLowerCase»_start_time'''
+		return '''_g_p_«name»_time'''
 	}
 	
 	def String generateStart() '''
 		«FOR v : varList.list»
-			«IF v.value !== null»
+			«IF v.value !== null && ! v.isConstant»
 				«v.name.varName» := «v.value»;
 			«ENDIF»
 		«ENDFOR»

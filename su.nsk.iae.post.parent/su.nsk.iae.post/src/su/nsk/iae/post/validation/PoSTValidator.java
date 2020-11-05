@@ -42,9 +42,9 @@ import su.nsk.iae.post.poST.VarDeclaration;
 import su.nsk.iae.post.poST.VarInitDeclaration;
 
 public class PoSTValidator extends AbstractPoSTValidator {
-	
+
 	/* ======================= START Variables Validator ======================= */
-	
+
 	@Check
 	public void checkVariableNameConflicts(SymbolicVariable varName) {
 		Process process = EcoreUtil2.getContainerOfType(varName, Process.class);
@@ -65,28 +65,28 @@ public class PoSTValidator extends AbstractPoSTValidator {
 			return;
 		}
 	}
-	
+
 	@Check
 	public void checkNeverUseVariable(SymbolicVariable varName) {
 		Program program = EcoreUtil2.getContainerOfType(varName, Program.class);
 		if ((program != null) && !hasCrossReferences(program, varName)) {
 			warning("Variable is never use", PoSTPackage.eINSTANCE.getSymbolicVariable_Name());
 		}
-		
+
 	}
-	
+
 	@Check
 	public void checkAssignmentStatement(AssignmentStatement statement) {
 		SymbolicVariable varName = statement.getVariable();
-		if (checkVariableNameConflictsInProcess(EcoreUtil2.getContainerOfType(statement, Process.class), varName) ||
-				checkVariableNameConflictsInProgram(EcoreUtil2.getContainerOfType(statement, Program.class), varName)) {
+		if (checkVariableNameConflictsInProcess(EcoreUtil2.getContainerOfType(statement, Process.class), varName)
+				|| checkVariableNameConflictsInProgram(EcoreUtil2.getContainerOfType(statement, Program.class),
+						varName)) {
 			error("Scope error: Variable is not visible in this process",
 					PoSTPackage.eINSTANCE.getAssignmentStatement_Variable());
 			return;
 		}
 		if ((EcoreUtil2.getContainerOfType(varName, InputVarDeclaration.class) != null)) {
-			warning("Modification of input varsiable",
-					PoSTPackage.eINSTANCE.getAssignmentStatement_Variable());
+			warning("Modification of input varsiable", PoSTPackage.eINSTANCE.getAssignmentStatement_Variable());
 			return;
 		}
 		VarDeclaration inputDecl = EcoreUtil2.getContainerOfType(varName, VarDeclaration.class);
@@ -96,52 +96,49 @@ public class PoSTValidator extends AbstractPoSTValidator {
 					PoSTPackage.eINSTANCE.getAssignmentStatement_Variable());
 		}
 	}
-	
+
 	@Check
 	public void chekPrimaryExpression(PrimaryExpression expr) {
 		if (expr.getVariable() == null) {
 			return;
 		}
 		SymbolicVariable varName = expr.getVariable();
-		if (checkVariableNameConflictsInProcess(EcoreUtil2.getContainerOfType(expr, Process.class), varName) ||
-				checkVariableNameConflictsInProgram(EcoreUtil2.getContainerOfType(expr, Program.class), varName)) {
+		if (checkVariableNameConflictsInProcess(EcoreUtil2.getContainerOfType(expr, Process.class), varName)
+				|| checkVariableNameConflictsInProgram(EcoreUtil2.getContainerOfType(expr, Program.class), varName)) {
 			error("Scope error: Variable is not visible in this process",
 					PoSTPackage.eINSTANCE.getPrimaryExpression_Variable());
 			return;
 		}
 	}
-	
+
 	/* ======================= END Variables Validator ======================= */
-	
+
 	/* ======================= START poST Validator ======================= */
-	
+
 	@Check
 	public void checkEmptyProgram(Program program) {
 		if (program.getProcesses().isEmpty()) {
-			error("Statement error: Program can't be empty",
-					PoSTPackage.eINSTANCE.getProcess_Name());
+			error("Statement error: Program can't be empty", PoSTPackage.eINSTANCE.getProcess_Name());
 		}
 	}
-	
+
 	@Check
 	public void checkProcessNameConflicts(Process process) {
 		Program program = EcoreUtil2.getContainerOfType(process, Program.class);
 		for (Process p : program.getProcesses()) {
 			if ((p != process) && p.getName().equals(process.getName())) {
-				error("Name error: Process with this name already exists",
-						PoSTPackage.eINSTANCE.getProcess_Name());
+				error("Name error: Process with this name already exists", PoSTPackage.eINSTANCE.getProcess_Name());
 			}
 		}
 	}
-	
+
 	@Check
 	public void checkEmptyProcess(Process process) {
 		if (process.getStates().isEmpty()) {
-			error("Statement error: Process can't be empty",
-					PoSTPackage.eINSTANCE.getProcess_Name());
+			error("Statement error: Process can't be empty", PoSTPackage.eINSTANCE.getProcess_Name());
 		}
 	}
-	
+
 	@Check
 	public void checkProcessUnreachable(Process process) {
 		Program program = EcoreUtil2.getContainerOfType(process, Program.class);
@@ -158,29 +155,26 @@ public class PoSTValidator extends AbstractPoSTValidator {
 				}
 			}
 		}
-		warning("Process is unreachable", 
-				PoSTPackage.eINSTANCE.getProcess_Name());
+		warning("Process is unreachable", PoSTPackage.eINSTANCE.getProcess_Name());
 	}
-	
+
 	@Check
 	public void checkStateNameConflicts(su.nsk.iae.post.poST.State state) {
 		Process process = EcoreUtil2.getContainerOfType(state, Process.class);
 		for (su.nsk.iae.post.poST.State s : process.getStates()) {
 			if ((s != state) && s.getName().equals(state.getName())) {
-				error("Name error: State with this name already exists",
-						PoSTPackage.eINSTANCE.getState_Name());
+				error("Name error: State with this name already exists", PoSTPackage.eINSTANCE.getState_Name());
 			}
 		}
 	}
-	
+
 	@Check
 	public void checkEmptyState(su.nsk.iae.post.poST.State state) {
 		if (state.getStatement().getStatements().isEmpty() && state.getTimeout() == null) {
-			error("Statement error: State can't be empty",
-					PoSTPackage.eINSTANCE.getState_Name());
+			error("Statement error: State can't be empty", PoSTPackage.eINSTANCE.getState_Name());
 		}
 	}
-	
+
 	@Check
 	public void checkUnreachableState(su.nsk.iae.post.poST.State state) {
 		Process process = EcoreUtil2.getContainerOfType(state, Process.class);
@@ -197,15 +191,15 @@ public class PoSTValidator extends AbstractPoSTValidator {
 				}
 			}
 		}
-		for (SetStateStatement s : EcoreUtil2.getAllContentsOfType(process.getStates().get(process.getStates().indexOf(state) - 1), SetStateStatement.class)) {
+		for (SetStateStatement s : EcoreUtil2.getAllContentsOfType(
+				process.getStates().get(process.getStates().indexOf(state) - 1), SetStateStatement.class)) {
 			if (s.isNext()) {
 				return;
 			}
 		}
-		warning("State is unreachable", 
-				PoSTPackage.eINSTANCE.getState_Name());
+		warning("State is unreachable", PoSTPackage.eINSTANCE.getState_Name());
 	}
-	
+
 	@Check
 	public void checkLoopedState(su.nsk.iae.post.poST.State state) {
 		boolean check = containsStatement(state.getStatement(), SetStateStatement.class);
@@ -223,26 +217,23 @@ public class PoSTValidator extends AbstractPoSTValidator {
 		}
 		if (state.isLooped()) {
 			if (check) {
-				warning("State mustn't be LOOPED", 
-						PoSTPackage.eINSTANCE.getState_Looped());
+				warning("State mustn't be LOOPED", PoSTPackage.eINSTANCE.getState_Looped());
 			}
 		} else {
 			if (!check) {
-				warning("State must be LOOPED", 
-						PoSTPackage.eINSTANCE.getState_Name());
+				warning("State must be LOOPED", PoSTPackage.eINSTANCE.getState_Name());
 			}
 		}
 	}
-	
+
 	@Check
 	public void checkProcessStatusExpression(ProcessStatusExpression expr) {
 		Program program = EcoreUtil2.getContainerOfType(expr, Program.class);
 		if (!program.getProcesses().contains(expr.getProcess())) {
-			error("Name error: No process with this name",
-					PoSTPackage.eINSTANCE.getProcessStatements_Process());
+			error("Name error: No process with this name", PoSTPackage.eINSTANCE.getProcessStatements_Process());
 		}
 	}
-	
+
 	@Check
 	public void checkNextState(SetStateStatement statement) {
 		Process process = EcoreUtil2.getContainerOfType(statement, Process.class);
@@ -257,12 +248,11 @@ public class PoSTValidator extends AbstractPoSTValidator {
 				error("Invalide statement: No state with this name",
 						PoSTPackage.eINSTANCE.getSetStateStatement_State());
 			} else if (state.getName().equals(statement.getState().getName())) {
-				warning("Useless statement, use RESET TIMER", 
-						PoSTPackage.eINSTANCE.getSetStateStatement_State());
+				warning("Useless statement, use RESET TIMER", PoSTPackage.eINSTANCE.getSetStateStatement_State());
 			}
 		}
 	}
-	
+
 	@Check
 	public void checkStartProcessStatement(StartProcessStatement statement) {
 		if (statement.getProcess() == null) {
@@ -273,7 +263,7 @@ public class PoSTValidator extends AbstractPoSTValidator {
 			error("Invalide statement: No process with this name", null);
 		}
 	}
-	
+
 	@Check
 	public void checkStopProcessStatement(StopProcessStatement statement) {
 		if (statement.getProcess() == null) {
@@ -284,7 +274,7 @@ public class PoSTValidator extends AbstractPoSTValidator {
 			error("Invalide statement: No process with this name", null);
 		}
 	}
-	
+
 	@Check
 	public void checkErrorProcessStatement(ErrorProcessStatement statement) {
 		if (statement.getProcess() == null) {
@@ -295,15 +285,14 @@ public class PoSTValidator extends AbstractPoSTValidator {
 			error("Invalide statement: No process with this name", null);
 		}
 	}
-	
+
 	@Check
 	public void checkTimeoutStatement(TimeoutStatement statement) {
 		if (statement.getStatement().getStatements().isEmpty()) {
-			error("Statement error: No reaction on timeout",
-					PoSTPackage.eINSTANCE.getTimeoutStatement_Statement());
+			error("Statement error: No reaction on timeout", PoSTPackage.eINSTANCE.getTimeoutStatement_Statement());
 		}
 	}
-	
+
 	@Check
 	public void checkTimeLiteral(TimeLiteral time) {
 		String str = time.getInterval().replaceAll("ms", "q");
@@ -332,28 +321,28 @@ public class PoSTValidator extends AbstractPoSTValidator {
 					PoSTPackage.eINSTANCE.getTimeLiteral_Interval());
 		}
 	}
-	
+
 	/* ======================= END poST Validator ======================= */
-	
+
 	@Check
 	public void checkIfStatement(IfStatement statement) {
 		if (statement.getMainStatement().getStatements().isEmpty()) {
-			warning("Statement boby is empty", 
-					PoSTPackage.eINSTANCE.getIfStatement_MainStatement());
+			warning("Statement boby is empty", PoSTPackage.eINSTANCE.getIfStatement_MainStatement());
 		}
 	}
-	
+
 	private boolean hasCrossReferences(EObject context, EObject target) {
 		Set<EObject> targetSet = new HashSet<EObject>();
 		targetSet.add(target);
 		List<EReference> res = new ArrayList<EReference>();
-		EcoreUtil2.ElementReferenceAcceptor acceptor = (EObject referrer, EObject referenced, EReference reference, int index) -> {
-				res.add(reference);
+		EcoreUtil2.ElementReferenceAcceptor acceptor = (EObject referrer, EObject referenced, EReference reference,
+				int index) -> {
+			res.add(reference);
 		};
 		EcoreUtil2.findCrossReferences(context, targetSet, acceptor);
 		return !res.isEmpty();
 	}
-	
+
 	private <T extends Statement> boolean containsStatement(StatementList list, Class<T> type) {
 		for (Statement s : list.getStatements()) {
 			if (type.isInstance(s)) {
@@ -386,7 +375,7 @@ public class PoSTValidator extends AbstractPoSTValidator {
 		}
 		return false;
 	}
-	
+
 	private boolean checkVariableNameConflictsInProcess(Process process, SymbolicVariable varName) {
 		for (VarDeclaration varDecl : process.getProcVars()) {
 			if (checkVarInitDeclaration(varDecl.getVars(), varName)) {
@@ -400,7 +389,7 @@ public class PoSTValidator extends AbstractPoSTValidator {
 		}
 		return false;
 	}
-	
+
 	private boolean checkVariableNameConflictsInProgram(Program program, SymbolicVariable varName) {
 		for (InputVarDeclaration varDecl : program.getProgInVars()) {
 			if (checkVarInitDeclaration(varDecl.getVars(), varName)) {
@@ -434,7 +423,7 @@ public class PoSTValidator extends AbstractPoSTValidator {
 		}
 		return false;
 	}
-	
+
 	private boolean checkVarInitDeclaration(EList<VarInitDeclaration> decls, SymbolicVariable varName) {
 		for (VarInitDeclaration varList : decls) {
 			for (SymbolicVariable v : varList.getVarList().getVars()) {
@@ -445,7 +434,7 @@ public class PoSTValidator extends AbstractPoSTValidator {
 		}
 		return false;
 	}
-	
+
 	private boolean checkExternalVarInitDeclaration(EList<ExternalVarInitDeclaration> decls, SymbolicVariable varName) {
 		for (ExternalVarInitDeclaration varList : decls) {
 			for (SymbolicVariable v : varList.getVarList().getVars()) {

@@ -67,15 +67,15 @@ class CodeGenerator {
 	'''
 	
 	def String generateStopConstant() {
-		return '''ALL_PROCESSES_STOP_CONSTANT'''
+		return '''_STOP'''
 	}
 	
 	def String generateErrorConstant() {
-		return '''ALL_PROCESSES_ERROR_CONSTANT'''
+		return '''_ERROR'''
 	}
 	
 	def String generateGlobalTime() {
-		return '''cycle_global_time'''
+		return '''_global_time'''
 	}
 	
 	def String generateProcessEnum(String processName) {

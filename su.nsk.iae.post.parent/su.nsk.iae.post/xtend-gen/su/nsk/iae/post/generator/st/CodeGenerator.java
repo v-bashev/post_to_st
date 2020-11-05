@@ -110,19 +110,19 @@ public class CodeGenerator {
   
   public String generateStopConstant() {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("ALL_PROCESSES_STOP_CONSTANT");
+    _builder.append("_STOP");
     return _builder.toString();
   }
   
   public String generateErrorConstant() {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("ALL_PROCESSES_ERROR_CONSTANT");
+    _builder.append("_ERROR");
     return _builder.toString();
   }
   
   public String generateGlobalTime() {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cycle_global_time");
+    _builder.append("_global_time");
     return _builder.toString();
   }
   
