@@ -143,10 +143,11 @@ terminal POWER_OPERATOR:
 	'**';
 
 UnaryExpression:
-	PrimaryExpression | (UNARY_OPERATOR right=PrimaryExpression);
+	PrimaryExpression | (unOp=UnaryOperator right=PrimaryExpression);
 
-terminal UNARY_OPERATOR:
-	'NOT';
+enum UnaryOperator:
+	NOT='NOT' | UNMINUS='-'
+;
 
 PrimaryExpression:
 	const=Constant | variable=[SymbolicVariable] | procStatus=ProcessStatusExpression | '(' nestExpr=Expression ')';

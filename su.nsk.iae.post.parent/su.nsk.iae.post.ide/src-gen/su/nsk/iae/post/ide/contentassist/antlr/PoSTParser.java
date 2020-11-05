@@ -55,6 +55,7 @@ public class PoSTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getEquOperatorAccess().getAlternatives(), "rule__EquOperator__Alternatives");
 			builder.put(grammarAccess.getAddOperatorAccess().getAlternatives(), "rule__AddOperator__Alternatives");
 			builder.put(grammarAccess.getMulOperatorAccess().getAlternatives(), "rule__MulOperator__Alternatives");
+			builder.put(grammarAccess.getUnaryOperatorAccess().getAlternatives(), "rule__UnaryOperator__Alternatives");
 			builder.put(grammarAccess.getProgramAccess().getGroup(), "rule__Program__Group__0");
 			builder.put(grammarAccess.getFunctionBlockAccess().getGroup(), "rule__FunctionBlock__Group__0");
 			builder.put(grammarAccess.getSetStateStatementAccess().getGroup(), "rule__SetStateStatement__Group__0");
@@ -195,6 +196,7 @@ public class PoSTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMulExpressionAccess().getMulOpAssignment_1_1(), "rule__MulExpression__MulOpAssignment_1_1");
 			builder.put(grammarAccess.getMulExpressionAccess().getRightAssignment_1_2(), "rule__MulExpression__RightAssignment_1_2");
 			builder.put(grammarAccess.getPowerExpressionAccess().getRightAssignment_1_2(), "rule__PowerExpression__RightAssignment_1_2");
+			builder.put(grammarAccess.getUnaryExpressionAccess().getUnOpAssignment_1_0(), "rule__UnaryExpression__UnOpAssignment_1_0");
 			builder.put(grammarAccess.getUnaryExpressionAccess().getRightAssignment_1_1(), "rule__UnaryExpression__RightAssignment_1_1");
 			builder.put(grammarAccess.getPrimaryExpressionAccess().getConstAssignment_0(), "rule__PrimaryExpression__ConstAssignment_0");
 			builder.put(grammarAccess.getPrimaryExpressionAccess().getVariableAssignment_1(), "rule__PrimaryExpression__VariableAssignment_1");

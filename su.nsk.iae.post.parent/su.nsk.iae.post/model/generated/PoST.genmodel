@@ -25,6 +25,10 @@
       <genEnumLiterals ecoreEnumLiteral="PoST.ecore#//MulOperator/DIV"/>
       <genEnumLiterals ecoreEnumLiteral="PoST.ecore#//MulOperator/MOD"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="PoST.ecore#//UnaryOperator">
+      <genEnumLiterals ecoreEnumLiteral="PoST.ecore#//UnaryOperator/NOT"/>
+      <genEnumLiterals ecoreEnumLiteral="PoST.ecore#//UnaryOperator/UNMINUS"/>
+    </genEnums>
     <genClasses ecoreClass="PoST.ecore#//Model">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//Model/programs"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//Model/fbs"/>
@@ -103,7 +107,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//MulExpression/mulOp"/>
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//PowerExpression"/>
-    <genClasses ecoreClass="PoST.ecore#//UnaryExpression"/>
+    <genClasses ecoreClass="PoST.ecore#//UnaryExpression">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//UnaryExpression/unOp"/>
+    </genClasses>
     <genClasses ecoreClass="PoST.ecore#//PrimaryExpression">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//PrimaryExpression/const"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference PoST.ecore#//PrimaryExpression/variable"/>

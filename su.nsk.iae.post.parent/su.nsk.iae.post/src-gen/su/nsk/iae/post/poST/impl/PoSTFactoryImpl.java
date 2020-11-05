@@ -69,6 +69,7 @@ import su.nsk.iae.post.poST.TempVarDeclaration;
 import su.nsk.iae.post.poST.TimeLiteral;
 import su.nsk.iae.post.poST.TimeoutStatement;
 import su.nsk.iae.post.poST.UnaryExpression;
+import su.nsk.iae.post.poST.UnaryOperator;
 import su.nsk.iae.post.poST.VarDeclaration;
 import su.nsk.iae.post.poST.VarInitDeclaration;
 import su.nsk.iae.post.poST.VarList;
@@ -207,6 +208,8 @@ public class PoSTFactoryImpl extends EFactoryImpl implements PoSTFactory
         return createAddOperatorFromString(eDataType, initialValue);
       case PoSTPackage.MUL_OPERATOR:
         return createMulOperatorFromString(eDataType, initialValue);
+      case PoSTPackage.UNARY_OPERATOR:
+        return createUnaryOperatorFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -230,6 +233,8 @@ public class PoSTFactoryImpl extends EFactoryImpl implements PoSTFactory
         return convertAddOperatorToString(eDataType, instanceValue);
       case PoSTPackage.MUL_OPERATOR:
         return convertMulOperatorToString(eDataType, instanceValue);
+      case PoSTPackage.UNARY_OPERATOR:
+        return convertUnaryOperatorToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -1003,6 +1008,28 @@ public class PoSTFactoryImpl extends EFactoryImpl implements PoSTFactory
    * @generated
    */
   public String convertMulOperatorToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public UnaryOperator createUnaryOperatorFromString(EDataType eDataType, String initialValue)
+  {
+    UnaryOperator result = UnaryOperator.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertUnaryOperatorToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

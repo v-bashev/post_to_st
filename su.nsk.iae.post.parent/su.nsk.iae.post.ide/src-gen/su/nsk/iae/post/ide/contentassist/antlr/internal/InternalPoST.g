@@ -1595,6 +1595,22 @@ finally {
 	restoreStackSize(stackSize);
 }
 
+// Rule UnaryOperator
+ruleUnaryOperator
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getUnaryOperatorAccess().getAlternatives()); }
+		(rule__UnaryOperator__Alternatives)
+		{ after(grammarAccess.getUnaryOperatorAccess().getAlternatives()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
 rule__Model__Alternatives
 	@init {
 		int stackSize = keepStackSize();
@@ -2246,6 +2262,27 @@ rule__MulOperator__Alternatives
 		{ before(grammarAccess.getMulOperatorAccess().getMODEnumLiteralDeclaration_2()); }
 		('MOD')
 		{ after(grammarAccess.getMulOperatorAccess().getMODEnumLiteralDeclaration_2()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__UnaryOperator__Alternatives
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getUnaryOperatorAccess().getNOTEnumLiteralDeclaration_0()); }
+		('NOT')
+		{ after(grammarAccess.getUnaryOperatorAccess().getNOTEnumLiteralDeclaration_0()); }
+	)
+	|
+	(
+		{ before(grammarAccess.getUnaryOperatorAccess().getUNMINUSEnumLiteralDeclaration_1()); }
+		('-')
+		{ after(grammarAccess.getUnaryOperatorAccess().getUNMINUSEnumLiteralDeclaration_1()); }
 	)
 ;
 finally {
@@ -4862,9 +4899,9 @@ rule__UnaryExpression__Group_1__0__Impl
 	}
 :
 (
-	{ before(grammarAccess.getUnaryExpressionAccess().getUNARY_OPERATORTerminalRuleCall_1_0()); }
-	RULE_UNARY_OPERATOR
-	{ after(grammarAccess.getUnaryExpressionAccess().getUNARY_OPERATORTerminalRuleCall_1_0()); }
+	{ before(grammarAccess.getUnaryExpressionAccess().getUnOpAssignment_1_0()); }
+	(rule__UnaryExpression__UnOpAssignment_1_0)
+	{ after(grammarAccess.getUnaryExpressionAccess().getUnOpAssignment_1_0()); }
 )
 ;
 finally {
@@ -9810,6 +9847,21 @@ finally {
 	restoreStackSize(stackSize);
 }
 
+rule__UnaryExpression__UnOpAssignment_1_0
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getUnaryExpressionAccess().getUnOpUnaryOperatorEnumRuleCall_1_0_0()); }
+		ruleUnaryOperator
+		{ after(grammarAccess.getUnaryExpressionAccess().getUnOpUnaryOperatorEnumRuleCall_1_0_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
 rule__UnaryExpression__RightAssignment_1_1
 	@init {
 		int stackSize = keepStackSize();
@@ -10715,8 +10767,6 @@ RULE_XOR_OPERATOR : 'XOR';
 RULE_AND_OPERATOR : ('&'|'AND');
 
 RULE_POWER_OPERATOR : '**';
-
-RULE_UNARY_OPERATOR : 'NOT';
 
 RULE_DIRECT_VARIABLE : '%' RULE_DIRECT_TYPE_PREFIX RULE_DIRECT_SIZE_PREFIX RULE_INTEGER ('.' RULE_INTEGER)*;
 

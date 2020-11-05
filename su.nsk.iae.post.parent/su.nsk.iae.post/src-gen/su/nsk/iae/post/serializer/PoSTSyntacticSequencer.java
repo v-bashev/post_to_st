@@ -49,8 +49,6 @@ public class PoSTSyntacticSequencer extends AbstractSyntacticSequencer {
 			return getPOWER_OPERATORToken(semanticObject, ruleCall, node);
 		else if (ruleCall.getRule() == grammarAccess.getTIME_PREF_LITERALRule())
 			return getTIME_PREF_LITERALToken(semanticObject, ruleCall, node);
-		else if (ruleCall.getRule() == grammarAccess.getUNARY_OPERATORRule())
-			return getUNARY_OPERATORToken(semanticObject, ruleCall, node);
 		else if (ruleCall.getRule() == grammarAccess.getXOR_OPERATORRule())
 			return getXOR_OPERATORToken(semanticObject, ruleCall, node);
 		return "";
@@ -134,16 +132,6 @@ public class PoSTSyntacticSequencer extends AbstractSyntacticSequencer {
 		if (node != null)
 			return getTokenText(node);
 		return "T";
-	}
-	
-	/**
-	 * terminal UNARY_OPERATOR:
-	 * 	'NOT';
-	 */
-	protected String getUNARY_OPERATORToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (node != null)
-			return getTokenText(node);
-		return "NOT";
 	}
 	
 	/**

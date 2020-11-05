@@ -1087,14 +1087,17 @@ public class PoSTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     UnaryExpression returns UnaryExpression
 	 *
 	 * Constraint:
-	 *     right=PrimaryExpression
+	 *     (unOp=UnaryOperator right=PrimaryExpression)
 	 */
 	protected void sequence_UnaryExpression(ISerializationContext context, UnaryExpression semanticObject) {
 		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, PoSTPackage.Literals.UNARY_EXPRESSION__UN_OP) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, PoSTPackage.Literals.UNARY_EXPRESSION__UN_OP));
 			if (transientValues.isValueTransient(semanticObject, PoSTPackage.Literals.EXPRESSION__RIGHT) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, PoSTPackage.Literals.EXPRESSION__RIGHT));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getUnaryExpressionAccess().getUnOpUnaryOperatorEnumRuleCall_1_0_0(), semanticObject.getUnOp());
 		feeder.accept(grammarAccess.getUnaryExpressionAccess().getRightPrimaryExpressionParserRuleCall_1_1_0(), semanticObject.getRight());
 		feeder.finish();
 	}

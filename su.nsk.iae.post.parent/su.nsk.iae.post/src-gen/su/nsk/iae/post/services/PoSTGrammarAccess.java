@@ -1013,25 +1013,29 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cPrimaryExpressionParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
-		private final RuleCall cUNARY_OPERATORTerminalRuleCall_1_0 = (RuleCall)cGroup_1.eContents().get(0);
+		private final Assignment cUnOpAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cUnOpUnaryOperatorEnumRuleCall_1_0_0 = (RuleCall)cUnOpAssignment_1_0.eContents().get(0);
 		private final Assignment cRightAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
 		private final RuleCall cRightPrimaryExpressionParserRuleCall_1_1_0 = (RuleCall)cRightAssignment_1_1.eContents().get(0);
 		
 		//UnaryExpression:
-		//	PrimaryExpression | UNARY_OPERATOR right=PrimaryExpression;
+		//	PrimaryExpression | unOp=UnaryOperator right=PrimaryExpression;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//PrimaryExpression | UNARY_OPERATOR right=PrimaryExpression
+		//PrimaryExpression | unOp=UnaryOperator right=PrimaryExpression
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//PrimaryExpression
 		public RuleCall getPrimaryExpressionParserRuleCall_0() { return cPrimaryExpressionParserRuleCall_0; }
 		
-		//UNARY_OPERATOR right=PrimaryExpression
+		//unOp=UnaryOperator right=PrimaryExpression
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//UNARY_OPERATOR
-		public RuleCall getUNARY_OPERATORTerminalRuleCall_1_0() { return cUNARY_OPERATORTerminalRuleCall_1_0; }
+		//unOp=UnaryOperator
+		public Assignment getUnOpAssignment_1_0() { return cUnOpAssignment_1_0; }
+		
+		//UnaryOperator
+		public RuleCall getUnOpUnaryOperatorEnumRuleCall_1_0_0() { return cUnOpUnaryOperatorEnumRuleCall_1_0_0; }
 		
 		//right=PrimaryExpression
 		public Assignment getRightAssignment_1_1() { return cRightAssignment_1_1; }
@@ -2643,6 +2647,33 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//'MOD'
 		public Keyword getMODMODKeyword_2_0() { return cMODMODKeyword_2_0; }
 	}
+	public class UnaryOperatorElements extends AbstractElementFinder.AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "su.nsk.iae.post.PoST.UnaryOperator");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cNOTEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cNOTNOTKeyword_0_0 = (Keyword)cNOTEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cUNMINUSEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cUNMINUSHyphenMinusKeyword_1_0 = (Keyword)cUNMINUSEnumLiteralDeclaration_1.eContents().get(0);
+		
+		//enum UnaryOperator:
+		//	NOT | UNMINUS='-';
+		public EnumRule getRule() { return rule; }
+		
+		//NOT | UNMINUS='-'
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//NOT
+		public EnumLiteralDeclaration getNOTEnumLiteralDeclaration_0() { return cNOTEnumLiteralDeclaration_0; }
+		
+		//'NOT'
+		public Keyword getNOTNOTKeyword_0_0() { return cNOTNOTKeyword_0_0; }
+		
+		//UNMINUS='-'
+		public EnumLiteralDeclaration getUNMINUSEnumLiteralDeclaration_1() { return cUNMINUSEnumLiteralDeclaration_1; }
+		
+		//'-'
+		public Keyword getUNMINUSHyphenMinusKeyword_1_0() { return cUNMINUSHyphenMinusKeyword_1_0; }
+	}
 	
 	private final ModelElements pModel;
 	private final ProgramElements pProgram;
@@ -2674,7 +2705,7 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final PowerExpressionElements pPowerExpression;
 	private final TerminalRule tPOWER_OPERATOR;
 	private final UnaryExpressionElements pUnaryExpression;
-	private final TerminalRule tUNARY_OPERATOR;
+	private final UnaryOperatorElements eUnaryOperator;
 	private final PrimaryExpressionElements pPrimaryExpression;
 	private final StatementListElements pStatementList;
 	private final StatementElements pStatement;
@@ -2776,7 +2807,7 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pPowerExpression = new PowerExpressionElements();
 		this.tPOWER_OPERATOR = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "su.nsk.iae.post.PoST.POWER_OPERATOR");
 		this.pUnaryExpression = new UnaryExpressionElements();
-		this.tUNARY_OPERATOR = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "su.nsk.iae.post.PoST.UNARY_OPERATOR");
+		this.eUnaryOperator = new UnaryOperatorElements();
 		this.pPrimaryExpression = new PrimaryExpressionElements();
 		this.pStatementList = new StatementListElements();
 		this.pStatement = new StatementElements();
@@ -3160,7 +3191,7 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	
 	//UnaryExpression:
-	//	PrimaryExpression | UNARY_OPERATOR right=PrimaryExpression;
+	//	PrimaryExpression | unOp=UnaryOperator right=PrimaryExpression;
 	public UnaryExpressionElements getUnaryExpressionAccess() {
 		return pUnaryExpression;
 	}
@@ -3169,10 +3200,14 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return getUnaryExpressionAccess().getRule();
 	}
 	
-	//terminal UNARY_OPERATOR:
-	//	'NOT';
-	public TerminalRule getUNARY_OPERATORRule() {
-		return tUNARY_OPERATOR;
+	//enum UnaryOperator:
+	//	NOT | UNMINUS='-';
+	public UnaryOperatorElements getUnaryOperatorAccess() {
+		return eUnaryOperator;
+	}
+	
+	public EnumRule getUnaryOperatorRule() {
+		return getUnaryOperatorAccess().getRule();
 	}
 	
 	//PrimaryExpression:

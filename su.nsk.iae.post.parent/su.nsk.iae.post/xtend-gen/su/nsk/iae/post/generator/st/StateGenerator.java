@@ -39,6 +39,7 @@ import su.nsk.iae.post.poST.StopProcessStatement;
 import su.nsk.iae.post.poST.SymbolicVariable;
 import su.nsk.iae.post.poST.TimeoutStatement;
 import su.nsk.iae.post.poST.UnaryExpression;
+import su.nsk.iae.post.poST.UnaryOperator;
 import su.nsk.iae.post.poST.WhileStatement;
 import su.nsk.iae.post.poST.XorExpression;
 
@@ -444,7 +445,19 @@ public class StateGenerator {
       if (exp instanceof UnaryExpression) {
         _matched=true;
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("NOT ");
+        {
+          UnaryOperator _unOp = ((UnaryExpression)exp).getUnOp();
+          boolean _equals = Objects.equal(_unOp, UnaryOperator.NOT);
+          if (_equals) {
+            _builder.append("NOT ");
+          } else {
+            UnaryOperator _unOp_1 = ((UnaryExpression)exp).getUnOp();
+            boolean _equals_1 = Objects.equal(_unOp_1, UnaryOperator.UNMINUS);
+            if (_equals_1) {
+              _builder.append("-");
+            }
+          }
+        }
         String _generateExpression = this.generateExpression(((UnaryExpression)exp).getRight());
         _builder.append(_generateExpression);
         return _builder.toString();

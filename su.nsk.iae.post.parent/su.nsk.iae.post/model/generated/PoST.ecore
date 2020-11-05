@@ -123,7 +123,13 @@
     <eLiterals name="MOD" value="2" literal="MOD"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PowerExpression" eSuperTypes="#//MulExpression"/>
-  <eClassifiers xsi:type="ecore:EClass" name="UnaryExpression" eSuperTypes="#//PowerExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryExpression" eSuperTypes="#//PowerExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unOp" eType="#//UnaryOperator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UnaryOperator">
+    <eLiterals name="NOT" literal="NOT"/>
+    <eLiterals name="UNMINUS" value="1" literal="-"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PrimaryExpression" eSuperTypes="#//UnaryExpression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="const" eType="#//Constant"
         containment="true"/>

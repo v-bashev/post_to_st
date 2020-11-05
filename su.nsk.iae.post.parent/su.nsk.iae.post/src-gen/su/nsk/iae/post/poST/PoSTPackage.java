@@ -1171,13 +1171,22 @@ public interface PoSTPackage extends EPackage
   int UNARY_EXPRESSION__MUL_OP = POWER_EXPRESSION__MUL_OP;
 
   /**
+   * The feature id for the '<em><b>Un Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_EXPRESSION__UN_OP = POWER_EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
    * The number of structural features of the '<em>Unary Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int UNARY_EXPRESSION_FEATURE_COUNT = POWER_EXPRESSION_FEATURE_COUNT + 0;
+  int UNARY_EXPRESSION_FEATURE_COUNT = POWER_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link su.nsk.iae.post.poST.impl.PrimaryExpressionImpl <em>Primary Expression</em>}' class.
@@ -1242,6 +1251,15 @@ public interface PoSTPackage extends EPackage
    * @ordered
    */
   int PRIMARY_EXPRESSION__MUL_OP = UNARY_EXPRESSION__MUL_OP;
+
+  /**
+   * The feature id for the '<em><b>Un Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PRIMARY_EXPRESSION__UN_OP = UNARY_EXPRESSION__UN_OP;
 
   /**
    * The feature id for the '<em><b>Const</b></em>' containment reference.
@@ -2468,6 +2486,16 @@ public interface PoSTPackage extends EPackage
    */
   int MUL_OPERATOR = 60;
 
+  /**
+   * The meta object id for the '{@link su.nsk.iae.post.poST.UnaryOperator <em>Unary Operator</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see su.nsk.iae.post.poST.UnaryOperator
+   * @see su.nsk.iae.post.poST.impl.PoSTPackageImpl#getUnaryOperator()
+   * @generated
+   */
+  int UNARY_OPERATOR = 61;
+
 
   /**
    * Returns the meta object for class '{@link su.nsk.iae.post.poST.Model <em>Model</em>}'.
@@ -3161,6 +3189,17 @@ public interface PoSTPackage extends EPackage
    * @generated
    */
   EClass getUnaryExpression();
+
+  /**
+   * Returns the meta object for the attribute '{@link su.nsk.iae.post.poST.UnaryExpression#getUnOp <em>Un Op</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Un Op</em>'.
+   * @see su.nsk.iae.post.poST.UnaryExpression#getUnOp()
+   * @see #getUnaryExpression()
+   * @generated
+   */
+  EAttribute getUnaryExpression_UnOp();
 
   /**
    * Returns the meta object for class '{@link su.nsk.iae.post.poST.PrimaryExpression <em>Primary Expression</em>}'.
@@ -4147,6 +4186,16 @@ public interface PoSTPackage extends EPackage
   EEnum getMulOperator();
 
   /**
+   * Returns the meta object for enum '{@link su.nsk.iae.post.poST.UnaryOperator <em>Unary Operator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Unary Operator</em>'.
+   * @see su.nsk.iae.post.poST.UnaryOperator
+   * @generated
+   */
+  EEnum getUnaryOperator();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4732,6 +4781,14 @@ public interface PoSTPackage extends EPackage
      * @generated
      */
     EClass UNARY_EXPRESSION = eINSTANCE.getUnaryExpression();
+
+    /**
+     * The meta object literal for the '<em><b>Un Op</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute UNARY_EXPRESSION__UN_OP = eINSTANCE.getUnaryExpression_UnOp();
 
     /**
      * The meta object literal for the '{@link su.nsk.iae.post.poST.impl.PrimaryExpressionImpl <em>Primary Expression</em>}' class.
@@ -5554,6 +5611,16 @@ public interface PoSTPackage extends EPackage
      * @generated
      */
     EEnum MUL_OPERATOR = eINSTANCE.getMulOperator();
+
+    /**
+     * The meta object literal for the '{@link su.nsk.iae.post.poST.UnaryOperator <em>Unary Operator</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see su.nsk.iae.post.poST.UnaryOperator
+     * @see su.nsk.iae.post.poST.impl.PoSTPackageImpl#getUnaryOperator()
+     * @generated
+     */
+    EEnum UNARY_OPERATOR = eINSTANCE.getUnaryOperator();
 
   }
 

@@ -32,6 +32,7 @@ import su.nsk.iae.post.poST.XorExpression
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import su.nsk.iae.post.poST.ProcessStatusExpression
 import su.nsk.iae.post.poST.SignedInteger
+import su.nsk.iae.post.poST.UnaryOperator
 
 class StateGenerator {
 	
@@ -151,7 +152,7 @@ class StateGenerator {
 				}
 			}
 			UnaryExpression:
-				return '''NOT «exp.right.generateExpression»'''
+				return '''«IF exp.unOp == UnaryOperator.NOT»NOT «ELSEIF exp.unOp == UnaryOperator.UNMINUS»-«ENDIF»«exp.right.generateExpression»'''
 			PowerExpression:
 				return '''«exp.left.generateExpression» ** «exp.right.generateExpression»'''
 			MulExpression:

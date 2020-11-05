@@ -1747,10 +1747,25 @@ ruleUnaryExpression returns [EObject current=null]
 		}
 		    |
 		(
-			this_UNARY_OPERATOR_1=RULE_UNARY_OPERATOR
-			{
-				newLeafNode(this_UNARY_OPERATOR_1, grammarAccess.getUnaryExpressionAccess().getUNARY_OPERATORTerminalRuleCall_1_0());
-			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getUnaryExpressionAccess().getUnOpUnaryOperatorEnumRuleCall_1_0_0());
+					}
+					lv_unOp_1_0=ruleUnaryOperator
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getUnaryExpressionRule());
+						}
+						set(
+							$current,
+							"unOp",
+							lv_unOp_1_0,
+							"su.nsk.iae.post.PoST.UnaryOperator");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
 			(
 				(
 					{
@@ -4250,6 +4265,33 @@ ruleMulOperator returns [Enumerator current=null]
 	)
 ;
 
+// Rule UnaryOperator
+ruleUnaryOperator returns [Enumerator current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			enumLiteral_0='NOT'
+			{
+				$current = grammarAccess.getUnaryOperatorAccess().getNOTEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_0, grammarAccess.getUnaryOperatorAccess().getNOTEnumLiteralDeclaration_0());
+			}
+		)
+		    |
+		(
+			enumLiteral_1='-'
+			{
+				$current = grammarAccess.getUnaryOperatorAccess().getUNMINUSEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_1, grammarAccess.getUnaryOperatorAccess().getUNMINUSEnumLiteralDeclaration_1());
+			}
+		)
+	)
+;
+
 RULE_OR_OPERATOR : 'OR';
 
 RULE_XOR_OPERATOR : 'XOR';
@@ -4257,8 +4299,6 @@ RULE_XOR_OPERATOR : 'XOR';
 RULE_AND_OPERATOR : ('&'|'AND');
 
 RULE_POWER_OPERATOR : '**';
-
-RULE_UNARY_OPERATOR : 'NOT';
 
 RULE_DIRECT_VARIABLE : '%' RULE_DIRECT_TYPE_PREFIX RULE_DIRECT_SIZE_PREFIX RULE_INTEGER ('.' RULE_INTEGER)*;
 

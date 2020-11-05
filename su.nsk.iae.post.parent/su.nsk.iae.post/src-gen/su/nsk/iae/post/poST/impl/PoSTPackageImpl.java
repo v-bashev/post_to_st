@@ -68,6 +68,7 @@ import su.nsk.iae.post.poST.TempVarDeclaration;
 import su.nsk.iae.post.poST.TimeLiteral;
 import su.nsk.iae.post.poST.TimeoutStatement;
 import su.nsk.iae.post.poST.UnaryExpression;
+import su.nsk.iae.post.poST.UnaryOperator;
 import su.nsk.iae.post.poST.VarDeclaration;
 import su.nsk.iae.post.poST.VarInitDeclaration;
 import su.nsk.iae.post.poST.VarList;
@@ -508,6 +509,13 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   private EEnum mulOperatorEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum unaryOperatorEEnum = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -1285,6 +1293,17 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
   public EClass getUnaryExpression()
   {
     return unaryExpressionEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getUnaryExpression_UnOp()
+  {
+    return (EAttribute)unaryExpressionEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -2316,6 +2335,17 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
+  public EEnum getUnaryOperator()
+  {
+    return unaryOperatorEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public PoSTFactory getPoSTFactory()
   {
     return (PoSTFactory)getEFactoryInstance();
@@ -2427,6 +2457,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
     powerExpressionEClass = createEClass(POWER_EXPRESSION);
 
     unaryExpressionEClass = createEClass(UNARY_EXPRESSION);
+    createEAttribute(unaryExpressionEClass, UNARY_EXPRESSION__UN_OP);
 
     primaryExpressionEClass = createEClass(PRIMARY_EXPRESSION);
     createEReference(primaryExpressionEClass, PRIMARY_EXPRESSION__CONST);
@@ -2557,6 +2588,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
     equOperatorEEnum = createEEnum(EQU_OPERATOR);
     addOperatorEEnum = createEEnum(ADD_OPERATOR);
     mulOperatorEEnum = createEEnum(MUL_OPERATOR);
+    unaryOperatorEEnum = createEEnum(UNARY_OPERATOR);
   }
 
   /**
@@ -2705,6 +2737,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
     initEClass(powerExpressionEClass, PowerExpression.class, "PowerExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(unaryExpressionEClass, UnaryExpression.class, "UnaryExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getUnaryExpression_UnOp(), this.getUnaryOperator(), "unOp", null, 0, 1, UnaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(primaryExpressionEClass, PrimaryExpression.class, "PrimaryExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getPrimaryExpression_Const(), this.getConstant(), null, "const", null, 0, 1, PrimaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2849,6 +2882,10 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
     addEEnumLiteral(mulOperatorEEnum, MulOperator.MUL);
     addEEnumLiteral(mulOperatorEEnum, MulOperator.DIV);
     addEEnumLiteral(mulOperatorEEnum, MulOperator.MOD);
+
+    initEEnum(unaryOperatorEEnum, UnaryOperator.class, "UnaryOperator");
+    addEEnumLiteral(unaryOperatorEEnum, UnaryOperator.NOT);
+    addEEnumLiteral(unaryOperatorEEnum, UnaryOperator.UNMINUS);
 
     // Create resource
     createResource(eNS_URI);
