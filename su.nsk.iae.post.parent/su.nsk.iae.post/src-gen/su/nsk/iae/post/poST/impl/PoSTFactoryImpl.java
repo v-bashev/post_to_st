@@ -15,6 +15,10 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import su.nsk.iae.post.poST.AddExpression;
 import su.nsk.iae.post.poST.AddOperator;
 import su.nsk.iae.post.poST.AndExpression;
+import su.nsk.iae.post.poST.ArrayInitialization;
+import su.nsk.iae.post.poST.ArraySpecInit;
+import su.nsk.iae.post.poST.ArraySpecification;
+import su.nsk.iae.post.poST.ArrayVariable;
 import su.nsk.iae.post.poST.AssignmentStatement;
 import su.nsk.iae.post.poST.CaseElement;
 import su.nsk.iae.post.poST.CaseList;
@@ -166,6 +170,7 @@ public class PoSTFactoryImpl extends EFactoryImpl implements PoSTFactory
       case PoSTPackage.REPEAT_STATEMENT: return createRepeatStatement();
       case PoSTPackage.SUBPROGRAM_CONTROL_STATEMENT: return createSubprogramControlStatement();
       case PoSTPackage.EXIT_STATEMENT: return createExitStatement();
+      case PoSTPackage.ARRAY_VARIABLE: return createArrayVariable();
       case PoSTPackage.SYMBOLIC_VARIABLE: return createSymbolicVariable();
       case PoSTPackage.VAR_INIT_DECLARATION: return createVarInitDeclaration();
       case PoSTPackage.VAR_LIST: return createVarList();
@@ -178,6 +183,9 @@ public class PoSTFactoryImpl extends EFactoryImpl implements PoSTFactory
       case PoSTPackage.EXTERNAL_VAR_INIT_DECLARATION: return createExternalVarInitDeclaration();
       case PoSTPackage.GLOBAL_VAR_DECLARATION: return createGlobalVarDeclaration();
       case PoSTPackage.GLOBAL_VAR_INIT_DECLARATION: return createGlobalVarInitDeclaration();
+      case PoSTPackage.ARRAY_SPEC_INIT: return createArraySpecInit();
+      case PoSTPackage.ARRAY_SPECIFICATION: return createArraySpecification();
+      case PoSTPackage.ARRAY_INITIALIZATION: return createArrayInitialization();
       case PoSTPackage.TIME_LITERAL: return createTimeLiteral();
       case PoSTPackage.SIMPLE_SPECIFICATION_INIT: return createSimpleSpecificationInit();
       case PoSTPackage.CONSTANT: return createConstant();
@@ -702,6 +710,18 @@ public class PoSTFactoryImpl extends EFactoryImpl implements PoSTFactory
    * @generated
    */
   @Override
+  public ArrayVariable createArrayVariable()
+  {
+    ArrayVariableImpl arrayVariable = new ArrayVariableImpl();
+    return arrayVariable;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public SymbolicVariable createSymbolicVariable()
   {
     SymbolicVariableImpl symbolicVariable = new SymbolicVariableImpl();
@@ -838,6 +858,42 @@ public class PoSTFactoryImpl extends EFactoryImpl implements PoSTFactory
   {
     GlobalVarInitDeclarationImpl globalVarInitDeclaration = new GlobalVarInitDeclarationImpl();
     return globalVarInitDeclaration;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ArraySpecInit createArraySpecInit()
+  {
+    ArraySpecInitImpl arraySpecInit = new ArraySpecInitImpl();
+    return arraySpecInit;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ArraySpecification createArraySpecification()
+  {
+    ArraySpecificationImpl arraySpecification = new ArraySpecificationImpl();
+    return arraySpecification;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ArrayInitialization createArrayInitialization()
+  {
+    ArrayInitializationImpl arrayInitialization = new ArrayInitializationImpl();
+    return arrayInitialization;
   }
 
   /**

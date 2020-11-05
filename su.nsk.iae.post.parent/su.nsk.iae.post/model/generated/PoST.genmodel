@@ -113,6 +113,7 @@
     <genClasses ecoreClass="PoST.ecore#//PrimaryExpression">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//PrimaryExpression/const"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference PoST.ecore#//PrimaryExpression/variable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//PrimaryExpression/array"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//PrimaryExpression/procStatus"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//PrimaryExpression/nestExpr"/>
     </genClasses>
@@ -122,6 +123,7 @@
     <genClasses ecoreClass="PoST.ecore#//Statement"/>
     <genClasses ecoreClass="PoST.ecore#//AssignmentStatement">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference PoST.ecore#//AssignmentStatement/variable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//AssignmentStatement/array"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//AssignmentStatement/value"/>
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//SelectionStatement">
@@ -164,12 +166,17 @@
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//SubprogramControlStatement"/>
     <genClasses ecoreClass="PoST.ecore#//ExitStatement"/>
+    <genClasses ecoreClass="PoST.ecore#//ArrayVariable">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference PoST.ecore#//ArrayVariable/varName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//ArrayVariable/index"/>
+    </genClasses>
     <genClasses ecoreClass="PoST.ecore#//SymbolicVariable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//SymbolicVariable/name"/>
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//VarInitDeclaration">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//VarInitDeclaration/varList"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//VarInitDeclaration/spec"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//VarInitDeclaration/arrSpec"/>
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//VarList">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//VarList/vars"/>
@@ -207,6 +214,18 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//GlobalVarInitDeclaration/varList"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//GlobalVarInitDeclaration/location"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//GlobalVarInitDeclaration/type"/>
+    </genClasses>
+    <genClasses ecoreClass="PoST.ecore#//ArraySpecInit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//ArraySpecInit/init"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//ArraySpecInit/values"/>
+    </genClasses>
+    <genClasses ecoreClass="PoST.ecore#//ArraySpecification">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//ArraySpecification/start"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//ArraySpecification/end"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//ArraySpecification/type"/>
+    </genClasses>
+    <genClasses ecoreClass="PoST.ecore#//ArrayInitialization">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//ArrayInitialization/elements"/>
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//TimeLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//TimeLiteral/interval"/>

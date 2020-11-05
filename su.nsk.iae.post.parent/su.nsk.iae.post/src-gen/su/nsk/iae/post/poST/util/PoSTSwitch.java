@@ -10,6 +10,10 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import su.nsk.iae.post.poST.AddExpression;
 import su.nsk.iae.post.poST.AndExpression;
+import su.nsk.iae.post.poST.ArrayInitialization;
+import su.nsk.iae.post.poST.ArraySpecInit;
+import su.nsk.iae.post.poST.ArraySpecification;
+import su.nsk.iae.post.poST.ArrayVariable;
 import su.nsk.iae.post.poST.AssignmentStatement;
 import su.nsk.iae.post.poST.CaseElement;
 import su.nsk.iae.post.poST.CaseList;
@@ -464,6 +468,13 @@ public class PoSTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case PoSTPackage.ARRAY_VARIABLE:
+      {
+        ArrayVariable arrayVariable = (ArrayVariable)theEObject;
+        T result = caseArrayVariable(arrayVariable);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case PoSTPackage.SYMBOLIC_VARIABLE:
       {
         SymbolicVariable symbolicVariable = (SymbolicVariable)theEObject;
@@ -545,6 +556,27 @@ public class PoSTSwitch<T> extends Switch<T>
       {
         GlobalVarInitDeclaration globalVarInitDeclaration = (GlobalVarInitDeclaration)theEObject;
         T result = caseGlobalVarInitDeclaration(globalVarInitDeclaration);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case PoSTPackage.ARRAY_SPEC_INIT:
+      {
+        ArraySpecInit arraySpecInit = (ArraySpecInit)theEObject;
+        T result = caseArraySpecInit(arraySpecInit);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case PoSTPackage.ARRAY_SPECIFICATION:
+      {
+        ArraySpecification arraySpecification = (ArraySpecification)theEObject;
+        T result = caseArraySpecification(arraySpecification);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case PoSTPackage.ARRAY_INITIALIZATION:
+      {
+        ArrayInitialization arrayInitialization = (ArrayInitialization)theEObject;
+        T result = caseArrayInitialization(arrayInitialization);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -1216,6 +1248,22 @@ public class PoSTSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Array Variable</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Array Variable</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseArrayVariable(ArrayVariable object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Symbolic Variable</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1403,6 +1451,54 @@ public class PoSTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseGlobalVarInitDeclaration(GlobalVarInitDeclaration object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Array Spec Init</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Array Spec Init</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseArraySpecInit(ArraySpecInit object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Array Specification</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Array Specification</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseArraySpecification(ArraySpecification object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Array Initialization</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Array Initialization</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseArrayInitialization(ArrayInitialization object)
   {
     return null;
   }

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import su.nsk.iae.post.poST.ArrayVariable;
 import su.nsk.iae.post.poST.AssignmentStatement;
 import su.nsk.iae.post.poST.Expression;
 import su.nsk.iae.post.poST.PoSTPackage;
@@ -25,6 +26,7 @@ import su.nsk.iae.post.poST.SymbolicVariable;
  * </p>
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.impl.AssignmentStatementImpl#getVariable <em>Variable</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.AssignmentStatementImpl#getArray <em>Array</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.AssignmentStatementImpl#getValue <em>Value</em>}</li>
  * </ul>
  *
@@ -41,6 +43,16 @@ public class AssignmentStatementImpl extends StatementImpl implements Assignment
    * @ordered
    */
   protected SymbolicVariable variable;
+
+  /**
+   * The cached value of the '{@link #getArray() <em>Array</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getArray()
+   * @generated
+   * @ordered
+   */
+  protected ArrayVariable array;
 
   /**
    * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
@@ -124,6 +136,56 @@ public class AssignmentStatementImpl extends StatementImpl implements Assignment
    * @generated
    */
   @Override
+  public ArrayVariable getArray()
+  {
+    return array;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetArray(ArrayVariable newArray, NotificationChain msgs)
+  {
+    ArrayVariable oldArray = array;
+    array = newArray;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PoSTPackage.ASSIGNMENT_STATEMENT__ARRAY, oldArray, newArray);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setArray(ArrayVariable newArray)
+  {
+    if (newArray != array)
+    {
+      NotificationChain msgs = null;
+      if (array != null)
+        msgs = ((InternalEObject)array).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PoSTPackage.ASSIGNMENT_STATEMENT__ARRAY, null, msgs);
+      if (newArray != null)
+        msgs = ((InternalEObject)newArray).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PoSTPackage.ASSIGNMENT_STATEMENT__ARRAY, null, msgs);
+      msgs = basicSetArray(newArray, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, PoSTPackage.ASSIGNMENT_STATEMENT__ARRAY, newArray, newArray));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public Expression getValue()
   {
     return value;
@@ -178,6 +240,8 @@ public class AssignmentStatementImpl extends StatementImpl implements Assignment
   {
     switch (featureID)
     {
+      case PoSTPackage.ASSIGNMENT_STATEMENT__ARRAY:
+        return basicSetArray(null, msgs);
       case PoSTPackage.ASSIGNMENT_STATEMENT__VALUE:
         return basicSetValue(null, msgs);
     }
@@ -197,6 +261,8 @@ public class AssignmentStatementImpl extends StatementImpl implements Assignment
       case PoSTPackage.ASSIGNMENT_STATEMENT__VARIABLE:
         if (resolve) return getVariable();
         return basicGetVariable();
+      case PoSTPackage.ASSIGNMENT_STATEMENT__ARRAY:
+        return getArray();
       case PoSTPackage.ASSIGNMENT_STATEMENT__VALUE:
         return getValue();
     }
@@ -215,6 +281,9 @@ public class AssignmentStatementImpl extends StatementImpl implements Assignment
     {
       case PoSTPackage.ASSIGNMENT_STATEMENT__VARIABLE:
         setVariable((SymbolicVariable)newValue);
+        return;
+      case PoSTPackage.ASSIGNMENT_STATEMENT__ARRAY:
+        setArray((ArrayVariable)newValue);
         return;
       case PoSTPackage.ASSIGNMENT_STATEMENT__VALUE:
         setValue((Expression)newValue);
@@ -236,6 +305,9 @@ public class AssignmentStatementImpl extends StatementImpl implements Assignment
       case PoSTPackage.ASSIGNMENT_STATEMENT__VARIABLE:
         setVariable((SymbolicVariable)null);
         return;
+      case PoSTPackage.ASSIGNMENT_STATEMENT__ARRAY:
+        setArray((ArrayVariable)null);
+        return;
       case PoSTPackage.ASSIGNMENT_STATEMENT__VALUE:
         setValue((Expression)null);
         return;
@@ -255,6 +327,8 @@ public class AssignmentStatementImpl extends StatementImpl implements Assignment
     {
       case PoSTPackage.ASSIGNMENT_STATEMENT__VARIABLE:
         return variable != null;
+      case PoSTPackage.ASSIGNMENT_STATEMENT__ARRAY:
+        return array != null;
       case PoSTPackage.ASSIGNMENT_STATEMENT__VALUE:
         return value != null;
     }

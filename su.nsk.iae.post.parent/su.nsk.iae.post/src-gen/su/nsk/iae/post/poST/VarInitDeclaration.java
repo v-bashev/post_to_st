@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.VarInitDeclaration#getVarList <em>Var List</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.VarInitDeclaration#getSpec <em>Spec</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.VarInitDeclaration#getArrSpec <em>Arr Spec</em>}</li>
  * </ul>
  *
  * @see su.nsk.iae.post.poST.PoSTPackage#getVarInitDeclaration()
@@ -67,5 +68,27 @@ public interface VarInitDeclaration extends EObject
    * @generated
    */
   void setSpec(SimpleSpecificationInit value);
+
+  /**
+   * Returns the value of the '<em><b>Arr Spec</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Arr Spec</em>' containment reference.
+   * @see #setArrSpec(ArraySpecInit)
+   * @see su.nsk.iae.post.poST.PoSTPackage#getVarInitDeclaration_ArrSpec()
+   * @model containment="true"
+   * @generated
+   */
+  ArraySpecInit getArrSpec();
+
+  /**
+   * Sets the value of the '{@link su.nsk.iae.post.poST.VarInitDeclaration#getArrSpec <em>Arr Spec</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Arr Spec</em>' containment reference.
+   * @see #getArrSpec()
+   * @generated
+   */
+  void setArrSpec(ArraySpecInit value);
 
 } // VarInitDeclaration

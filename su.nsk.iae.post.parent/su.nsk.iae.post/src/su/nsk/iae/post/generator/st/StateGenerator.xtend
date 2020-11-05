@@ -33,6 +33,7 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import su.nsk.iae.post.poST.ProcessStatusExpression
 import su.nsk.iae.post.poST.SignedInteger
 import su.nsk.iae.post.poST.UnaryOperator
+import su.nsk.iae.post.poST.ArrayVariable
 
 class StateGenerator {
 	
@@ -72,7 +73,11 @@ class StateGenerator {
 	private def String generateStatement(Statement s) {
 		switch s {
 			AssignmentStatement:
-				return '''«s.variable.generateVar» := «s.value.generateExpression»;'''
+				if (s.variable !== null){
+					return '''«s.variable.generateVar» := «s.value.generateExpression»;'''
+				} else {
+					return '''«s.array.generateArray» := «s.value.generateExpression»;'''
+				}
 			IfStatement:
 				return '''
 					IF «s.mainCond.generateExpression» THEN
@@ -145,6 +150,8 @@ class StateGenerator {
 					return NodeModelUtils.getNode(exp.const).text.trim
 				} else if (exp.variable !== null) {
 					return exp.variable.generateVar
+				} else if (exp.array !== null) {
+					return exp.array.generateArray
 				} else if (exp.procStatus !== null) {
 					return '''«exp.procStatus.generateProcessStatus»'''
 				} else {
@@ -178,6 +185,10 @@ class StateGenerator {
 			return process.getVarName(varName.name)
 		}
 		return varName.name
+	}
+	
+	private def String generateArray(ArrayVariable varDecl) {
+		return '''«varDecl.varName.generateVar»[«varDecl.index.generateExpression»]'''
 	}
 	
 	private def String generateEquOperators(EquOperator op) {

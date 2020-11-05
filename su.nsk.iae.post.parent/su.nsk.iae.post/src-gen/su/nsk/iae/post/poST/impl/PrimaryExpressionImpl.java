@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import su.nsk.iae.post.poST.ArrayVariable;
 import su.nsk.iae.post.poST.Constant;
 import su.nsk.iae.post.poST.Expression;
 import su.nsk.iae.post.poST.PoSTPackage;
@@ -28,6 +29,7 @@ import su.nsk.iae.post.poST.SymbolicVariable;
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.impl.PrimaryExpressionImpl#getConst <em>Const</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.PrimaryExpressionImpl#getVariable <em>Variable</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.PrimaryExpressionImpl#getArray <em>Array</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.PrimaryExpressionImpl#getProcStatus <em>Proc Status</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.PrimaryExpressionImpl#getNestExpr <em>Nest Expr</em>}</li>
  * </ul>
@@ -55,6 +57,16 @@ public class PrimaryExpressionImpl extends UnaryExpressionImpl implements Primar
    * @ordered
    */
   protected SymbolicVariable variable;
+
+  /**
+   * The cached value of the '{@link #getArray() <em>Array</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getArray()
+   * @generated
+   * @ordered
+   */
+  protected ArrayVariable array;
 
   /**
    * The cached value of the '{@link #getProcStatus() <em>Proc Status</em>}' containment reference.
@@ -198,6 +210,56 @@ public class PrimaryExpressionImpl extends UnaryExpressionImpl implements Primar
    * @generated
    */
   @Override
+  public ArrayVariable getArray()
+  {
+    return array;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetArray(ArrayVariable newArray, NotificationChain msgs)
+  {
+    ArrayVariable oldArray = array;
+    array = newArray;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PoSTPackage.PRIMARY_EXPRESSION__ARRAY, oldArray, newArray);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setArray(ArrayVariable newArray)
+  {
+    if (newArray != array)
+    {
+      NotificationChain msgs = null;
+      if (array != null)
+        msgs = ((InternalEObject)array).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PoSTPackage.PRIMARY_EXPRESSION__ARRAY, null, msgs);
+      if (newArray != null)
+        msgs = ((InternalEObject)newArray).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PoSTPackage.PRIMARY_EXPRESSION__ARRAY, null, msgs);
+      msgs = basicSetArray(newArray, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, PoSTPackage.PRIMARY_EXPRESSION__ARRAY, newArray, newArray));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public ProcessStatusExpression getProcStatus()
   {
     return procStatus;
@@ -304,6 +366,8 @@ public class PrimaryExpressionImpl extends UnaryExpressionImpl implements Primar
     {
       case PoSTPackage.PRIMARY_EXPRESSION__CONST:
         return basicSetConst(null, msgs);
+      case PoSTPackage.PRIMARY_EXPRESSION__ARRAY:
+        return basicSetArray(null, msgs);
       case PoSTPackage.PRIMARY_EXPRESSION__PROC_STATUS:
         return basicSetProcStatus(null, msgs);
       case PoSTPackage.PRIMARY_EXPRESSION__NEST_EXPR:
@@ -327,6 +391,8 @@ public class PrimaryExpressionImpl extends UnaryExpressionImpl implements Primar
       case PoSTPackage.PRIMARY_EXPRESSION__VARIABLE:
         if (resolve) return getVariable();
         return basicGetVariable();
+      case PoSTPackage.PRIMARY_EXPRESSION__ARRAY:
+        return getArray();
       case PoSTPackage.PRIMARY_EXPRESSION__PROC_STATUS:
         return getProcStatus();
       case PoSTPackage.PRIMARY_EXPRESSION__NEST_EXPR:
@@ -350,6 +416,9 @@ public class PrimaryExpressionImpl extends UnaryExpressionImpl implements Primar
         return;
       case PoSTPackage.PRIMARY_EXPRESSION__VARIABLE:
         setVariable((SymbolicVariable)newValue);
+        return;
+      case PoSTPackage.PRIMARY_EXPRESSION__ARRAY:
+        setArray((ArrayVariable)newValue);
         return;
       case PoSTPackage.PRIMARY_EXPRESSION__PROC_STATUS:
         setProcStatus((ProcessStatusExpression)newValue);
@@ -377,6 +446,9 @@ public class PrimaryExpressionImpl extends UnaryExpressionImpl implements Primar
       case PoSTPackage.PRIMARY_EXPRESSION__VARIABLE:
         setVariable((SymbolicVariable)null);
         return;
+      case PoSTPackage.PRIMARY_EXPRESSION__ARRAY:
+        setArray((ArrayVariable)null);
+        return;
       case PoSTPackage.PRIMARY_EXPRESSION__PROC_STATUS:
         setProcStatus((ProcessStatusExpression)null);
         return;
@@ -401,6 +473,8 @@ public class PrimaryExpressionImpl extends UnaryExpressionImpl implements Primar
         return const_ != null;
       case PoSTPackage.PRIMARY_EXPRESSION__VARIABLE:
         return variable != null;
+      case PoSTPackage.PRIMARY_EXPRESSION__ARRAY:
+        return array != null;
       case PoSTPackage.PRIMARY_EXPRESSION__PROC_STATUS:
         return procStatus != null;
       case PoSTPackage.PRIMARY_EXPRESSION__NEST_EXPR:

@@ -366,6 +366,15 @@ public interface PoSTFactory extends EFactory
   ExitStatement createExitStatement();
 
   /**
+   * Returns a new object of class '<em>Array Variable</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Array Variable</em>'.
+   * @generated
+   */
+  ArrayVariable createArrayVariable();
+
+  /**
    * Returns a new object of class '<em>Symbolic Variable</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -472,6 +481,33 @@ public interface PoSTFactory extends EFactory
    * @generated
    */
   GlobalVarInitDeclaration createGlobalVarInitDeclaration();
+
+  /**
+   * Returns a new object of class '<em>Array Spec Init</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Array Spec Init</em>'.
+   * @generated
+   */
+  ArraySpecInit createArraySpecInit();
+
+  /**
+   * Returns a new object of class '<em>Array Specification</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Array Specification</em>'.
+   * @generated
+   */
+  ArraySpecification createArraySpecification();
+
+  /**
+   * Returns a new object of class '<em>Array Initialization</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Array Initialization</em>'.
+   * @generated
+   */
+  ArrayInitialization createArrayInitialization();
 
   /**
    * Returns a new object of class '<em>Time Literal</em>'.

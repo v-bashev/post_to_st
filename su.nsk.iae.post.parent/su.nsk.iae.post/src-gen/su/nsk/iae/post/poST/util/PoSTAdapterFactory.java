@@ -12,6 +12,10 @@ import org.eclipse.emf.ecore.EObject;
 
 import su.nsk.iae.post.poST.AddExpression;
 import su.nsk.iae.post.poST.AndExpression;
+import su.nsk.iae.post.poST.ArrayInitialization;
+import su.nsk.iae.post.poST.ArraySpecInit;
+import su.nsk.iae.post.poST.ArraySpecification;
+import su.nsk.iae.post.poST.ArrayVariable;
 import su.nsk.iae.post.poST.AssignmentStatement;
 import su.nsk.iae.post.poST.CaseElement;
 import su.nsk.iae.post.poST.CaseList;
@@ -322,6 +326,11 @@ public class PoSTAdapterFactory extends AdapterFactoryImpl
         return createExitStatementAdapter();
       }
       @Override
+      public Adapter caseArrayVariable(ArrayVariable object)
+      {
+        return createArrayVariableAdapter();
+      }
+      @Override
       public Adapter caseSymbolicVariable(SymbolicVariable object)
       {
         return createSymbolicVariableAdapter();
@@ -380,6 +389,21 @@ public class PoSTAdapterFactory extends AdapterFactoryImpl
       public Adapter caseGlobalVarInitDeclaration(GlobalVarInitDeclaration object)
       {
         return createGlobalVarInitDeclarationAdapter();
+      }
+      @Override
+      public Adapter caseArraySpecInit(ArraySpecInit object)
+      {
+        return createArraySpecInitAdapter();
+      }
+      @Override
+      public Adapter caseArraySpecification(ArraySpecification object)
+      {
+        return createArraySpecificationAdapter();
+      }
+      @Override
+      public Adapter caseArrayInitialization(ArrayInitialization object)
+      {
+        return createArrayInitializationAdapter();
       }
       @Override
       public Adapter caseTimeLiteral(TimeLiteral object)
@@ -1009,6 +1033,21 @@ public class PoSTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link su.nsk.iae.post.poST.ArrayVariable <em>Array Variable</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see su.nsk.iae.post.poST.ArrayVariable
+   * @generated
+   */
+  public Adapter createArrayVariableAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link su.nsk.iae.post.poST.SymbolicVariable <em>Symbolic Variable</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1184,6 +1223,51 @@ public class PoSTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createGlobalVarInitDeclarationAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link su.nsk.iae.post.poST.ArraySpecInit <em>Array Spec Init</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see su.nsk.iae.post.poST.ArraySpecInit
+   * @generated
+   */
+  public Adapter createArraySpecInitAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link su.nsk.iae.post.poST.ArraySpecification <em>Array Specification</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see su.nsk.iae.post.poST.ArraySpecification
+   * @generated
+   */
+  public Adapter createArraySpecificationAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link su.nsk.iae.post.poST.ArrayInitialization <em>Array Initialization</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see su.nsk.iae.post.poST.ArrayInitialization
+   * @generated
+   */
+  public Adapter createArrayInitializationAdapter()
   {
     return null;
   }

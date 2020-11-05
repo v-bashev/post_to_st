@@ -146,11 +146,10 @@ UnaryExpression:
 	PrimaryExpression | (unOp=UnaryOperator right=PrimaryExpression);
 
 enum UnaryOperator:
-	NOT='NOT' | UNMINUS='-'
-;
+	NOT='NOT' | UNMINUS='-';
 
 PrimaryExpression:
-	const=Constant | variable=[SymbolicVariable] | procStatus=ProcessStatusExpression | '(' nestExpr=Expression ')';
+	const=Constant | variable=[SymbolicVariable] | array=ArrayVariable | procStatus=ProcessStatusExpression | '(' nestExpr=Expression ')';
 
 StatementList:
 	{StatementList} (statements+=Statement)*;
@@ -166,7 +165,7 @@ Statement:
 	(ResetTimerStatement ';');
 
 AssignmentStatement:
-	variable=[SymbolicVariable] ':=' value=Expression;
+	(variable=[SymbolicVariable] | array=ArrayVariable) ':=' value=Expression;
 
 SelectionStatement:
 	IfStatement | CaseStatement;
@@ -223,6 +222,9 @@ SubprogramControlStatement:
 
 ExitStatement:
 	{ExitStatement} 'EXIT';
+	
+ArrayVariable:
+	varName=[SymbolicVariable] '[' index=Expression ']';
 
 /* ======================= END ST Expression ======================= */
 	
@@ -241,7 +243,7 @@ terminal fragment DIRECT_SIZE_PREFIX:
 	'X' | 'B' | 'W' | 'D' | 'L';
 
 VarInitDeclaration:
-	varList=VarList ':' spec=SimpleSpecificationInit;
+	varList=VarList ':' (spec=SimpleSpecificationInit | arrSpec=ArraySpecInit);
 
 VarList:
 	vars+=SymbolicVariable (',' vars+=SymbolicVariable)*;
@@ -291,6 +293,19 @@ GlobalVarInitDeclaration:
 	varList=VarList 'AT' location=DIRECT_VARIABLE ':' type=DataTypeName;
 
 /* ======================= END Variables ======================= */
+
+/* ======================= START Array ======================= */
+	
+ArraySpecInit:
+	init=ArraySpecification (':=' values=ArrayInitialization)?;
+
+ArraySpecification:
+	'ARRAY' '[' start=SignedInteger '..' end=SignedInteger ']' 'OF' type=DataTypeName;
+
+ArrayInitialization :
+	'[' elements+=Constant (',' elements+=Constant)* ']';
+
+/* ======================= END Array ======================= */
 	
 /* ======================= START Time Literals ======================= */
 

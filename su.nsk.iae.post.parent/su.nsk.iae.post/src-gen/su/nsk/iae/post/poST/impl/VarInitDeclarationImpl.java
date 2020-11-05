@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import su.nsk.iae.post.poST.ArraySpecInit;
 import su.nsk.iae.post.poST.PoSTPackage;
 import su.nsk.iae.post.poST.SimpleSpecificationInit;
 import su.nsk.iae.post.poST.VarInitDeclaration;
@@ -27,6 +28,7 @@ import su.nsk.iae.post.poST.VarList;
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.impl.VarInitDeclarationImpl#getVarList <em>Var List</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.VarInitDeclarationImpl#getSpec <em>Spec</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.VarInitDeclarationImpl#getArrSpec <em>Arr Spec</em>}</li>
  * </ul>
  *
  * @generated
@@ -52,6 +54,16 @@ public class VarInitDeclarationImpl extends MinimalEObjectImpl.Container impleme
    * @ordered
    */
   protected SimpleSpecificationInit spec;
+
+  /**
+   * The cached value of the '{@link #getArrSpec() <em>Arr Spec</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getArrSpec()
+   * @generated
+   * @ordered
+   */
+  protected ArraySpecInit arrSpec;
 
   /**
    * <!-- begin-user-doc -->
@@ -180,6 +192,56 @@ public class VarInitDeclarationImpl extends MinimalEObjectImpl.Container impleme
    * @generated
    */
   @Override
+  public ArraySpecInit getArrSpec()
+  {
+    return arrSpec;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetArrSpec(ArraySpecInit newArrSpec, NotificationChain msgs)
+  {
+    ArraySpecInit oldArrSpec = arrSpec;
+    arrSpec = newArrSpec;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PoSTPackage.VAR_INIT_DECLARATION__ARR_SPEC, oldArrSpec, newArrSpec);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setArrSpec(ArraySpecInit newArrSpec)
+  {
+    if (newArrSpec != arrSpec)
+    {
+      NotificationChain msgs = null;
+      if (arrSpec != null)
+        msgs = ((InternalEObject)arrSpec).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PoSTPackage.VAR_INIT_DECLARATION__ARR_SPEC, null, msgs);
+      if (newArrSpec != null)
+        msgs = ((InternalEObject)newArrSpec).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PoSTPackage.VAR_INIT_DECLARATION__ARR_SPEC, null, msgs);
+      msgs = basicSetArrSpec(newArrSpec, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, PoSTPackage.VAR_INIT_DECLARATION__ARR_SPEC, newArrSpec, newArrSpec));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -188,6 +250,8 @@ public class VarInitDeclarationImpl extends MinimalEObjectImpl.Container impleme
         return basicSetVarList(null, msgs);
       case PoSTPackage.VAR_INIT_DECLARATION__SPEC:
         return basicSetSpec(null, msgs);
+      case PoSTPackage.VAR_INIT_DECLARATION__ARR_SPEC:
+        return basicSetArrSpec(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -206,6 +270,8 @@ public class VarInitDeclarationImpl extends MinimalEObjectImpl.Container impleme
         return getVarList();
       case PoSTPackage.VAR_INIT_DECLARATION__SPEC:
         return getSpec();
+      case PoSTPackage.VAR_INIT_DECLARATION__ARR_SPEC:
+        return getArrSpec();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -225,6 +291,9 @@ public class VarInitDeclarationImpl extends MinimalEObjectImpl.Container impleme
         return;
       case PoSTPackage.VAR_INIT_DECLARATION__SPEC:
         setSpec((SimpleSpecificationInit)newValue);
+        return;
+      case PoSTPackage.VAR_INIT_DECLARATION__ARR_SPEC:
+        setArrSpec((ArraySpecInit)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -246,6 +315,9 @@ public class VarInitDeclarationImpl extends MinimalEObjectImpl.Container impleme
       case PoSTPackage.VAR_INIT_DECLARATION__SPEC:
         setSpec((SimpleSpecificationInit)null);
         return;
+      case PoSTPackage.VAR_INIT_DECLARATION__ARR_SPEC:
+        setArrSpec((ArraySpecInit)null);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -264,6 +336,8 @@ public class VarInitDeclarationImpl extends MinimalEObjectImpl.Container impleme
         return varList != null;
       case PoSTPackage.VAR_INIT_DECLARATION__SPEC:
         return spec != null;
+      case PoSTPackage.VAR_INIT_DECLARATION__ARR_SPEC:
+        return arrSpec != null;
     }
     return super.eIsSet(featureID);
   }

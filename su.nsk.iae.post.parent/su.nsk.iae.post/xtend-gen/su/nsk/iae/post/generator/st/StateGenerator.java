@@ -10,6 +10,7 @@ import su.nsk.iae.post.generator.st.ProcessGenerator;
 import su.nsk.iae.post.poST.AddExpression;
 import su.nsk.iae.post.poST.AddOperator;
 import su.nsk.iae.post.poST.AndExpression;
+import su.nsk.iae.post.poST.ArrayVariable;
 import su.nsk.iae.post.poST.AssignmentStatement;
 import su.nsk.iae.post.poST.CaseElement;
 import su.nsk.iae.post.poST.CaseStatement;
@@ -123,14 +124,27 @@ public class StateGenerator {
     boolean _matched = false;
     if (s instanceof AssignmentStatement) {
       _matched=true;
-      StringConcatenation _builder = new StringConcatenation();
-      String _generateVar = this.generateVar(((AssignmentStatement)s).getVariable());
-      _builder.append(_generateVar);
-      _builder.append(" := ");
-      String _generateExpression = this.generateExpression(((AssignmentStatement)s).getValue());
-      _builder.append(_generateExpression);
-      _builder.append(";");
-      return _builder.toString();
+      SymbolicVariable _variable = ((AssignmentStatement)s).getVariable();
+      boolean _tripleNotEquals = (_variable != null);
+      if (_tripleNotEquals) {
+        StringConcatenation _builder = new StringConcatenation();
+        String _generateVar = this.generateVar(((AssignmentStatement)s).getVariable());
+        _builder.append(_generateVar);
+        _builder.append(" := ");
+        String _generateExpression = this.generateExpression(((AssignmentStatement)s).getValue());
+        _builder.append(_generateExpression);
+        _builder.append(";");
+        return _builder.toString();
+      } else {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        String _generateArray = this.generateArray(((AssignmentStatement)s).getArray());
+        _builder_1.append(_generateArray);
+        _builder_1.append(" := ");
+        String _generateExpression_1 = this.generateExpression(((AssignmentStatement)s).getValue());
+        _builder_1.append(_generateExpression_1);
+        _builder_1.append(";");
+        return _builder_1.toString();
+      }
     }
     if (!_matched) {
       if (s instanceof IfStatement) {
@@ -423,20 +437,26 @@ public class StateGenerator {
         if (_tripleNotEquals_1) {
           return this.generateVar(((PrimaryExpression)exp).getVariable());
         } else {
-          ProcessStatusExpression _procStatus = ((PrimaryExpression)exp).getProcStatus();
-          boolean _tripleNotEquals_2 = (_procStatus != null);
+          ArrayVariable _array = ((PrimaryExpression)exp).getArray();
+          boolean _tripleNotEquals_2 = (_array != null);
           if (_tripleNotEquals_2) {
-            StringConcatenation _builder = new StringConcatenation();
-            String _generateProcessStatus = this.generateProcessStatus(((PrimaryExpression)exp).getProcStatus());
-            _builder.append(_generateProcessStatus);
-            return _builder.toString();
+            return this.generateArray(((PrimaryExpression)exp).getArray());
           } else {
-            StringConcatenation _builder_1 = new StringConcatenation();
-            _builder_1.append("(");
-            String _generateExpression = this.generateExpression(((PrimaryExpression)exp).getNestExpr());
-            _builder_1.append(_generateExpression);
-            _builder_1.append(")");
-            return _builder_1.toString();
+            ProcessStatusExpression _procStatus = ((PrimaryExpression)exp).getProcStatus();
+            boolean _tripleNotEquals_3 = (_procStatus != null);
+            if (_tripleNotEquals_3) {
+              StringConcatenation _builder = new StringConcatenation();
+              String _generateProcessStatus = this.generateProcessStatus(((PrimaryExpression)exp).getProcStatus());
+              _builder.append(_generateProcessStatus);
+              return _builder.toString();
+            } else {
+              StringConcatenation _builder_1 = new StringConcatenation();
+              _builder_1.append("(");
+              String _generateExpression = this.generateExpression(((PrimaryExpression)exp).getNestExpr());
+              _builder_1.append(_generateExpression);
+              _builder_1.append(")");
+              return _builder_1.toString();
+            }
           }
         }
       }
@@ -594,6 +614,17 @@ public class StateGenerator {
       return this.process.getVarName(varName.getName());
     }
     return varName.getName();
+  }
+  
+  private String generateArray(final ArrayVariable varDecl) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _generateVar = this.generateVar(varDecl.getVarName());
+    _builder.append(_generateVar);
+    _builder.append("[");
+    String _generateExpression = this.generateExpression(varDecl.getIndex());
+    _builder.append(_generateExpression);
+    _builder.append("]");
+    return _builder.toString();
   }
   
   private String generateEquOperators(final EquOperator op) {
