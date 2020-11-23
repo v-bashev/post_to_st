@@ -116,7 +116,7 @@ ruleModel returns [EObject current=null]
 				}
 			)
 		)
-	)+
+	)*
 ;
 
 // Entry rule entryRuleProgram

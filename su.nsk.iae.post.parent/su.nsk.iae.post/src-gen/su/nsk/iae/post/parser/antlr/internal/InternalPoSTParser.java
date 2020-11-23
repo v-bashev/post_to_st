@@ -207,7 +207,7 @@ public class InternalPoSTParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModel"
-    // InternalPoST.g:72:1: ruleModel returns [EObject current=null] : ( ( (lv_programs_0_0= ruleProgram ) ) | ( (lv_fbs_1_0= ruleFunctionBlock ) ) )+ ;
+    // InternalPoST.g:72:1: ruleModel returns [EObject current=null] : ( ( (lv_programs_0_0= ruleProgram ) ) | ( (lv_fbs_1_0= ruleFunctionBlock ) ) )* ;
     public final EObject ruleModel() throws RecognitionException {
         EObject current = null;
 
@@ -220,11 +220,10 @@ public class InternalPoSTParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalPoST.g:78:2: ( ( ( (lv_programs_0_0= ruleProgram ) ) | ( (lv_fbs_1_0= ruleFunctionBlock ) ) )+ )
-            // InternalPoST.g:79:2: ( ( (lv_programs_0_0= ruleProgram ) ) | ( (lv_fbs_1_0= ruleFunctionBlock ) ) )+
+            // InternalPoST.g:78:2: ( ( ( (lv_programs_0_0= ruleProgram ) ) | ( (lv_fbs_1_0= ruleFunctionBlock ) ) )* )
+            // InternalPoST.g:79:2: ( ( (lv_programs_0_0= ruleProgram ) ) | ( (lv_fbs_1_0= ruleFunctionBlock ) ) )*
             {
-            // InternalPoST.g:79:2: ( ( (lv_programs_0_0= ruleProgram ) ) | ( (lv_fbs_1_0= ruleFunctionBlock ) ) )+
-            int cnt1=0;
+            // InternalPoST.g:79:2: ( ( (lv_programs_0_0= ruleProgram ) ) | ( (lv_fbs_1_0= ruleFunctionBlock ) ) )*
             loop1:
             do {
                 int alt1=3;
@@ -315,12 +314,8 @@ public class InternalPoSTParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt1 >= 1 ) break loop1;
-                        EarlyExitException eee =
-                            new EarlyExitException(1, input);
-                        throw eee;
+            	    break loop1;
                 }
-                cnt1++;
             } while (true);
 
 
@@ -5573,11 +5568,11 @@ public class InternalPoSTParser extends AbstractInternalAntlrParser {
             if ( (LA29_0==RULE_ID) ) {
                 int LA29_1 = input.LA(2);
 
-                if ( (LA29_1==61) ) {
-                    alt29=1;
-                }
-                else if ( (LA29_1==83) ) {
+                if ( (LA29_1==83) ) {
                     alt29=2;
+                }
+                else if ( (LA29_1==61) ) {
+                    alt29=1;
                 }
                 else {
                     NoViableAltException nvae =

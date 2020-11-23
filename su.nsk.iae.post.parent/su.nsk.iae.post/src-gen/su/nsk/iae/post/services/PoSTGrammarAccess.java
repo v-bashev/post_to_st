@@ -34,10 +34,10 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final RuleCall cFbsFunctionBlockParserRuleCall_1_0 = (RuleCall)cFbsAssignment_1.eContents().get(0);
 		
 		//Model:
-		//	(programs+=Program | fbs+=FunctionBlock)+;
+		//	(programs+=Program | fbs+=FunctionBlock)*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(programs+=Program | fbs+=FunctionBlock)+
+		//(programs+=Program | fbs+=FunctionBlock)*
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//programs+=Program
@@ -3114,7 +3114,7 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 
 	
 	//Model:
-	//	(programs+=Program | fbs+=FunctionBlock)+;
+	//	(programs+=Program | fbs+=FunctionBlock)*;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="su.nsk.iae.post.feature">
+      <category name="poST"/>
+   </feature>
+   <category-def name="poST" label="poST"/>
+</site>

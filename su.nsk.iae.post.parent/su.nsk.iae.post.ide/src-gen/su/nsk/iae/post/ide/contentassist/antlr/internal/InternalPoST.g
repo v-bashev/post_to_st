@@ -65,16 +65,9 @@ ruleModel
 	}
 	:
 	(
-		(
-			{ before(grammarAccess.getModelAccess().getAlternatives()); }
-			(rule__Model__Alternatives)
-			{ after(grammarAccess.getModelAccess().getAlternatives()); }
-		)
-		(
-			{ before(grammarAccess.getModelAccess().getAlternatives()); }
-			(rule__Model__Alternatives)*
-			{ after(grammarAccess.getModelAccess().getAlternatives()); }
-		)
+		{ before(grammarAccess.getModelAccess().getAlternatives()); }
+		(rule__Model__Alternatives)*
+		{ after(grammarAccess.getModelAccess().getAlternatives()); }
 	)
 ;
 finally {

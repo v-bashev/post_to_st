@@ -25,6 +25,7 @@ public class PoSTGenerator extends AbstractGenerator {
   @Override
   public void beforeGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     final Model model = ((Model[])Conversions.unwrapArray((Iterables.<Model>filter(IteratorExtensions.<EObject>toIterable(input.getAllContents()), Model.class)), Model.class))[0];
+    this.codes.clear();
     EList<Program> _programs = model.getPrograms();
     for (final Program p : _programs) {
       ProgramGenerator _programGenerator = new ProgramGenerator(p);

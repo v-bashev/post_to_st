@@ -17,6 +17,7 @@ class PoSTGenerator extends AbstractGenerator {
 	
 	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val model = input.allContents.toIterable.filter(Model).get(0)
+		codes.clear
 		for (p : model.programs) {
 			codes.add(new ProgramGenerator(p))
 		}

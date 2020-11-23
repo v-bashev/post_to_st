@@ -38,10 +38,12 @@ Workflow {
 			}
 			generator = {
 				generateXtendStub = true
+				generateJavaMain = true
 			}
 			junitSupport = {
 				junitVersion = "5"
 			}
+			
 		}
 	}
 }
