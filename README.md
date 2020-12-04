@@ -8,7 +8,7 @@ poST translator to Structured Text (ST), based on Xtext/Xtend with Eclipse IDE
 Генератор в ST : `su.nsk.iae.post/src/su.nsk.iae.post.generator.st.*`
 
 # Установка
-1. Для работы с проектом нужная Java 11+.
+1. Для работы с проектом нужна Java 11+.
 2. Скачать и установить [Eclipse](https://eclipse.org/downloads/).\
    Проверить что установлена и выбрана Java 11 или выше. "Window" -> "Preferences" -> "Java" -> "Installed JREs".
 3. Через меню "Help" -> "Eclipse Marketplace..." установить / обновить:\
