@@ -5,7 +5,8 @@ poST translator to Structured Text (ST), based on Xtext/Xtend with Eclipse IDE
 Грамматика языка poST : `su.nsk.iae.post/src/su.nsk.iae.post/PoST.xtext`\
 Синтаксические проверки : `su.nsk.iae.post/src/su.nsk.iae.post.validation/PoSTValidator.xtext`\
 Настройка генераторов : `su.nsk.iae.post/src/su.nsk.iae.post.generator/PoSTGenerator.xtend`\
-Генератор в ST : `su.nsk.iae.post/src/su.nsk.iae.post.generator.st.*`
+Генератор в ST : `su.nsk.iae.post/src/su.nsk.iae.post.generator.st.*`\
+Генератор в PLCopen XML : `su.nsk.iae.post/src/su.nsk.iae.post.generator.xml.*`
 
 # Установка
 1. Для работы с проектом нужна Java 11+.
