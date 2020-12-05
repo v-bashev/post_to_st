@@ -1,55 +1,19 @@
 package su.nsk.iae.post.generator.xml
 
-import java.util.LinkedList
-import java.util.List
-import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.generator.IFileSystemAccess2
-import su.nsk.iae.post.generator.xml.vars.ExternalVarHelper
-import su.nsk.iae.post.generator.xml.vars.InputOutputVarHelper
-import su.nsk.iae.post.generator.xml.vars.InputVarHelper
-import su.nsk.iae.post.generator.xml.vars.OutputVarHelper
-import su.nsk.iae.post.generator.xml.vars.SimpleVarHelper
-import su.nsk.iae.post.generator.xml.vars.TempVarHelper
-import su.nsk.iae.post.generator.xml.vars.VarHelper
-import su.nsk.iae.post.poST.Process
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import org.eclipse.xtext.generator.IFileSystemAccess2
+import su.nsk.iae.post.generator.st.ICodeGenerator
+import su.nsk.iae.post.generator.st.common.vars.VarHelper
+import su.nsk.iae.post.generator.st.common.vars.data.VarData
 
-class CodeGenerator {
-	
-	protected String codeName
-	protected String type
-	
-	protected VarHelper inVarList = new InputVarHelper
-	protected VarHelper outVarList = new OutputVarHelper
-	protected VarHelper inOutVarList = new InputOutputVarHelper
-	protected VarHelper externalVarList = new ExternalVarHelper
-	protected VarHelper varList = new SimpleVarHelper
-	protected VarHelper tempVarList = new TempVarHelper
-	
-	List<ProcessGenerator> processList = new LinkedList
-	
-	protected def parseProcesses(EList<Process> processes) {
-		for (p: processes) {
-			processList.add(new ProcessGenerator(this, p))
-		}
-		addVar(generateGlobalTime, "TIME")
-		for (p : processList) {
-			p.addTimeVars()
-		}
-		for (p : processList) {
-			p.addStateVars()
-		}
-		addVar(generateStopConstant, "INT", "254", true)
-		addVar(generateErrorConstant, "INT", "255", true)
-	}
+class CodeGenerator extends ICodeGenerator {
 	
 	def void generate(IFileSystemAccess2 fsa, String path) {
 		fsa.generateFile('''«path»«codeName.toLowerCase».xml''', generateCode)
 	}
 	
-	private def String generateCode() '''
+	protected override String generateCode() '''
 		<?xml version="1.0" encoding="utf-8"?>
 		<project xmlns="http://www.plcopen.org/xml/tc6_0200">
 			<fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP11" creationDateTime="«generateCurrentTime»" />
@@ -76,7 +40,7 @@ class CodeGenerator {
 				<pous>
 					<pou name="«codeName»" pouType="«type.toLowerCase»">
 						<interface>
-							«varList.generate»
+							«varList.generateVar»
 						</interface>
 						<body>
 							<ST>
@@ -87,7 +51,7 @@ class CodeGenerator {
 			«p.generateBody»
 			
 		«ENDFOR»
-		</xhtml>
+								</xhtml>
 							</ST>
 						</body>
 					</pou>
@@ -99,55 +63,44 @@ class CodeGenerator {
 		</project>
 	'''
 	
-	def String generateStopConstant() {
-		return '''_STOP'''
-	}
-	
-	def String generateErrorConstant() {
-		return '''_ERROR'''
-	}
-	
-	def String generateGlobalTime() {
-		return '''_global_time'''
-	}
-	
-	def String generateProcessEnum(String processName) {
-		return processList.findFirst[name == processName].generateEnumName
-	}
-	
-	def String generateProcessStart(String processName) {
-		return processList.findFirst[name == processName].generateStart
-	}
-	
-	def void addVar(EObject varDecl) {
-		varList.add(varDecl)
-	}
-	
-	def void addVar(String name, String type) {
-		varList.add(name, type)
-	}
-	
-	def void addVar(String name, String type, String value) {
-		varList.add(name, type, value)
-	}
-	
-	def void addVar(String name, String type, String value, boolean isConstant) {
-		varList.add(name, type, value, isConstant)
-	}
-	
-	def void addTempVar(EObject varDecl) {
-		tempVarList.add(varDecl)
-	}
-	
-	def void addTempVar(String name, String type, String value) {
-		tempVarList.add(name, type, value)
-	}
-	
-	def boolean isFirstProcess(ProcessGenerator process) {
-		return processList.get(0) == process
-	}
-	
 	private def String generateCurrentTime() {
 		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS").format(Calendar.instance.time)
 	}
+	
+	def String generateVar(VarHelper varHelper) '''
+		«IF !varHelper.list.empty»
+			«IF varHelper.hasConstant»
+				<localVars constant="true">
+					«FOR v : varHelper.list»
+						«IF v.isConstant»
+							«v.generateSingleDeclaration»
+						«ENDIF»
+					«ENDFOR»
+				</localVars>
+			«ENDIF»
+			«IF varHelper.hasNonConstant»
+				<localVars>
+					«FOR v : varHelper.list»
+						«IF !v.isConstant»
+							«v.generateSingleDeclaration»
+						«ENDIF»
+					«ENDFOR»
+				</localVars>
+			«ENDIF»
+		«ENDIF»
+	'''
+	
+	private def String generateSingleDeclaration(VarData data) '''
+		<variable name="«data.name»">
+			<type>
+				<«data.type» />
+			</type>
+			«IF data.value !== null»
+				<initialValue>
+					<simpleValue value="«data.value»" />
+				</initialValue>
+			«ENDIF»
+		</variable>
+	'''
+	
 }

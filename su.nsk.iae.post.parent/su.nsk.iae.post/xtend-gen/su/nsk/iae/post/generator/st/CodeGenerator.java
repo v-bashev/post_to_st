@@ -1,59 +1,18 @@
 package su.nsk.iae.post.generator.st;
 
-import com.google.common.base.Objects;
-import java.util.LinkedList;
 import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import su.nsk.iae.post.generator.st.ProcessGenerator;
-import su.nsk.iae.post.generator.st.vars.ExternalVarHelper;
-import su.nsk.iae.post.generator.st.vars.InputOutputVarHelper;
-import su.nsk.iae.post.generator.st.vars.InputVarHelper;
-import su.nsk.iae.post.generator.st.vars.OutputVarHelper;
-import su.nsk.iae.post.generator.st.vars.SimpleVarHelper;
-import su.nsk.iae.post.generator.st.vars.TempVarHelper;
-import su.nsk.iae.post.generator.st.vars.VarHelper;
+import org.eclipse.xtext.xbase.lib.ListExtensions;
+import su.nsk.iae.post.generator.st.ICodeGenerator;
+import su.nsk.iae.post.generator.st.common.ProcessGenerator;
+import su.nsk.iae.post.generator.st.common.vars.VarHelper;
+import su.nsk.iae.post.generator.st.common.vars.data.VarData;
 
 @SuppressWarnings("all")
-public class CodeGenerator {
-  protected String codeName;
-  
-  protected String type;
-  
-  protected VarHelper inVarList = new InputVarHelper();
-  
-  protected VarHelper outVarList = new OutputVarHelper();
-  
-  protected VarHelper inOutVarList = new InputOutputVarHelper();
-  
-  protected VarHelper externalVarList = new ExternalVarHelper();
-  
-  protected VarHelper varList = new SimpleVarHelper();
-  
-  protected VarHelper tempVarList = new TempVarHelper();
-  
-  private List<ProcessGenerator> processList = new LinkedList<ProcessGenerator>();
-  
-  protected void parseProcesses(final EList<su.nsk.iae.post.poST.Process> processes) {
-    for (final su.nsk.iae.post.poST.Process p : processes) {
-      ProcessGenerator _processGenerator = new ProcessGenerator(this, p);
-      this.processList.add(_processGenerator);
-    }
-    this.addVar(this.generateGlobalTime(), "TIME");
-    for (final ProcessGenerator p_1 : this.processList) {
-      p_1.addTimeVars();
-    }
-    for (final ProcessGenerator p_2 : this.processList) {
-      p_2.addStateVars();
-    }
-    this.addVar(this.generateStopConstant(), "INT", "254", true);
-    this.addVar(this.generateErrorConstant(), "INT", "255", true);
-  }
-  
+public class CodeGenerator extends ICodeGenerator {
   public void generate(final IFileSystemAccess2 fsa, final String path) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(path);
@@ -63,30 +22,31 @@ public class CodeGenerator {
     fsa.generateFile(_builder.toString(), this.generateCode());
   }
   
-  private String generateCode() {
+  @Override
+  protected String generateCode() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(this.type);
     _builder.append(" ");
     _builder.append(this.codeName);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
-    String _generate = this.inVarList.generate();
-    _builder.append(_generate);
+    String _generateVar = this.generateVar(this.inVarList);
+    _builder.append(_generateVar);
     _builder.newLineIfNotEmpty();
-    String _generate_1 = this.outVarList.generate();
-    _builder.append(_generate_1);
+    String _generateVar_1 = this.generateVar(this.outVarList);
+    _builder.append(_generateVar_1);
     _builder.newLineIfNotEmpty();
-    String _generate_2 = this.inOutVarList.generate();
-    _builder.append(_generate_2);
+    String _generateVar_2 = this.generateVar(this.inOutVarList);
+    _builder.append(_generateVar_2);
     _builder.newLineIfNotEmpty();
-    String _generate_3 = this.externalVarList.generate();
-    _builder.append(_generate_3);
+    String _generateVar_3 = this.generateVar(this.externalVarList);
+    _builder.append(_generateVar_3);
     _builder.newLineIfNotEmpty();
-    String _generate_4 = this.varList.generate();
-    _builder.append(_generate_4);
+    String _generateVar_4 = this.generateVar(this.varList);
+    _builder.append(_generateVar_4);
     _builder.newLineIfNotEmpty();
-    String _generate_5 = this.tempVarList.generate();
-    _builder.append(_generate_5);
+    String _generateVar_5 = this.generateVar(this.tempVarList);
+    _builder.append(_generateVar_5);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     String _generateGlobalTime = this.generateGlobalTime();
@@ -108,66 +68,108 @@ public class CodeGenerator {
     return _builder.toString();
   }
   
-  public String generateStopConstant() {
+  private String generateVar(final VarHelper helper) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("_STOP");
+    {
+      boolean _isEmpty = helper.getList().isEmpty();
+      boolean _not = (!_isEmpty);
+      if (_not) {
+        {
+          boolean _hasConstant = helper.hasConstant();
+          if (_hasConstant) {
+            String _type = helper.getType();
+            _builder.append(_type);
+            _builder.append(" CONSTANT");
+            _builder.newLineIfNotEmpty();
+            {
+              List<VarData> _list = helper.getList();
+              for(final VarData v : _list) {
+                {
+                  boolean _isConstant = v.isConstant();
+                  if (_isConstant) {
+                    _builder.append("\t");
+                    String _generateSingleDeclaration = this.generateSingleDeclaration(v);
+                    _builder.append(_generateSingleDeclaration, "\t");
+                    String _generateValue = this.generateValue(v);
+                    _builder.append(_generateValue, "\t");
+                    _builder.append(";");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+              }
+            }
+            _builder.append("END_VAR");
+            _builder.newLine();
+            _builder.newLine();
+          }
+        }
+        {
+          boolean _hasNonConstant = helper.hasNonConstant();
+          if (_hasNonConstant) {
+            String _type_1 = helper.getType();
+            _builder.append(_type_1);
+            _builder.newLineIfNotEmpty();
+            {
+              List<VarData> _list_1 = helper.getList();
+              for(final VarData v_1 : _list_1) {
+                {
+                  boolean _isConstant_1 = v_1.isConstant();
+                  boolean _not_1 = (!_isConstant_1);
+                  if (_not_1) {
+                    _builder.append("\t");
+                    String _generateSingleDeclaration_1 = this.generateSingleDeclaration(v_1);
+                    _builder.append(_generateSingleDeclaration_1, "\t");
+                    String _generateValue_1 = this.generateValue(v_1);
+                    _builder.append(_generateValue_1, "\t");
+                    _builder.append(";");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+              }
+            }
+            _builder.append("END_VAR");
+            _builder.newLine();
+            _builder.newLine();
+          }
+        }
+      }
+    }
     return _builder.toString();
   }
   
-  public String generateErrorConstant() {
+  private String generateSingleDeclaration(final VarData data) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("_ERROR");
+    String _name = data.getName();
+    _builder.append(_name);
+    _builder.append(" : ");
+    String _type = data.getType();
+    _builder.append(_type);
     return _builder.toString();
   }
   
-  public String generateGlobalTime() {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("_global_time");
-    return _builder.toString();
-  }
-  
-  public String generateProcessEnum(final String processName) {
-    final Function1<ProcessGenerator, Boolean> _function = (ProcessGenerator it) -> {
-      String _name = it.getName();
-      return Boolean.valueOf(Objects.equal(_name, processName));
-    };
-    return IterableExtensions.<ProcessGenerator>findFirst(this.processList, _function).generateEnumName();
-  }
-  
-  public String generateProcessStart(final String processName) {
-    final Function1<ProcessGenerator, Boolean> _function = (ProcessGenerator it) -> {
-      String _name = it.getName();
-      return Boolean.valueOf(Objects.equal(_name, processName));
-    };
-    return IterableExtensions.<ProcessGenerator>findFirst(this.processList, _function).generateStart();
-  }
-  
-  public void addVar(final EObject varDecl) {
-    this.varList.add(varDecl);
-  }
-  
-  public void addVar(final String name, final String type) {
-    this.varList.add(name, type);
-  }
-  
-  public void addVar(final String name, final String type, final String value) {
-    this.varList.add(name, type, value);
-  }
-  
-  public void addVar(final String name, final String type, final String value, final boolean isConstant) {
-    this.varList.add(name, type, value, isConstant);
-  }
-  
-  public void addTempVar(final EObject varDecl) {
-    this.tempVarList.add(varDecl);
-  }
-  
-  public void addTempVar(final String name, final String type, final String value) {
-    this.tempVarList.add(name, type, value);
-  }
-  
-  public boolean isFirstProcess(final ProcessGenerator process) {
-    ProcessGenerator _get = this.processList.get(0);
-    return Objects.equal(_get, process);
+  private String generateValue(final VarData v) {
+    if (((v.getValue() == null) && (v.getArraValues() == null))) {
+      StringConcatenation _builder = new StringConcatenation();
+      return _builder.toString();
+    }
+    boolean _isArray = v.isArray();
+    if (_isArray) {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append(" ");
+      _builder_1.append(":= [");
+      final Function1<String, String> _function = (String it) -> {
+        return it;
+      };
+      String _join = IterableExtensions.join(ListExtensions.<String, String>map(v.getArraValues(), _function), ", ");
+      _builder_1.append(_join, " ");
+      _builder_1.append("]");
+      return _builder_1.toString();
+    }
+    StringConcatenation _builder_2 = new StringConcatenation();
+    _builder_2.append(" ");
+    _builder_2.append(":= ");
+    String _value = v.getValue();
+    _builder_2.append(_value, " ");
+    return _builder_2.toString();
   }
 }
