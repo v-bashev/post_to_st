@@ -1,4 +1,4 @@
-package su.nsk.iae.post.generator.st;
+package su.nsk.iae.post.generator.xml;
 
 import com.google.common.base.Objects;
 import java.util.LinkedList;
@@ -7,12 +7,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import su.nsk.iae.post.generator.st.CodeGenerator;
-import su.nsk.iae.post.generator.st.StateGenerator;
-import su.nsk.iae.post.generator.st.vars.SimpleVarHelper;
-import su.nsk.iae.post.generator.st.vars.TempVarHelper;
-import su.nsk.iae.post.generator.st.vars.VarHelper;
-import su.nsk.iae.post.generator.st.vars.data.VarData;
+import su.nsk.iae.post.generator.xml.CodeGenerator;
+import su.nsk.iae.post.generator.xml.StateGenerator;
+import su.nsk.iae.post.generator.xml.vars.SimpleVarHelper;
+import su.nsk.iae.post.generator.xml.vars.TempVarHelper;
+import su.nsk.iae.post.generator.xml.vars.VarHelper;
+import su.nsk.iae.post.generator.xml.vars.data.VarData;
 import su.nsk.iae.post.poST.State;
 import su.nsk.iae.post.poST.SymbolicVariable;
 import su.nsk.iae.post.poST.TempVarDeclaration;

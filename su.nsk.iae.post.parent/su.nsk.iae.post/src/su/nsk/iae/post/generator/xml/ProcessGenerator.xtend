@@ -1,12 +1,12 @@
-package su.nsk.iae.post.generator.st
+package su.nsk.iae.post.generator.xml
 
 import java.util.LinkedList
 import java.util.List
-import su.nsk.iae.post.generator.st.vars.SimpleVarHelper
-import su.nsk.iae.post.generator.st.vars.TempVarHelper
-import su.nsk.iae.post.generator.st.vars.VarHelper
-import su.nsk.iae.post.poST.Process
 import org.eclipse.emf.ecore.util.EcoreUtil
+import su.nsk.iae.post.generator.xml.vars.SimpleVarHelper
+import su.nsk.iae.post.generator.xml.vars.TempVarHelper
+import su.nsk.iae.post.generator.xml.vars.VarHelper
+import su.nsk.iae.post.poST.Process
 
 class ProcessGenerator {
 	

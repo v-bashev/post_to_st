@@ -13,22 +13,29 @@ import su.nsk.iae.post.generator.st.FBGenerator
 
 class PoSTGenerator extends AbstractGenerator {
 	
-	List<CodeGenerator> codes = new LinkedList
+	List<CodeGenerator> stCodes = new LinkedList
+	List<su.nsk.iae.post.generator.xml.CodeGenerator> xmlCodes = new LinkedList
 	
 	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val model = input.allContents.toIterable.filter(Model).get(0)
-		codes.clear
+		stCodes.clear
+		xmlCodes.clear
 		for (p : model.programs) {
-			codes.add(new ProgramGenerator(p))
+			stCodes.add(new ProgramGenerator(p))
+			xmlCodes.add(new su.nsk.iae.post.generator.xml.ProgramGenerator(p))
 		}
 		for (fb : model.fbs) {
-			codes.add(new FBGenerator(fb))
+			stCodes.add(new FBGenerator(fb))
+			xmlCodes.add(new su.nsk.iae.post.generator.xml.FBGenerator(fb))
 		}
 	}
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		for (c : codes) {
-			c.generate(fsa, "")
+		for (c : stCodes) {
+			c.generate(fsa, "st/")
+		}
+		for (c : xmlCodes) {
+			c.generate(fsa, "xml/")
 		}
 	}
 }

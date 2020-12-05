@@ -20,28 +20,42 @@ import su.nsk.iae.post.poST.Program;
 
 @SuppressWarnings("all")
 public class PoSTGenerator extends AbstractGenerator {
-  private List<CodeGenerator> codes = new LinkedList<CodeGenerator>();
+  private List<CodeGenerator> stCodes = new LinkedList<CodeGenerator>();
+  
+  private List<su.nsk.iae.post.generator.xml.CodeGenerator> xmlCodes = new LinkedList<su.nsk.iae.post.generator.xml.CodeGenerator>();
   
   @Override
   public void beforeGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     final Model model = ((Model[])Conversions.unwrapArray((Iterables.<Model>filter(IteratorExtensions.<EObject>toIterable(input.getAllContents()), Model.class)), Model.class))[0];
-    this.codes.clear();
+    this.stCodes.clear();
+    this.xmlCodes.clear();
     EList<Program> _programs = model.getPrograms();
     for (final Program p : _programs) {
-      ProgramGenerator _programGenerator = new ProgramGenerator(p);
-      this.codes.add(_programGenerator);
+      {
+        ProgramGenerator _programGenerator = new ProgramGenerator(p);
+        this.stCodes.add(_programGenerator);
+        su.nsk.iae.post.generator.xml.ProgramGenerator _programGenerator_1 = new su.nsk.iae.post.generator.xml.ProgramGenerator(p);
+        this.xmlCodes.add(_programGenerator_1);
+      }
     }
     EList<FunctionBlock> _fbs = model.getFbs();
     for (final FunctionBlock fb : _fbs) {
-      FBGenerator _fBGenerator = new FBGenerator(fb);
-      this.codes.add(_fBGenerator);
+      {
+        FBGenerator _fBGenerator = new FBGenerator(fb);
+        this.stCodes.add(_fBGenerator);
+        su.nsk.iae.post.generator.xml.FBGenerator _fBGenerator_1 = new su.nsk.iae.post.generator.xml.FBGenerator(fb);
+        this.xmlCodes.add(_fBGenerator_1);
+      }
     }
   }
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    for (final CodeGenerator c : this.codes) {
-      c.generate(fsa, "");
+    for (final CodeGenerator c : this.stCodes) {
+      c.generate(fsa, "st/");
+    }
+    for (final su.nsk.iae.post.generator.xml.CodeGenerator c_1 : this.xmlCodes) {
+      c_1.generate(fsa, "xml/");
     }
   }
 }
