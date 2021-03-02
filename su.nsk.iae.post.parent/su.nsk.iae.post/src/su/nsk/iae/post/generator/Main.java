@@ -55,12 +55,12 @@ public class Main {
 				System.err.println(issue);
 			}
 			if (error)
+				System.out.println("Code generation aborted.");
 				return;
-			return;
 		}
 
 		// Configure and start the generator
-		fileAccess.setOutputPath("src-gen/");
+		fileAccess.setOutputPath("/");
 		GeneratorContext context = new GeneratorContext();
 		context.setCancelIndicator(CancelIndicator.NullImpl);
 		generator.generate(resource, fileAccess, context);

@@ -28,7 +28,7 @@ public class PoSTGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    this.stGenerator.generate(fsa, "st/");
-    this.xmlGenerator.generate(fsa, "xml/");
+    this.stGenerator.generateSingleFile(fsa, "");
+    this.xmlGenerator.generateSingleFile(fsa, "");
   }
 }

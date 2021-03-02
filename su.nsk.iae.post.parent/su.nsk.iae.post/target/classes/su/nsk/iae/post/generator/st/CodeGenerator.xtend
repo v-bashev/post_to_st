@@ -10,7 +10,7 @@ class CodeGenerator extends ICodeGenerator {
 		fsa.generateFile('''«path»«codeName.toLowerCase».st''', generateCode)
 	}
 	
-	protected override String generateCode() '''
+	override String generateCode() '''
 		«type» «codeName»
 
 		«inVarList.generateVar»

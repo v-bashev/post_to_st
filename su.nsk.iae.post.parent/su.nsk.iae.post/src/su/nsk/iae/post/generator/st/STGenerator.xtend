@@ -20,10 +20,21 @@ class STGenerator implements IpoSTGenerator {
 		}
 	}
 	
-	override generate(IFileSystemAccess2 fsa, String path) {
+	override generateSingleFile(IFileSystemAccess2 fsa, String path) {
+		fsa.generateFile('''«path»poST_code.st''', generateSingleFileBody)
+	}
+	
+	override generateMultipleFiles(IFileSystemAccess2 fsa, String path) {
 		for (c : codes) {
 			c.generate(fsa, path)
 		}
 	}
+	
+	private def String generateSingleFileBody() '''
+		«FOR c : codes»
+			«c.generateCode»
+			
+		«ENDFOR»
+	'''
 	
 }

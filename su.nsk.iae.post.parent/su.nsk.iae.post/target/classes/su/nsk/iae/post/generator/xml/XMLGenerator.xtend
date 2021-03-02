@@ -20,10 +20,22 @@ class XMLGenerator implements IpoSTGenerator {
 		}
 	}
 	
-	override generate(IFileSystemAccess2 fsa, String path) {
+	override generateSingleFile(IFileSystemAccess2 fsa, String path) {
+		fsa.generateFile('''«path»poST_code.xml''', generateXML)
+	}
+	
+	override generateMultipleFiles(IFileSystemAccess2 fsa, String path) {
 		for (c : codes) {
 			c.generate(fsa, path)
 		}
 	}
+	
+	private def String generateXML() '''
+		«CodeGenerator.generateXMLStart»
+		«FOR c : codes»
+			«c.generateXMLBody»
+		«ENDFOR»
+		«CodeGenerator.generateXMLEnd»
+	'''
 	
 }

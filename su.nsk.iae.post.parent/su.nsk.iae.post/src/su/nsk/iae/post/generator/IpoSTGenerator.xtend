@@ -5,5 +5,6 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
 
 interface IpoSTGenerator {
 	def void setModel(Model model)
-	def void generate(IFileSystemAccess2 fsa, String path)
+	def void generateSingleFile(IFileSystemAccess2 fsa, String path)
+	def void generateMultipleFiles(IFileSystemAccess2 fsa, String path)
 }

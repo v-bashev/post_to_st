@@ -3,6 +3,7 @@ package su.nsk.iae.post.generator.st;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import su.nsk.iae.post.generator.IpoSTGenerator;
 import su.nsk.iae.post.generator.st.CodeGenerator;
@@ -32,9 +33,30 @@ public class STGenerator implements IpoSTGenerator {
   }
   
   @Override
-  public void generate(final IFileSystemAccess2 fsa, final String path) {
+  public void generateSingleFile(final IFileSystemAccess2 fsa, final String path) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append(path);
+    _builder.append("poST_code.st");
+    fsa.generateFile(_builder.toString(), this.generateSingleFileBody());
+  }
+  
+  @Override
+  public void generateMultipleFiles(final IFileSystemAccess2 fsa, final String path) {
     for (final CodeGenerator c : this.codes) {
       c.generate(fsa, path);
     }
+  }
+  
+  private String generateSingleFileBody() {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      for(final CodeGenerator c : this.codes) {
+        String _generateCode = c.generateCode();
+        _builder.append(_generateCode);
+        _builder.newLineIfNotEmpty();
+        _builder.newLine();
+      }
+    }
+    return _builder.toString();
   }
 }

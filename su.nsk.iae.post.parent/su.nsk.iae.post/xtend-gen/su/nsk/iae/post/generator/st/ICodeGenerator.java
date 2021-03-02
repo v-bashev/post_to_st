@@ -37,7 +37,7 @@ public abstract class ICodeGenerator {
   
   protected List<ProcessGenerator> processList = new LinkedList<ProcessGenerator>();
   
-  protected abstract String generateCode();
+  public abstract String generateCode();
   
   protected void parseProcesses(final EList<su.nsk.iae.post.poST.Process> processes) {
     for (final su.nsk.iae.post.poST.Process p : processes) {

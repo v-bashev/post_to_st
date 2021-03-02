@@ -7,5 +7,7 @@ import su.nsk.iae.post.poST.Model;
 public interface IpoSTGenerator {
   void setModel(final Model model);
   
-  void generate(final IFileSystemAccess2 fsa, final String path);
+  void generateSingleFile(final IFileSystemAccess2 fsa, final String path);
+  
+  void generateMultipleFiles(final IFileSystemAccess2 fsa, final String path);
 }

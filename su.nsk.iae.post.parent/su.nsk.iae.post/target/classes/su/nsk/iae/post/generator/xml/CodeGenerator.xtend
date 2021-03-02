@@ -13,12 +13,12 @@ class CodeGenerator extends ICodeGenerator {
 		fsa.generateFile('''«path»«codeName.toLowerCase».xml''', generateCode)
 	}
 	
-	protected override String generateCode() '''
+	static def String generateXMLStart() '''
 		<?xml version="1.0" encoding="utf-8"?>
 		<project xmlns="http://www.plcopen.org/xml/tc6_0200">
 			<fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP11" creationDateTime="«generateCurrentTime»" />
-			<contentHeader name="«codeName»_poST.project">
-		 		<coordinateInfo>
+			<contentHeader name="poST.project">
+				 <coordinateInfo>
 					<fbd>
 						<scaling x="1" y="1" />
 					</fbd>
@@ -38,23 +38,9 @@ class CodeGenerator extends ICodeGenerator {
 			<types>
 				<dataTypes />
 				<pous>
-					<pou name="«codeName»" pouType="«type.toLowerCase»">
-						<interface>
-							«varList.generateVar»
-						</interface>
-						<body>
-							<ST>
-								<xhtml xmlns="http://www.w3.org/1999/xhtml">
-		«generateGlobalTime» := TIME();
-		
-		«FOR p : processList»
-			«p.generateBody»
-			
-		«ENDFOR»
-								</xhtml>
-							</ST>
-						</body>
-					</pou>
+	'''
+	
+	static def String generateXMLEnd() '''
 				</pous>
 			</types>
 			<instances>
@@ -63,7 +49,32 @@ class CodeGenerator extends ICodeGenerator {
 		</project>
 	'''
 	
-	private def String generateCurrentTime() {
+	def String generateXMLBody() '''
+					<pou name="«codeName»" pouType="«type.toLowerCase»">
+						<interface>
+							«varList.generateVar»
+						</interface>
+						<body>
+							<ST>
+								<xhtml xmlns="http://www.w3.org/1999/xhtml">«generateGlobalTime» := TIME();
+			
+		«FOR p : processList»
+			«p.generateBody»
+			
+		«ENDFOR»
+		</xhtml>
+							</ST>
+						</body>
+					</pou>
+	'''
+	
+	override String generateCode() '''
+		«generateXMLStart»
+		«generateXMLBody»
+		«generateXMLEnd»
+	'''
+	
+	private static def String generateCurrentTime() {
 		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS").format(Calendar.instance.time)
 	}
 	

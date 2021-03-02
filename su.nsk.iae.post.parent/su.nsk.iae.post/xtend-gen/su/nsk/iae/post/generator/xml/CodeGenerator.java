@@ -21,8 +21,7 @@ public class CodeGenerator extends ICodeGenerator {
     fsa.generateFile(_builder.toString(), this.generateCode());
   }
   
-  @Override
-  protected String generateCode() {
+  public static String generateXMLStart() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
     _builder.newLine();
@@ -30,16 +29,14 @@ public class CodeGenerator extends ICodeGenerator {
     _builder.newLine();
     _builder.append("\t");
     _builder.append("<fileHeader companyName=\"\" productName=\"CODESYS\" productVersion=\"CODESYS V3.5 SP11\" creationDateTime=\"");
-    String _generateCurrentTime = this.generateCurrentTime();
+    String _generateCurrentTime = CodeGenerator.generateCurrentTime();
     _builder.append(_generateCurrentTime, "\t");
     _builder.append("\" />");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    _builder.append("<contentHeader name=\"");
-    _builder.append(this.codeName, "\t");
-    _builder.append("_poST.project\">");
-    _builder.newLineIfNotEmpty();
-    _builder.append(" \t\t");
+    _builder.append("<contentHeader name=\"poST.project\">");
+    _builder.newLine();
+    _builder.append("\t\t ");
     _builder.append("<coordinateInfo>");
     _builder.newLine();
     _builder.append("\t\t\t");
@@ -99,6 +96,33 @@ public class CodeGenerator extends ICodeGenerator {
     _builder.append("\t\t");
     _builder.append("<pous>");
     _builder.newLine();
+    return _builder.toString();
+  }
+  
+  public static String generateXMLEnd() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("\t\t");
+    _builder.append("</pous>");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("</types>");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("<instances>");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("<configurations />");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("</instances>");
+    _builder.newLine();
+    _builder.append("</project>");
+    _builder.newLine();
+    return _builder.toString();
+  }
+  
+  public String generateXMLBody() {
+    StringConcatenation _builder = new StringConcatenation();
     _builder.append("\t\t\t");
     _builder.append("<pou name=\"");
     _builder.append(this.codeName, "\t\t\t");
@@ -125,11 +149,11 @@ public class CodeGenerator extends ICodeGenerator {
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t");
     _builder.append("<xhtml xmlns=\"http://www.w3.org/1999/xhtml\">");
-    _builder.newLine();
     String _generateGlobalTime = this.generateGlobalTime();
-    _builder.append(_generateGlobalTime);
+    _builder.append(_generateGlobalTime, "\t\t\t\t\t\t");
     _builder.append(" := TIME();");
     _builder.newLineIfNotEmpty();
+    _builder.append("\t");
     _builder.newLine();
     {
       for(final ProcessGenerator p : this.processList) {
@@ -139,7 +163,6 @@ public class CodeGenerator extends ICodeGenerator {
         _builder.newLine();
       }
     }
-    _builder.append("\t\t\t\t\t\t");
     _builder.append("</xhtml>");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
@@ -151,27 +174,25 @@ public class CodeGenerator extends ICodeGenerator {
     _builder.append("\t\t\t");
     _builder.append("</pou>");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("</pous>");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("</types>");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("<instances>");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<configurations />");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("</instances>");
-    _builder.newLine();
-    _builder.append("</project>");
-    _builder.newLine();
     return _builder.toString();
   }
   
-  private String generateCurrentTime() {
+  @Override
+  public String generateCode() {
+    StringConcatenation _builder = new StringConcatenation();
+    String _generateXMLStart = CodeGenerator.generateXMLStart();
+    _builder.append(_generateXMLStart);
+    _builder.newLineIfNotEmpty();
+    String _generateXMLBody = this.generateXMLBody();
+    _builder.append(_generateXMLBody);
+    _builder.newLineIfNotEmpty();
+    String _generateXMLEnd = CodeGenerator.generateXMLEnd();
+    _builder.append(_generateXMLEnd);
+    _builder.newLineIfNotEmpty();
+    return _builder.toString();
+  }
+  
+  private static String generateCurrentTime() {
     return new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.SSSSSS").format(Calendar.getInstance().getTime());
   }
   

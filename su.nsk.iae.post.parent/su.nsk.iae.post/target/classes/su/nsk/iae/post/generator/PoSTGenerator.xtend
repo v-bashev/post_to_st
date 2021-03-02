@@ -20,7 +20,9 @@ class PoSTGenerator extends AbstractGenerator {
 	}
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		stGenerator.generate(fsa, "st/")
-		xmlGenerator.generate(fsa, "xml/")
+		stGenerator.generateSingleFile(fsa, "")
+		xmlGenerator.generateSingleFile(fsa, "")
+		//stGenerator.generateMultipleFiles(fsa, "st/")
+		//xmlGenerator.generateMultipleFiles(fsa, "xml/")
 	}
 }

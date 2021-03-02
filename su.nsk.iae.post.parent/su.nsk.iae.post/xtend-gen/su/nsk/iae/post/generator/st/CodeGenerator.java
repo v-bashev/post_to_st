@@ -23,7 +23,7 @@ public class CodeGenerator extends ICodeGenerator {
   }
   
   @Override
-  protected String generateCode() {
+  public String generateCode() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(this.type);
     _builder.append(" ");

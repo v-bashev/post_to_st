@@ -28,7 +28,7 @@ abstract class ICodeGenerator {
 	
 	protected List<ProcessGenerator> processList = new LinkedList
 	
-	protected def String generateCode()
+	def String generateCode()
 	
 	protected def parseProcesses(EList<Process> processes) {
 		for (p: processes) {
