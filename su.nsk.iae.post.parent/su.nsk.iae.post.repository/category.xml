@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<feature id="su.nsk.iae.post.feature" version="0.0.0">
+		<category name="main"/>
+	</feature>
+	<feature id="su.nsk.iae.post.feature.source" version="0.0.0">
+		<category name="main.source"/>
+	</feature>
+	<category-def name="main" label="PoST"/>
+	<category-def name="main.source" label="PoST (Sources)"/>
+</site>

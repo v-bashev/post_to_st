@@ -92,6 +92,12 @@
 							</includes>
 						</fileset>
 						<fileset>
+							<directory>${basedir}/../su.nsk.iae.post.web/src-gen/</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</fileset>
+						<fileset>
 							<directory>${basedir}/model/generated/</directory>
 						</fileset>
 					</filesets>
