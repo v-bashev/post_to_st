@@ -26,7 +26,15 @@ public class Main {
 		}
 		Injector injector = new PoSTStandaloneSetup().createInjectorAndDoEMFRegistration();
 		Main main = injector.getInstance(Main.class);
-		main.runGenerator(args[0]);
+		if (args.length == 1) {
+			main.runGenerator(args[0], false);
+		} else {
+			if (args[0].contains(".post")) {
+				main.runGenerator(args[0], args[1].equals("-l"));
+			} else {
+				main.runGenerator(args[1], args[0].equals("-l"));
+			}
+		}
 	}
 
 	@Inject
@@ -41,7 +49,7 @@ public class Main {
 	@Inject 
 	private JavaIoFileSystemAccess fileAccess;
 
-	protected void runGenerator(String string) {
+	protected void runGenerator(String string, boolean local) {
 		// Load the resource
 		ResourceSet set = resourceSetProvider.get();
 		Resource resource = set.getResource(URI.createFileURI(string), true);
@@ -55,7 +63,11 @@ public class Main {
 		}
 
 		// Configure and start the generator
-		fileAccess.setOutputPath(".");
+		if (local) {
+			fileAccess.setOutputPath(".");
+		} else {
+			fileAccess.setOutputPath("src-gen/");
+		}
 		GeneratorContext context = new GeneratorContext();
 		context.setCancelIndicator(CancelIndicator.NullImpl);
 		generator.generate(resource, fileAccess, context);
