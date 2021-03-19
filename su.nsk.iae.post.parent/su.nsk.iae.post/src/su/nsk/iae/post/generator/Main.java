@@ -21,7 +21,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		if (args.length == 0) {
-			System.err.println("Aborting: no path to EMF resource provided!");
+			System.err.println("Aborting: no path to poST file provided!");
 			return;
 		}
 		Injector injector = new PoSTStandaloneSetup().createInjectorAndDoEMFRegistration();
@@ -47,24 +47,35 @@ public class Main {
 		Resource resource = set.getResource(URI.createFileURI(string), true);
 
 		// Validate the resource
-		List<Issue> list = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
-		if (!list.isEmpty()) {
-			boolean error = false;
-			for (Issue issue : list) {
-				error |= issue.getSeverity() == Severity.ERROR;
-				System.err.println(issue);
-			}
-			if (error)
-				System.out.println("Code generation aborted.");
-				return;
+		List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
+		if (checkErrors(issues)) {
+			System.out.println("Code generation aborted.");
+			printIssues(issues);
+			return;
 		}
 
 		// Configure and start the generator
-		fileAccess.setOutputPath("/");
+		fileAccess.setOutputPath("");
 		GeneratorContext context = new GeneratorContext();
 		context.setCancelIndicator(CancelIndicator.NullImpl);
 		generator.generate(resource, fileAccess, context);
 
 		System.out.println("Code generation finished.");
+		printIssues(issues);
+	}
+	
+	private boolean checkErrors(List<Issue> issues) {
+		for (Issue issue : issues) {
+			if (issue.getSeverity() == Severity.ERROR) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void printIssues(List<Issue> issues) {
+		for (Issue issue : issues) {
+			System.err.println(issue);
+		}
 	}
 }

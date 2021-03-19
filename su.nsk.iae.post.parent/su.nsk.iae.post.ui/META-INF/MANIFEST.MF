@@ -17,7 +17,7 @@ Require-Bundle: su.nsk.iae.post,
  org.eclipse.compare,
  org.eclipse.xtext.builder
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: su.nsk.iae.post.ui.contentassist,
  su.nsk.iae.post.ui.internal,
  su.nsk.iae.post.ui.quickfix
