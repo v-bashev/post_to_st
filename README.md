@@ -15,9 +15,8 @@ poST translator to Structured Text (ST), based on Xtext/Xtend with Eclipse IDE
 4. In the "Add Repository" dialog enter the name `post` and the location:
    `https://raw.githubusercontent.com/Vlad264/post_to_st/main/site.xml`
 5. In the "Work with" choose "post".
-6. Uncheck the box "Group items by category".
-7. Select "PoST Feature".
-8. Click "Next" and follow the prompts.
+6. Select "PoST Feature".
+7. Click "Next" and follow the prompts.
 
 # Uninstall
 1. From the Eclipse "Help" menu select "About Eclipse IDE"
