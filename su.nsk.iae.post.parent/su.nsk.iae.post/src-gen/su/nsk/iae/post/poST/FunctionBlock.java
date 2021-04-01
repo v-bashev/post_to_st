@@ -17,12 +17,12 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getName <em>Name</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getProgInVars <em>Prog In Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getProgOutVars <em>Prog Out Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getProgInOutVars <em>Prog In Out Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getProgVars <em>Prog Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getProgTempVars <em>Prog Temp Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getProgExternVars <em>Prog Extern Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getFbInVars <em>Fb In Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getFbOutVars <em>Fb Out Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getFbInOutVars <em>Fb In Out Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getFbVars <em>Fb Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getFbTempVars <em>Fb Temp Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getFbExternVars <em>Fb Extern Vars</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.FunctionBlock#getProcesses <em>Processes</em>}</li>
  * </ul>
  *
@@ -55,76 +55,76 @@ public interface FunctionBlock extends EObject
   void setName(String value);
 
   /**
-   * Returns the value of the '<em><b>Prog In Vars</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Fb In Vars</b></em>' containment reference list.
    * The list contents are of type {@link su.nsk.iae.post.poST.InputVarDeclaration}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Prog In Vars</em>' containment reference list.
-   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_ProgInVars()
+   * @return the value of the '<em>Fb In Vars</em>' containment reference list.
+   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_FbInVars()
    * @model containment="true"
    * @generated
    */
-  EList<InputVarDeclaration> getProgInVars();
+  EList<InputVarDeclaration> getFbInVars();
 
   /**
-   * Returns the value of the '<em><b>Prog Out Vars</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Fb Out Vars</b></em>' containment reference list.
    * The list contents are of type {@link su.nsk.iae.post.poST.OutputVarDeclaration}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Prog Out Vars</em>' containment reference list.
-   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_ProgOutVars()
+   * @return the value of the '<em>Fb Out Vars</em>' containment reference list.
+   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_FbOutVars()
    * @model containment="true"
    * @generated
    */
-  EList<OutputVarDeclaration> getProgOutVars();
+  EList<OutputVarDeclaration> getFbOutVars();
 
   /**
-   * Returns the value of the '<em><b>Prog In Out Vars</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Fb In Out Vars</b></em>' containment reference list.
    * The list contents are of type {@link su.nsk.iae.post.poST.InputOutputVarDeclaration}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Prog In Out Vars</em>' containment reference list.
-   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_ProgInOutVars()
+   * @return the value of the '<em>Fb In Out Vars</em>' containment reference list.
+   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_FbInOutVars()
    * @model containment="true"
    * @generated
    */
-  EList<InputOutputVarDeclaration> getProgInOutVars();
+  EList<InputOutputVarDeclaration> getFbInOutVars();
 
   /**
-   * Returns the value of the '<em><b>Prog Vars</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Fb Vars</b></em>' containment reference list.
    * The list contents are of type {@link su.nsk.iae.post.poST.VarDeclaration}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Prog Vars</em>' containment reference list.
-   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_ProgVars()
+   * @return the value of the '<em>Fb Vars</em>' containment reference list.
+   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_FbVars()
    * @model containment="true"
    * @generated
    */
-  EList<VarDeclaration> getProgVars();
+  EList<VarDeclaration> getFbVars();
 
   /**
-   * Returns the value of the '<em><b>Prog Temp Vars</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Fb Temp Vars</b></em>' containment reference list.
    * The list contents are of type {@link su.nsk.iae.post.poST.TempVarDeclaration}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Prog Temp Vars</em>' containment reference list.
-   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_ProgTempVars()
+   * @return the value of the '<em>Fb Temp Vars</em>' containment reference list.
+   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_FbTempVars()
    * @model containment="true"
    * @generated
    */
-  EList<TempVarDeclaration> getProgTempVars();
+  EList<TempVarDeclaration> getFbTempVars();
 
   /**
-   * Returns the value of the '<em><b>Prog Extern Vars</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Fb Extern Vars</b></em>' containment reference list.
    * The list contents are of type {@link su.nsk.iae.post.poST.ExternalVarDeclaration}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Prog Extern Vars</em>' containment reference list.
-   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_ProgExternVars()
+   * @return the value of the '<em>Fb Extern Vars</em>' containment reference list.
+   * @see su.nsk.iae.post.poST.PoSTPackage#getFunctionBlock_FbExternVars()
    * @model containment="true"
    * @generated
    */
-  EList<ExternalVarDeclaration> getProgExternVars();
+  EList<ExternalVarDeclaration> getFbExternVars();
 
   /**
    * Returns the value of the '<em><b>Processes</b></em>' containment reference list.

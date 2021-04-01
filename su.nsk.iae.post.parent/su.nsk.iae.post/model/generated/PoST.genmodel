@@ -30,6 +30,7 @@
       <genEnumLiterals ecoreEnumLiteral="PoST.ecore#//UnaryOperator/UNMINUS"/>
     </genEnums>
     <genClasses ecoreClass="PoST.ecore#//Model">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//Model/globVars"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//Model/programs"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//Model/fbs"/>
     </genClasses>
@@ -45,12 +46,12 @@
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//FunctionBlock">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute PoST.ecore#//FunctionBlock/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/progInVars"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/progOutVars"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/progInOutVars"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/progVars"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/progTempVars"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/progExternVars"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/fbInVars"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/fbOutVars"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/fbInOutVars"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/fbVars"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/fbTempVars"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/fbExternVars"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PoST.ecore#//FunctionBlock/processes"/>
     </genClasses>
     <genClasses ecoreClass="PoST.ecore#//SetStateStatement">

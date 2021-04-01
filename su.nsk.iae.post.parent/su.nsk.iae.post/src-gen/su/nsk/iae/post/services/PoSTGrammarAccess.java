@@ -28,29 +28,37 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	public class ModelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "su.nsk.iae.post.PoST.Model");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final Assignment cProgramsAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
-		private final RuleCall cProgramsProgramParserRuleCall_0_0 = (RuleCall)cProgramsAssignment_0.eContents().get(0);
-		private final Assignment cFbsAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
-		private final RuleCall cFbsFunctionBlockParserRuleCall_1_0 = (RuleCall)cFbsAssignment_1.eContents().get(0);
+		private final Assignment cGlobVarsAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
+		private final RuleCall cGlobVarsGlobalVarDeclarationParserRuleCall_0_0 = (RuleCall)cGlobVarsAssignment_0.eContents().get(0);
+		private final Assignment cProgramsAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
+		private final RuleCall cProgramsProgramParserRuleCall_1_0 = (RuleCall)cProgramsAssignment_1.eContents().get(0);
+		private final Assignment cFbsAssignment_2 = (Assignment)cAlternatives.eContents().get(2);
+		private final RuleCall cFbsFunctionBlockParserRuleCall_2_0 = (RuleCall)cFbsAssignment_2.eContents().get(0);
 		
 		//Model:
-		//	(programs+=Program | fbs+=FunctionBlock)*;
+		//	(globVars+=GlobalVarDeclaration | programs+=Program | fbs+=FunctionBlock)*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(programs+=Program | fbs+=FunctionBlock)*
+		//(globVars+=GlobalVarDeclaration | programs+=Program | fbs+=FunctionBlock)*
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
+		//globVars+=GlobalVarDeclaration
+		public Assignment getGlobVarsAssignment_0() { return cGlobVarsAssignment_0; }
+		
+		//GlobalVarDeclaration
+		public RuleCall getGlobVarsGlobalVarDeclarationParserRuleCall_0_0() { return cGlobVarsGlobalVarDeclarationParserRuleCall_0_0; }
+		
 		//programs+=Program
-		public Assignment getProgramsAssignment_0() { return cProgramsAssignment_0; }
+		public Assignment getProgramsAssignment_1() { return cProgramsAssignment_1; }
 		
 		//Program
-		public RuleCall getProgramsProgramParserRuleCall_0_0() { return cProgramsProgramParserRuleCall_0_0; }
+		public RuleCall getProgramsProgramParserRuleCall_1_0() { return cProgramsProgramParserRuleCall_1_0; }
 		
 		//fbs+=FunctionBlock
-		public Assignment getFbsAssignment_1() { return cFbsAssignment_1; }
+		public Assignment getFbsAssignment_2() { return cFbsAssignment_2; }
 		
 		//FunctionBlock
-		public RuleCall getFbsFunctionBlockParserRuleCall_1_0() { return cFbsFunctionBlockParserRuleCall_1_0; }
+		public RuleCall getFbsFunctionBlockParserRuleCall_2_0() { return cFbsFunctionBlockParserRuleCall_2_0; }
 	}
 	public class ProgramElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "su.nsk.iae.post.PoST.Program");
@@ -156,18 +164,18 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
-		private final Assignment cProgInVarsAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
-		private final RuleCall cProgInVarsInputVarDeclarationParserRuleCall_2_0_0 = (RuleCall)cProgInVarsAssignment_2_0.eContents().get(0);
-		private final Assignment cProgOutVarsAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
-		private final RuleCall cProgOutVarsOutputVarDeclarationParserRuleCall_2_1_0 = (RuleCall)cProgOutVarsAssignment_2_1.eContents().get(0);
-		private final Assignment cProgInOutVarsAssignment_2_2 = (Assignment)cAlternatives_2.eContents().get(2);
-		private final RuleCall cProgInOutVarsInputOutputVarDeclarationParserRuleCall_2_2_0 = (RuleCall)cProgInOutVarsAssignment_2_2.eContents().get(0);
-		private final Assignment cProgVarsAssignment_2_3 = (Assignment)cAlternatives_2.eContents().get(3);
-		private final RuleCall cProgVarsVarDeclarationParserRuleCall_2_3_0 = (RuleCall)cProgVarsAssignment_2_3.eContents().get(0);
-		private final Assignment cProgTempVarsAssignment_2_4 = (Assignment)cAlternatives_2.eContents().get(4);
-		private final RuleCall cProgTempVarsTempVarDeclarationParserRuleCall_2_4_0 = (RuleCall)cProgTempVarsAssignment_2_4.eContents().get(0);
-		private final Assignment cProgExternVarsAssignment_2_5 = (Assignment)cAlternatives_2.eContents().get(5);
-		private final RuleCall cProgExternVarsExternalVarDeclarationParserRuleCall_2_5_0 = (RuleCall)cProgExternVarsAssignment_2_5.eContents().get(0);
+		private final Assignment cFbInVarsAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final RuleCall cFbInVarsInputVarDeclarationParserRuleCall_2_0_0 = (RuleCall)cFbInVarsAssignment_2_0.eContents().get(0);
+		private final Assignment cFbOutVarsAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
+		private final RuleCall cFbOutVarsOutputVarDeclarationParserRuleCall_2_1_0 = (RuleCall)cFbOutVarsAssignment_2_1.eContents().get(0);
+		private final Assignment cFbInOutVarsAssignment_2_2 = (Assignment)cAlternatives_2.eContents().get(2);
+		private final RuleCall cFbInOutVarsInputOutputVarDeclarationParserRuleCall_2_2_0 = (RuleCall)cFbInOutVarsAssignment_2_2.eContents().get(0);
+		private final Assignment cFbVarsAssignment_2_3 = (Assignment)cAlternatives_2.eContents().get(3);
+		private final RuleCall cFbVarsVarDeclarationParserRuleCall_2_3_0 = (RuleCall)cFbVarsAssignment_2_3.eContents().get(0);
+		private final Assignment cFbTempVarsAssignment_2_4 = (Assignment)cAlternatives_2.eContents().get(4);
+		private final RuleCall cFbTempVarsTempVarDeclarationParserRuleCall_2_4_0 = (RuleCall)cFbTempVarsAssignment_2_4.eContents().get(0);
+		private final Assignment cFbExternVarsAssignment_2_5 = (Assignment)cAlternatives_2.eContents().get(5);
+		private final RuleCall cFbExternVarsExternalVarDeclarationParserRuleCall_2_5_0 = (RuleCall)cFbExternVarsAssignment_2_5.eContents().get(0);
 		private final Assignment cProcessesAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cProcessesProcessParserRuleCall_3_0 = (RuleCall)cProcessesAssignment_3.eContents().get(0);
 		private final Keyword cEND_FUNCTION_BLOCKKeyword_4 = (Keyword)cGroup.eContents().get(4);
@@ -175,16 +183,16 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		///* ======================= END Program ======================= */
 		///* ======================= START FB ======================= */
 		//FunctionBlock:
-		//	'FUNCTION_BLOCK' name=ID (progInVars+=InputVarDeclaration | progOutVars+=OutputVarDeclaration |
-		//	progInOutVars+=InputOutputVarDeclaration | progVars+=VarDeclaration | progTempVars+=TempVarDeclaration |
-		//	progExternVars+=ExternalVarDeclaration)*
+		//	'FUNCTION_BLOCK' name=ID (fbInVars+=InputVarDeclaration | fbOutVars+=OutputVarDeclaration |
+		//	fbInOutVars+=InputOutputVarDeclaration | fbVars+=VarDeclaration | fbTempVars+=TempVarDeclaration |
+		//	fbExternVars+=ExternalVarDeclaration)*
 		//	processes+=Process*
 		//	'END_FUNCTION_BLOCK';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'FUNCTION_BLOCK' name=ID (progInVars+=InputVarDeclaration | progOutVars+=OutputVarDeclaration |
-		//progInOutVars+=InputOutputVarDeclaration | progVars+=VarDeclaration | progTempVars+=TempVarDeclaration |
-		//progExternVars+=ExternalVarDeclaration)*
+		//'FUNCTION_BLOCK' name=ID (fbInVars+=InputVarDeclaration | fbOutVars+=OutputVarDeclaration |
+		//fbInOutVars+=InputOutputVarDeclaration | fbVars+=VarDeclaration | fbTempVars+=TempVarDeclaration |
+		//fbExternVars+=ExternalVarDeclaration)*
 		//processes+=Process*
 		//'END_FUNCTION_BLOCK'
 		public Group getGroup() { return cGroup; }
@@ -198,45 +206,45 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
 		
-		//(progInVars+=InputVarDeclaration | progOutVars+=OutputVarDeclaration | progInOutVars+=InputOutputVarDeclaration |
-		//progVars+=VarDeclaration | progTempVars+=TempVarDeclaration | progExternVars+=ExternalVarDeclaration)*
+		//(fbInVars+=InputVarDeclaration | fbOutVars+=OutputVarDeclaration | fbInOutVars+=InputOutputVarDeclaration |
+		//fbVars+=VarDeclaration | fbTempVars+=TempVarDeclaration | fbExternVars+=ExternalVarDeclaration)*
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 		
-		//progInVars+=InputVarDeclaration
-		public Assignment getProgInVarsAssignment_2_0() { return cProgInVarsAssignment_2_0; }
+		//fbInVars+=InputVarDeclaration
+		public Assignment getFbInVarsAssignment_2_0() { return cFbInVarsAssignment_2_0; }
 		
 		//InputVarDeclaration
-		public RuleCall getProgInVarsInputVarDeclarationParserRuleCall_2_0_0() { return cProgInVarsInputVarDeclarationParserRuleCall_2_0_0; }
+		public RuleCall getFbInVarsInputVarDeclarationParserRuleCall_2_0_0() { return cFbInVarsInputVarDeclarationParserRuleCall_2_0_0; }
 		
-		//progOutVars+=OutputVarDeclaration
-		public Assignment getProgOutVarsAssignment_2_1() { return cProgOutVarsAssignment_2_1; }
+		//fbOutVars+=OutputVarDeclaration
+		public Assignment getFbOutVarsAssignment_2_1() { return cFbOutVarsAssignment_2_1; }
 		
 		//OutputVarDeclaration
-		public RuleCall getProgOutVarsOutputVarDeclarationParserRuleCall_2_1_0() { return cProgOutVarsOutputVarDeclarationParserRuleCall_2_1_0; }
+		public RuleCall getFbOutVarsOutputVarDeclarationParserRuleCall_2_1_0() { return cFbOutVarsOutputVarDeclarationParserRuleCall_2_1_0; }
 		
-		//progInOutVars+=InputOutputVarDeclaration
-		public Assignment getProgInOutVarsAssignment_2_2() { return cProgInOutVarsAssignment_2_2; }
+		//fbInOutVars+=InputOutputVarDeclaration
+		public Assignment getFbInOutVarsAssignment_2_2() { return cFbInOutVarsAssignment_2_2; }
 		
 		//InputOutputVarDeclaration
-		public RuleCall getProgInOutVarsInputOutputVarDeclarationParserRuleCall_2_2_0() { return cProgInOutVarsInputOutputVarDeclarationParserRuleCall_2_2_0; }
+		public RuleCall getFbInOutVarsInputOutputVarDeclarationParserRuleCall_2_2_0() { return cFbInOutVarsInputOutputVarDeclarationParserRuleCall_2_2_0; }
 		
-		//progVars+=VarDeclaration
-		public Assignment getProgVarsAssignment_2_3() { return cProgVarsAssignment_2_3; }
+		//fbVars+=VarDeclaration
+		public Assignment getFbVarsAssignment_2_3() { return cFbVarsAssignment_2_3; }
 		
 		//VarDeclaration
-		public RuleCall getProgVarsVarDeclarationParserRuleCall_2_3_0() { return cProgVarsVarDeclarationParserRuleCall_2_3_0; }
+		public RuleCall getFbVarsVarDeclarationParserRuleCall_2_3_0() { return cFbVarsVarDeclarationParserRuleCall_2_3_0; }
 		
-		//progTempVars+=TempVarDeclaration
-		public Assignment getProgTempVarsAssignment_2_4() { return cProgTempVarsAssignment_2_4; }
+		//fbTempVars+=TempVarDeclaration
+		public Assignment getFbTempVarsAssignment_2_4() { return cFbTempVarsAssignment_2_4; }
 		
 		//TempVarDeclaration
-		public RuleCall getProgTempVarsTempVarDeclarationParserRuleCall_2_4_0() { return cProgTempVarsTempVarDeclarationParserRuleCall_2_4_0; }
+		public RuleCall getFbTempVarsTempVarDeclarationParserRuleCall_2_4_0() { return cFbTempVarsTempVarDeclarationParserRuleCall_2_4_0; }
 		
-		//progExternVars+=ExternalVarDeclaration
-		public Assignment getProgExternVarsAssignment_2_5() { return cProgExternVarsAssignment_2_5; }
+		//fbExternVars+=ExternalVarDeclaration
+		public Assignment getFbExternVarsAssignment_2_5() { return cFbExternVarsAssignment_2_5; }
 		
 		//ExternalVarDeclaration
-		public RuleCall getProgExternVarsExternalVarDeclarationParserRuleCall_2_5_0() { return cProgExternVarsExternalVarDeclarationParserRuleCall_2_5_0; }
+		public RuleCall getFbExternVarsExternalVarDeclarationParserRuleCall_2_5_0() { return cFbExternVarsExternalVarDeclarationParserRuleCall_2_5_0; }
 		
 		//processes+=Process*
 		public Assignment getProcessesAssignment_3() { return cProcessesAssignment_3; }
@@ -3156,7 +3164,7 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 
 	
 	//Model:
-	//	(programs+=Program | fbs+=FunctionBlock)*;
+	//	(globVars+=GlobalVarDeclaration | programs+=Program | fbs+=FunctionBlock)*;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -3183,9 +3191,9 @@ public class PoSTGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	///* ======================= END Program ======================= */
 	///* ======================= START FB ======================= */
 	//FunctionBlock:
-	//	'FUNCTION_BLOCK' name=ID (progInVars+=InputVarDeclaration | progOutVars+=OutputVarDeclaration |
-	//	progInOutVars+=InputOutputVarDeclaration | progVars+=VarDeclaration | progTempVars+=TempVarDeclaration |
-	//	progExternVars+=ExternalVarDeclaration)*
+	//	'FUNCTION_BLOCK' name=ID (fbInVars+=InputVarDeclaration | fbOutVars+=OutputVarDeclaration |
+	//	fbInOutVars+=InputOutputVarDeclaration | fbVars+=VarDeclaration | fbTempVars+=TempVarDeclaration |
+	//	fbExternVars+=ExternalVarDeclaration)*
 	//	processes+=Process*
 	//	'END_FUNCTION_BLOCK';
 	public FunctionBlockElements getFunctionBlockAccess() {

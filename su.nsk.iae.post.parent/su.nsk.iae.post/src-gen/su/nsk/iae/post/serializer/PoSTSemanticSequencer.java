@@ -653,12 +653,12 @@ public class PoSTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     (
 	 *         name=ID 
 	 *         (
-	 *             progInVars+=InputVarDeclaration | 
-	 *             progOutVars+=OutputVarDeclaration | 
-	 *             progInOutVars+=InputOutputVarDeclaration | 
-	 *             progVars+=VarDeclaration | 
-	 *             progTempVars+=TempVarDeclaration | 
-	 *             progExternVars+=ExternalVarDeclaration
+	 *             fbInVars+=InputVarDeclaration | 
+	 *             fbOutVars+=OutputVarDeclaration | 
+	 *             fbInOutVars+=InputOutputVarDeclaration | 
+	 *             fbVars+=VarDeclaration | 
+	 *             fbTempVars+=TempVarDeclaration | 
+	 *             fbExternVars+=ExternalVarDeclaration
 	 *         )* 
 	 *         processes+=Process*
 	 *     )
@@ -761,7 +761,7 @@ public class PoSTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     (programs+=Program | fbs+=FunctionBlock)+
+	 *     (globVars+=GlobalVarDeclaration | programs+=Program | fbs+=FunctionBlock)+
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

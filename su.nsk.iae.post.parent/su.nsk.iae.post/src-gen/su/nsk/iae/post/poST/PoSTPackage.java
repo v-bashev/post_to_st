@@ -69,13 +69,22 @@ public interface PoSTPackage extends EPackage
   int MODEL = 0;
 
   /**
+   * The feature id for the '<em><b>Glob Vars</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MODEL__GLOB_VARS = 0;
+
+  /**
    * The feature id for the '<em><b>Programs</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL__PROGRAMS = 0;
+  int MODEL__PROGRAMS = 1;
 
   /**
    * The feature id for the '<em><b>Fbs</b></em>' containment reference list.
@@ -84,7 +93,7 @@ public interface PoSTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL__FBS = 1;
+  int MODEL__FBS = 2;
 
   /**
    * The number of structural features of the '<em>Model</em>' class.
@@ -93,7 +102,7 @@ public interface PoSTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL_FEATURE_COUNT = 2;
+  int MODEL_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link su.nsk.iae.post.poST.impl.ProgramImpl <em>Program</em>}' class.
@@ -206,58 +215,58 @@ public interface PoSTPackage extends EPackage
   int FUNCTION_BLOCK__NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Prog In Vars</b></em>' containment reference list.
+   * The feature id for the '<em><b>Fb In Vars</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_BLOCK__PROG_IN_VARS = 1;
+  int FUNCTION_BLOCK__FB_IN_VARS = 1;
 
   /**
-   * The feature id for the '<em><b>Prog Out Vars</b></em>' containment reference list.
+   * The feature id for the '<em><b>Fb Out Vars</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_BLOCK__PROG_OUT_VARS = 2;
+  int FUNCTION_BLOCK__FB_OUT_VARS = 2;
 
   /**
-   * The feature id for the '<em><b>Prog In Out Vars</b></em>' containment reference list.
+   * The feature id for the '<em><b>Fb In Out Vars</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_BLOCK__PROG_IN_OUT_VARS = 3;
+  int FUNCTION_BLOCK__FB_IN_OUT_VARS = 3;
 
   /**
-   * The feature id for the '<em><b>Prog Vars</b></em>' containment reference list.
+   * The feature id for the '<em><b>Fb Vars</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_BLOCK__PROG_VARS = 4;
+  int FUNCTION_BLOCK__FB_VARS = 4;
 
   /**
-   * The feature id for the '<em><b>Prog Temp Vars</b></em>' containment reference list.
+   * The feature id for the '<em><b>Fb Temp Vars</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_BLOCK__PROG_TEMP_VARS = 5;
+  int FUNCTION_BLOCK__FB_TEMP_VARS = 5;
 
   /**
-   * The feature id for the '<em><b>Prog Extern Vars</b></em>' containment reference list.
+   * The feature id for the '<em><b>Fb Extern Vars</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_BLOCK__PROG_EXTERN_VARS = 6;
+  int FUNCTION_BLOCK__FB_EXTERN_VARS = 6;
 
   /**
    * The feature id for the '<em><b>Processes</b></em>' containment reference list.
@@ -2683,6 +2692,17 @@ public interface PoSTPackage extends EPackage
   EClass getModel();
 
   /**
+   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.Model#getGlobVars <em>Glob Vars</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Glob Vars</em>'.
+   * @see su.nsk.iae.post.poST.Model#getGlobVars()
+   * @see #getModel()
+   * @generated
+   */
+  EReference getModel_GlobVars();
+
+  /**
    * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.Model#getPrograms <em>Programs</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2824,70 +2844,70 @@ public interface PoSTPackage extends EPackage
   EAttribute getFunctionBlock_Name();
 
   /**
-   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getProgInVars <em>Prog In Vars</em>}'.
+   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getFbInVars <em>Fb In Vars</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Prog In Vars</em>'.
-   * @see su.nsk.iae.post.poST.FunctionBlock#getProgInVars()
+   * @return the meta object for the containment reference list '<em>Fb In Vars</em>'.
+   * @see su.nsk.iae.post.poST.FunctionBlock#getFbInVars()
    * @see #getFunctionBlock()
    * @generated
    */
-  EReference getFunctionBlock_ProgInVars();
+  EReference getFunctionBlock_FbInVars();
 
   /**
-   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getProgOutVars <em>Prog Out Vars</em>}'.
+   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getFbOutVars <em>Fb Out Vars</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Prog Out Vars</em>'.
-   * @see su.nsk.iae.post.poST.FunctionBlock#getProgOutVars()
+   * @return the meta object for the containment reference list '<em>Fb Out Vars</em>'.
+   * @see su.nsk.iae.post.poST.FunctionBlock#getFbOutVars()
    * @see #getFunctionBlock()
    * @generated
    */
-  EReference getFunctionBlock_ProgOutVars();
+  EReference getFunctionBlock_FbOutVars();
 
   /**
-   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getProgInOutVars <em>Prog In Out Vars</em>}'.
+   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getFbInOutVars <em>Fb In Out Vars</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Prog In Out Vars</em>'.
-   * @see su.nsk.iae.post.poST.FunctionBlock#getProgInOutVars()
+   * @return the meta object for the containment reference list '<em>Fb In Out Vars</em>'.
+   * @see su.nsk.iae.post.poST.FunctionBlock#getFbInOutVars()
    * @see #getFunctionBlock()
    * @generated
    */
-  EReference getFunctionBlock_ProgInOutVars();
+  EReference getFunctionBlock_FbInOutVars();
 
   /**
-   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getProgVars <em>Prog Vars</em>}'.
+   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getFbVars <em>Fb Vars</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Prog Vars</em>'.
-   * @see su.nsk.iae.post.poST.FunctionBlock#getProgVars()
+   * @return the meta object for the containment reference list '<em>Fb Vars</em>'.
+   * @see su.nsk.iae.post.poST.FunctionBlock#getFbVars()
    * @see #getFunctionBlock()
    * @generated
    */
-  EReference getFunctionBlock_ProgVars();
+  EReference getFunctionBlock_FbVars();
 
   /**
-   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getProgTempVars <em>Prog Temp Vars</em>}'.
+   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getFbTempVars <em>Fb Temp Vars</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Prog Temp Vars</em>'.
-   * @see su.nsk.iae.post.poST.FunctionBlock#getProgTempVars()
+   * @return the meta object for the containment reference list '<em>Fb Temp Vars</em>'.
+   * @see su.nsk.iae.post.poST.FunctionBlock#getFbTempVars()
    * @see #getFunctionBlock()
    * @generated
    */
-  EReference getFunctionBlock_ProgTempVars();
+  EReference getFunctionBlock_FbTempVars();
 
   /**
-   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getProgExternVars <em>Prog Extern Vars</em>}'.
+   * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getFbExternVars <em>Fb Extern Vars</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Prog Extern Vars</em>'.
-   * @see su.nsk.iae.post.poST.FunctionBlock#getProgExternVars()
+   * @return the meta object for the containment reference list '<em>Fb Extern Vars</em>'.
+   * @see su.nsk.iae.post.poST.FunctionBlock#getFbExternVars()
    * @see #getFunctionBlock()
    * @generated
    */
-  EReference getFunctionBlock_ProgExternVars();
+  EReference getFunctionBlock_FbExternVars();
 
   /**
    * Returns the meta object for the containment reference list '{@link su.nsk.iae.post.poST.FunctionBlock#getProcesses <em>Processes</em>}'.
@@ -4565,6 +4585,14 @@ public interface PoSTPackage extends EPackage
     EClass MODEL = eINSTANCE.getModel();
 
     /**
+     * The meta object literal for the '<em><b>Glob Vars</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MODEL__GLOB_VARS = eINSTANCE.getModel_GlobVars();
+
+    /**
      * The meta object literal for the '<em><b>Programs</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4673,52 +4701,52 @@ public interface PoSTPackage extends EPackage
     EAttribute FUNCTION_BLOCK__NAME = eINSTANCE.getFunctionBlock_Name();
 
     /**
-     * The meta object literal for the '<em><b>Prog In Vars</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Fb In Vars</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference FUNCTION_BLOCK__PROG_IN_VARS = eINSTANCE.getFunctionBlock_ProgInVars();
+    EReference FUNCTION_BLOCK__FB_IN_VARS = eINSTANCE.getFunctionBlock_FbInVars();
 
     /**
-     * The meta object literal for the '<em><b>Prog Out Vars</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Fb Out Vars</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference FUNCTION_BLOCK__PROG_OUT_VARS = eINSTANCE.getFunctionBlock_ProgOutVars();
+    EReference FUNCTION_BLOCK__FB_OUT_VARS = eINSTANCE.getFunctionBlock_FbOutVars();
 
     /**
-     * The meta object literal for the '<em><b>Prog In Out Vars</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Fb In Out Vars</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference FUNCTION_BLOCK__PROG_IN_OUT_VARS = eINSTANCE.getFunctionBlock_ProgInOutVars();
+    EReference FUNCTION_BLOCK__FB_IN_OUT_VARS = eINSTANCE.getFunctionBlock_FbInOutVars();
 
     /**
-     * The meta object literal for the '<em><b>Prog Vars</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Fb Vars</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference FUNCTION_BLOCK__PROG_VARS = eINSTANCE.getFunctionBlock_ProgVars();
+    EReference FUNCTION_BLOCK__FB_VARS = eINSTANCE.getFunctionBlock_FbVars();
 
     /**
-     * The meta object literal for the '<em><b>Prog Temp Vars</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Fb Temp Vars</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference FUNCTION_BLOCK__PROG_TEMP_VARS = eINSTANCE.getFunctionBlock_ProgTempVars();
+    EReference FUNCTION_BLOCK__FB_TEMP_VARS = eINSTANCE.getFunctionBlock_FbTempVars();
 
     /**
-     * The meta object literal for the '<em><b>Prog Extern Vars</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Fb Extern Vars</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference FUNCTION_BLOCK__PROG_EXTERN_VARS = eINSTANCE.getFunctionBlock_ProgExternVars();
+    EReference FUNCTION_BLOCK__FB_EXTERN_VARS = eINSTANCE.getFunctionBlock_FbExternVars();
 
     /**
      * The meta object literal for the '<em><b>Processes</b></em>' containment reference list feature.

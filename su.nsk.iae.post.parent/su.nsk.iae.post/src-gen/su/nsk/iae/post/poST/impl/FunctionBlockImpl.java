@@ -37,12 +37,12 @@ import su.nsk.iae.post.poST.VarDeclaration;
  * </p>
  * <ul>
  *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getName <em>Name</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getProgInVars <em>Prog In Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getProgOutVars <em>Prog Out Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getProgInOutVars <em>Prog In Out Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getProgVars <em>Prog Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getProgTempVars <em>Prog Temp Vars</em>}</li>
- *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getProgExternVars <em>Prog Extern Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getFbInVars <em>Fb In Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getFbOutVars <em>Fb Out Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getFbInOutVars <em>Fb In Out Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getFbVars <em>Fb Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getFbTempVars <em>Fb Temp Vars</em>}</li>
+ *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getFbExternVars <em>Fb Extern Vars</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.FunctionBlockImpl#getProcesses <em>Processes</em>}</li>
  * </ul>
  *
@@ -71,64 +71,64 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getProgInVars() <em>Prog In Vars</em>}' containment reference list.
+   * The cached value of the '{@link #getFbInVars() <em>Fb In Vars</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getProgInVars()
+   * @see #getFbInVars()
    * @generated
    * @ordered
    */
-  protected EList<InputVarDeclaration> progInVars;
+  protected EList<InputVarDeclaration> fbInVars;
 
   /**
-   * The cached value of the '{@link #getProgOutVars() <em>Prog Out Vars</em>}' containment reference list.
+   * The cached value of the '{@link #getFbOutVars() <em>Fb Out Vars</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getProgOutVars()
+   * @see #getFbOutVars()
    * @generated
    * @ordered
    */
-  protected EList<OutputVarDeclaration> progOutVars;
+  protected EList<OutputVarDeclaration> fbOutVars;
 
   /**
-   * The cached value of the '{@link #getProgInOutVars() <em>Prog In Out Vars</em>}' containment reference list.
+   * The cached value of the '{@link #getFbInOutVars() <em>Fb In Out Vars</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getProgInOutVars()
+   * @see #getFbInOutVars()
    * @generated
    * @ordered
    */
-  protected EList<InputOutputVarDeclaration> progInOutVars;
+  protected EList<InputOutputVarDeclaration> fbInOutVars;
 
   /**
-   * The cached value of the '{@link #getProgVars() <em>Prog Vars</em>}' containment reference list.
+   * The cached value of the '{@link #getFbVars() <em>Fb Vars</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getProgVars()
+   * @see #getFbVars()
    * @generated
    * @ordered
    */
-  protected EList<VarDeclaration> progVars;
+  protected EList<VarDeclaration> fbVars;
 
   /**
-   * The cached value of the '{@link #getProgTempVars() <em>Prog Temp Vars</em>}' containment reference list.
+   * The cached value of the '{@link #getFbTempVars() <em>Fb Temp Vars</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getProgTempVars()
+   * @see #getFbTempVars()
    * @generated
    * @ordered
    */
-  protected EList<TempVarDeclaration> progTempVars;
+  protected EList<TempVarDeclaration> fbTempVars;
 
   /**
-   * The cached value of the '{@link #getProgExternVars() <em>Prog Extern Vars</em>}' containment reference list.
+   * The cached value of the '{@link #getFbExternVars() <em>Fb Extern Vars</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getProgExternVars()
+   * @see #getFbExternVars()
    * @generated
    * @ordered
    */
-  protected EList<ExternalVarDeclaration> progExternVars;
+  protected EList<ExternalVarDeclaration> fbExternVars;
 
   /**
    * The cached value of the '{@link #getProcesses() <em>Processes</em>}' containment reference list.
@@ -192,13 +192,13 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
    * @generated
    */
   @Override
-  public EList<InputVarDeclaration> getProgInVars()
+  public EList<InputVarDeclaration> getFbInVars()
   {
-    if (progInVars == null)
+    if (fbInVars == null)
     {
-      progInVars = new EObjectContainmentEList<InputVarDeclaration>(InputVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__PROG_IN_VARS);
+      fbInVars = new EObjectContainmentEList<InputVarDeclaration>(InputVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__FB_IN_VARS);
     }
-    return progInVars;
+    return fbInVars;
   }
 
   /**
@@ -207,13 +207,13 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
    * @generated
    */
   @Override
-  public EList<OutputVarDeclaration> getProgOutVars()
+  public EList<OutputVarDeclaration> getFbOutVars()
   {
-    if (progOutVars == null)
+    if (fbOutVars == null)
     {
-      progOutVars = new EObjectContainmentEList<OutputVarDeclaration>(OutputVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__PROG_OUT_VARS);
+      fbOutVars = new EObjectContainmentEList<OutputVarDeclaration>(OutputVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__FB_OUT_VARS);
     }
-    return progOutVars;
+    return fbOutVars;
   }
 
   /**
@@ -222,13 +222,13 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
    * @generated
    */
   @Override
-  public EList<InputOutputVarDeclaration> getProgInOutVars()
+  public EList<InputOutputVarDeclaration> getFbInOutVars()
   {
-    if (progInOutVars == null)
+    if (fbInOutVars == null)
     {
-      progInOutVars = new EObjectContainmentEList<InputOutputVarDeclaration>(InputOutputVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__PROG_IN_OUT_VARS);
+      fbInOutVars = new EObjectContainmentEList<InputOutputVarDeclaration>(InputOutputVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__FB_IN_OUT_VARS);
     }
-    return progInOutVars;
+    return fbInOutVars;
   }
 
   /**
@@ -237,13 +237,13 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
    * @generated
    */
   @Override
-  public EList<VarDeclaration> getProgVars()
+  public EList<VarDeclaration> getFbVars()
   {
-    if (progVars == null)
+    if (fbVars == null)
     {
-      progVars = new EObjectContainmentEList<VarDeclaration>(VarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__PROG_VARS);
+      fbVars = new EObjectContainmentEList<VarDeclaration>(VarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__FB_VARS);
     }
-    return progVars;
+    return fbVars;
   }
 
   /**
@@ -252,13 +252,13 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
    * @generated
    */
   @Override
-  public EList<TempVarDeclaration> getProgTempVars()
+  public EList<TempVarDeclaration> getFbTempVars()
   {
-    if (progTempVars == null)
+    if (fbTempVars == null)
     {
-      progTempVars = new EObjectContainmentEList<TempVarDeclaration>(TempVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__PROG_TEMP_VARS);
+      fbTempVars = new EObjectContainmentEList<TempVarDeclaration>(TempVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__FB_TEMP_VARS);
     }
-    return progTempVars;
+    return fbTempVars;
   }
 
   /**
@@ -267,13 +267,13 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
    * @generated
    */
   @Override
-  public EList<ExternalVarDeclaration> getProgExternVars()
+  public EList<ExternalVarDeclaration> getFbExternVars()
   {
-    if (progExternVars == null)
+    if (fbExternVars == null)
     {
-      progExternVars = new EObjectContainmentEList<ExternalVarDeclaration>(ExternalVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__PROG_EXTERN_VARS);
+      fbExternVars = new EObjectContainmentEList<ExternalVarDeclaration>(ExternalVarDeclaration.class, this, PoSTPackage.FUNCTION_BLOCK__FB_EXTERN_VARS);
     }
-    return progExternVars;
+    return fbExternVars;
   }
 
   /**
@@ -301,18 +301,18 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
   {
     switch (featureID)
     {
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_VARS:
-        return ((InternalEList<?>)getProgInVars()).basicRemove(otherEnd, msgs);
-      case PoSTPackage.FUNCTION_BLOCK__PROG_OUT_VARS:
-        return ((InternalEList<?>)getProgOutVars()).basicRemove(otherEnd, msgs);
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_OUT_VARS:
-        return ((InternalEList<?>)getProgInOutVars()).basicRemove(otherEnd, msgs);
-      case PoSTPackage.FUNCTION_BLOCK__PROG_VARS:
-        return ((InternalEList<?>)getProgVars()).basicRemove(otherEnd, msgs);
-      case PoSTPackage.FUNCTION_BLOCK__PROG_TEMP_VARS:
-        return ((InternalEList<?>)getProgTempVars()).basicRemove(otherEnd, msgs);
-      case PoSTPackage.FUNCTION_BLOCK__PROG_EXTERN_VARS:
-        return ((InternalEList<?>)getProgExternVars()).basicRemove(otherEnd, msgs);
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_VARS:
+        return ((InternalEList<?>)getFbInVars()).basicRemove(otherEnd, msgs);
+      case PoSTPackage.FUNCTION_BLOCK__FB_OUT_VARS:
+        return ((InternalEList<?>)getFbOutVars()).basicRemove(otherEnd, msgs);
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_OUT_VARS:
+        return ((InternalEList<?>)getFbInOutVars()).basicRemove(otherEnd, msgs);
+      case PoSTPackage.FUNCTION_BLOCK__FB_VARS:
+        return ((InternalEList<?>)getFbVars()).basicRemove(otherEnd, msgs);
+      case PoSTPackage.FUNCTION_BLOCK__FB_TEMP_VARS:
+        return ((InternalEList<?>)getFbTempVars()).basicRemove(otherEnd, msgs);
+      case PoSTPackage.FUNCTION_BLOCK__FB_EXTERN_VARS:
+        return ((InternalEList<?>)getFbExternVars()).basicRemove(otherEnd, msgs);
       case PoSTPackage.FUNCTION_BLOCK__PROCESSES:
         return ((InternalEList<?>)getProcesses()).basicRemove(otherEnd, msgs);
     }
@@ -331,18 +331,18 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
     {
       case PoSTPackage.FUNCTION_BLOCK__NAME:
         return getName();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_VARS:
-        return getProgInVars();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_OUT_VARS:
-        return getProgOutVars();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_OUT_VARS:
-        return getProgInOutVars();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_VARS:
-        return getProgVars();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_TEMP_VARS:
-        return getProgTempVars();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_EXTERN_VARS:
-        return getProgExternVars();
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_VARS:
+        return getFbInVars();
+      case PoSTPackage.FUNCTION_BLOCK__FB_OUT_VARS:
+        return getFbOutVars();
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_OUT_VARS:
+        return getFbInOutVars();
+      case PoSTPackage.FUNCTION_BLOCK__FB_VARS:
+        return getFbVars();
+      case PoSTPackage.FUNCTION_BLOCK__FB_TEMP_VARS:
+        return getFbTempVars();
+      case PoSTPackage.FUNCTION_BLOCK__FB_EXTERN_VARS:
+        return getFbExternVars();
       case PoSTPackage.FUNCTION_BLOCK__PROCESSES:
         return getProcesses();
     }
@@ -363,29 +363,29 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
       case PoSTPackage.FUNCTION_BLOCK__NAME:
         setName((String)newValue);
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_VARS:
-        getProgInVars().clear();
-        getProgInVars().addAll((Collection<? extends InputVarDeclaration>)newValue);
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_VARS:
+        getFbInVars().clear();
+        getFbInVars().addAll((Collection<? extends InputVarDeclaration>)newValue);
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_OUT_VARS:
-        getProgOutVars().clear();
-        getProgOutVars().addAll((Collection<? extends OutputVarDeclaration>)newValue);
+      case PoSTPackage.FUNCTION_BLOCK__FB_OUT_VARS:
+        getFbOutVars().clear();
+        getFbOutVars().addAll((Collection<? extends OutputVarDeclaration>)newValue);
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_OUT_VARS:
-        getProgInOutVars().clear();
-        getProgInOutVars().addAll((Collection<? extends InputOutputVarDeclaration>)newValue);
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_OUT_VARS:
+        getFbInOutVars().clear();
+        getFbInOutVars().addAll((Collection<? extends InputOutputVarDeclaration>)newValue);
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_VARS:
-        getProgVars().clear();
-        getProgVars().addAll((Collection<? extends VarDeclaration>)newValue);
+      case PoSTPackage.FUNCTION_BLOCK__FB_VARS:
+        getFbVars().clear();
+        getFbVars().addAll((Collection<? extends VarDeclaration>)newValue);
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_TEMP_VARS:
-        getProgTempVars().clear();
-        getProgTempVars().addAll((Collection<? extends TempVarDeclaration>)newValue);
+      case PoSTPackage.FUNCTION_BLOCK__FB_TEMP_VARS:
+        getFbTempVars().clear();
+        getFbTempVars().addAll((Collection<? extends TempVarDeclaration>)newValue);
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_EXTERN_VARS:
-        getProgExternVars().clear();
-        getProgExternVars().addAll((Collection<? extends ExternalVarDeclaration>)newValue);
+      case PoSTPackage.FUNCTION_BLOCK__FB_EXTERN_VARS:
+        getFbExternVars().clear();
+        getFbExternVars().addAll((Collection<? extends ExternalVarDeclaration>)newValue);
         return;
       case PoSTPackage.FUNCTION_BLOCK__PROCESSES:
         getProcesses().clear();
@@ -408,23 +408,23 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
       case PoSTPackage.FUNCTION_BLOCK__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_VARS:
-        getProgInVars().clear();
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_VARS:
+        getFbInVars().clear();
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_OUT_VARS:
-        getProgOutVars().clear();
+      case PoSTPackage.FUNCTION_BLOCK__FB_OUT_VARS:
+        getFbOutVars().clear();
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_OUT_VARS:
-        getProgInOutVars().clear();
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_OUT_VARS:
+        getFbInOutVars().clear();
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_VARS:
-        getProgVars().clear();
+      case PoSTPackage.FUNCTION_BLOCK__FB_VARS:
+        getFbVars().clear();
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_TEMP_VARS:
-        getProgTempVars().clear();
+      case PoSTPackage.FUNCTION_BLOCK__FB_TEMP_VARS:
+        getFbTempVars().clear();
         return;
-      case PoSTPackage.FUNCTION_BLOCK__PROG_EXTERN_VARS:
-        getProgExternVars().clear();
+      case PoSTPackage.FUNCTION_BLOCK__FB_EXTERN_VARS:
+        getFbExternVars().clear();
         return;
       case PoSTPackage.FUNCTION_BLOCK__PROCESSES:
         getProcesses().clear();
@@ -445,18 +445,18 @@ public class FunctionBlockImpl extends MinimalEObjectImpl.Container implements F
     {
       case PoSTPackage.FUNCTION_BLOCK__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_VARS:
-        return progInVars != null && !progInVars.isEmpty();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_OUT_VARS:
-        return progOutVars != null && !progOutVars.isEmpty();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_IN_OUT_VARS:
-        return progInOutVars != null && !progInOutVars.isEmpty();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_VARS:
-        return progVars != null && !progVars.isEmpty();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_TEMP_VARS:
-        return progTempVars != null && !progTempVars.isEmpty();
-      case PoSTPackage.FUNCTION_BLOCK__PROG_EXTERN_VARS:
-        return progExternVars != null && !progExternVars.isEmpty();
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_VARS:
+        return fbInVars != null && !fbInVars.isEmpty();
+      case PoSTPackage.FUNCTION_BLOCK__FB_OUT_VARS:
+        return fbOutVars != null && !fbOutVars.isEmpty();
+      case PoSTPackage.FUNCTION_BLOCK__FB_IN_OUT_VARS:
+        return fbInOutVars != null && !fbInOutVars.isEmpty();
+      case PoSTPackage.FUNCTION_BLOCK__FB_VARS:
+        return fbVars != null && !fbVars.isEmpty();
+      case PoSTPackage.FUNCTION_BLOCK__FB_TEMP_VARS:
+        return fbTempVars != null && !fbTempVars.isEmpty();
+      case PoSTPackage.FUNCTION_BLOCK__FB_EXTERN_VARS:
+        return fbExternVars != null && !fbExternVars.isEmpty();
       case PoSTPackage.FUNCTION_BLOCK__PROCESSES:
         return processes != null && !processes.isEmpty();
     }

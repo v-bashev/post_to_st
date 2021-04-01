@@ -7,22 +7,22 @@ class FBGenerator extends CodeGenerator {
 	new(FunctionBlock fb) {
 		codeName = fb.name
 		type = "FUNCTION_BLOCK"
-		for (v : fb.progInVars) {
+		for (v : fb.fbInVars) {
 			inVarList.add(v)
 		}
-		for (v : fb.progOutVars) {
+		for (v : fb.fbOutVars) {
 			outVarList.add(v)
 		}
-		for (v : fb.progInOutVars) {
+		for (v : fb.fbInOutVars) {
 			inOutVarList.add(v)
 		}
-		for (v : fb.progExternVars) {
+		for (v : fb.fbExternVars) {
 			externalVarList.add(v)
 		}
-		for (v : fb.progVars) {
+		for (v : fb.fbVars) {
 			varList.add(v)
 		}
-		for (v : fb.progTempVars) {
+		for (v : fb.fbTempVars) {
 			tempVarList.add(v)
 		}
 		parseProcesses(fb.processes)

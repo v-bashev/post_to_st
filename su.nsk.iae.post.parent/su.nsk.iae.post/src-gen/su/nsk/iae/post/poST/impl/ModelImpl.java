@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import su.nsk.iae.post.poST.FunctionBlock;
+import su.nsk.iae.post.poST.GlobalVarDeclaration;
 import su.nsk.iae.post.poST.Model;
 import su.nsk.iae.post.poST.PoSTPackage;
 import su.nsk.iae.post.poST.Program;
@@ -30,6 +31,7 @@ import su.nsk.iae.post.poST.Program;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link su.nsk.iae.post.poST.impl.ModelImpl#getGlobVars <em>Glob Vars</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.ModelImpl#getPrograms <em>Programs</em>}</li>
  *   <li>{@link su.nsk.iae.post.poST.impl.ModelImpl#getFbs <em>Fbs</em>}</li>
  * </ul>
@@ -38,6 +40,16 @@ import su.nsk.iae.post.poST.Program;
  */
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model
 {
+  /**
+   * The cached value of the '{@link #getGlobVars() <em>Glob Vars</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getGlobVars()
+   * @generated
+   * @ordered
+   */
+  protected EList<GlobalVarDeclaration> globVars;
+
   /**
    * The cached value of the '{@link #getPrograms() <em>Programs</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -85,6 +97,21 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    */
   @Override
+  public EList<GlobalVarDeclaration> getGlobVars()
+  {
+    if (globVars == null)
+    {
+      globVars = new EObjectContainmentEList<GlobalVarDeclaration>(GlobalVarDeclaration.class, this, PoSTPackage.MODEL__GLOB_VARS);
+    }
+    return globVars;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EList<Program> getPrograms()
   {
     if (programs == null)
@@ -119,6 +146,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case PoSTPackage.MODEL__GLOB_VARS:
+        return ((InternalEList<?>)getGlobVars()).basicRemove(otherEnd, msgs);
       case PoSTPackage.MODEL__PROGRAMS:
         return ((InternalEList<?>)getPrograms()).basicRemove(otherEnd, msgs);
       case PoSTPackage.MODEL__FBS:
@@ -137,6 +166,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case PoSTPackage.MODEL__GLOB_VARS:
+        return getGlobVars();
       case PoSTPackage.MODEL__PROGRAMS:
         return getPrograms();
       case PoSTPackage.MODEL__FBS:
@@ -156,6 +187,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case PoSTPackage.MODEL__GLOB_VARS:
+        getGlobVars().clear();
+        getGlobVars().addAll((Collection<? extends GlobalVarDeclaration>)newValue);
+        return;
       case PoSTPackage.MODEL__PROGRAMS:
         getPrograms().clear();
         getPrograms().addAll((Collection<? extends Program>)newValue);
@@ -178,6 +213,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case PoSTPackage.MODEL__GLOB_VARS:
+        getGlobVars().clear();
+        return;
       case PoSTPackage.MODEL__PROGRAMS:
         getPrograms().clear();
         return;
@@ -198,6 +236,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case PoSTPackage.MODEL__GLOB_VARS:
+        return globVars != null && !globVars.isEmpty();
       case PoSTPackage.MODEL__PROGRAMS:
         return programs != null && !programs.isEmpty();
       case PoSTPackage.MODEL__FBS:

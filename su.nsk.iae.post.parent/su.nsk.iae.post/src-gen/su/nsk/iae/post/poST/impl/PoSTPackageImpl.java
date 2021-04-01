@@ -629,7 +629,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EReference getModel_Programs()
+  public EReference getModel_GlobVars()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(0);
   }
@@ -640,9 +640,20 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EReference getModel_Fbs()
+  public EReference getModel_Programs()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getModel_Fbs()
+  {
+    return (EReference)modelEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -772,7 +783,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EReference getFunctionBlock_ProgInVars()
+  public EReference getFunctionBlock_FbInVars()
   {
     return (EReference)functionBlockEClass.getEStructuralFeatures().get(1);
   }
@@ -783,7 +794,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EReference getFunctionBlock_ProgOutVars()
+  public EReference getFunctionBlock_FbOutVars()
   {
     return (EReference)functionBlockEClass.getEStructuralFeatures().get(2);
   }
@@ -794,7 +805,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EReference getFunctionBlock_ProgInOutVars()
+  public EReference getFunctionBlock_FbInOutVars()
   {
     return (EReference)functionBlockEClass.getEStructuralFeatures().get(3);
   }
@@ -805,7 +816,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EReference getFunctionBlock_ProgVars()
+  public EReference getFunctionBlock_FbVars()
   {
     return (EReference)functionBlockEClass.getEStructuralFeatures().get(4);
   }
@@ -816,7 +827,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EReference getFunctionBlock_ProgTempVars()
+  public EReference getFunctionBlock_FbTempVars()
   {
     return (EReference)functionBlockEClass.getEStructuralFeatures().get(5);
   }
@@ -827,7 +838,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
    * @generated
    */
   @Override
-  public EReference getFunctionBlock_ProgExternVars()
+  public EReference getFunctionBlock_FbExternVars()
   {
     return (EReference)functionBlockEClass.getEStructuralFeatures().get(6);
   }
@@ -2569,6 +2580,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
 
     // Create classes and their features
     modelEClass = createEClass(MODEL);
+    createEReference(modelEClass, MODEL__GLOB_VARS);
     createEReference(modelEClass, MODEL__PROGRAMS);
     createEReference(modelEClass, MODEL__FBS);
 
@@ -2584,12 +2596,12 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
 
     functionBlockEClass = createEClass(FUNCTION_BLOCK);
     createEAttribute(functionBlockEClass, FUNCTION_BLOCK__NAME);
-    createEReference(functionBlockEClass, FUNCTION_BLOCK__PROG_IN_VARS);
-    createEReference(functionBlockEClass, FUNCTION_BLOCK__PROG_OUT_VARS);
-    createEReference(functionBlockEClass, FUNCTION_BLOCK__PROG_IN_OUT_VARS);
-    createEReference(functionBlockEClass, FUNCTION_BLOCK__PROG_VARS);
-    createEReference(functionBlockEClass, FUNCTION_BLOCK__PROG_TEMP_VARS);
-    createEReference(functionBlockEClass, FUNCTION_BLOCK__PROG_EXTERN_VARS);
+    createEReference(functionBlockEClass, FUNCTION_BLOCK__FB_IN_VARS);
+    createEReference(functionBlockEClass, FUNCTION_BLOCK__FB_OUT_VARS);
+    createEReference(functionBlockEClass, FUNCTION_BLOCK__FB_IN_OUT_VARS);
+    createEReference(functionBlockEClass, FUNCTION_BLOCK__FB_VARS);
+    createEReference(functionBlockEClass, FUNCTION_BLOCK__FB_TEMP_VARS);
+    createEReference(functionBlockEClass, FUNCTION_BLOCK__FB_EXTERN_VARS);
     createEReference(functionBlockEClass, FUNCTION_BLOCK__PROCESSES);
 
     setStateStatementEClass = createEClass(SET_STATE_STATEMENT);
@@ -2868,6 +2880,7 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getModel_GlobVars(), this.getGlobalVarDeclaration(), null, "globVars", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Programs(), this.getProgram(), null, "programs", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Fbs(), this.getFunctionBlock(), null, "fbs", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2883,12 +2896,12 @@ public class PoSTPackageImpl extends EPackageImpl implements PoSTPackage
 
     initEClass(functionBlockEClass, FunctionBlock.class, "FunctionBlock", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getFunctionBlock_Name(), ecorePackage.getEString(), "name", null, 0, 1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getFunctionBlock_ProgInVars(), this.getInputVarDeclaration(), null, "progInVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getFunctionBlock_ProgOutVars(), this.getOutputVarDeclaration(), null, "progOutVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getFunctionBlock_ProgInOutVars(), this.getInputOutputVarDeclaration(), null, "progInOutVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getFunctionBlock_ProgVars(), this.getVarDeclaration(), null, "progVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getFunctionBlock_ProgTempVars(), this.getTempVarDeclaration(), null, "progTempVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getFunctionBlock_ProgExternVars(), this.getExternalVarDeclaration(), null, "progExternVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getFunctionBlock_FbInVars(), this.getInputVarDeclaration(), null, "fbInVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getFunctionBlock_FbOutVars(), this.getOutputVarDeclaration(), null, "fbOutVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getFunctionBlock_FbInOutVars(), this.getInputOutputVarDeclaration(), null, "fbInOutVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getFunctionBlock_FbVars(), this.getVarDeclaration(), null, "fbVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getFunctionBlock_FbTempVars(), this.getTempVarDeclaration(), null, "fbTempVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getFunctionBlock_FbExternVars(), this.getExternalVarDeclaration(), null, "fbExternVars", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getFunctionBlock_Processes(), this.getProcess(), null, "processes", null, 0, -1, FunctionBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(setStateStatementEClass, SetStateStatement.class, "SetStateStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
