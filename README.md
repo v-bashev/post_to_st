@@ -5,8 +5,8 @@ poST translator to Structured Text (ST), based on Xtext/Xtend with Eclipse IDE
 - Branch [main](https://github.com/Vlad264/post_to_st/tree/main) : sources to install poST Plug-in to Elipse IDE.
 - Branch [dev](https://github.com/Vlad264/post_to_st/tree/dev) : project code to clone and work with it.
 - JAR file to launch translator via Java 1.8+:\
-  https://drive.google.com/file/d/1vHuSpmk6LPSK09BNlBZl22MXWHFvJuQ9/view?usp=sharing \
-  To launch use: `java -jar post_to_st.jar <File name with ".post" extension>`
+  https://drive.google.com/file/d/1o6hcYSeCWji0WaqGhtoudO4zElAX27TI/view?usp=sharing \
+  To launch use: `java -jar post2st.jar <File name with ".post" extension>`
 
 # Install poST Plug-in to Elipse IDE
 1. Download and install [Eclipse](https://eclipse.org/downloads/).
