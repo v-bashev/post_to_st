@@ -29,7 +29,7 @@ class CodeGenerator extends ICodeGenerator {
 		END_«type»
 	'''
 	
-	private def String generateVar(VarHelper helper) '''
+	static def String generateVar(VarHelper helper) '''
 		«IF !helper.list.empty»
 			«IF helper.hasConstant»
 				«helper.type» CONSTANT
@@ -53,11 +53,11 @@ class CodeGenerator extends ICodeGenerator {
 			«ENDIF»
 		«ENDIF»
 	'''
-	private def String generateSingleDeclaration(VarData data) {
+	private static def String generateSingleDeclaration(VarData data) {
 		return '''«data.name» : «data.type»'''
 	}
 	
-	private def String generateValue(VarData v) {
+	private static def String generateValue(VarData v) {
 		if ((v.value === null) && (v.arraValues === null)) {
 			return ''''''
 		}

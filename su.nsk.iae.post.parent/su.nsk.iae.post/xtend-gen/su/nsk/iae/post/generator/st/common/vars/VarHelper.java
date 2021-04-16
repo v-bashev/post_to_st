@@ -43,6 +43,10 @@ public abstract class VarHelper {
     return this.listDecl;
   }
   
+  public void clear() {
+    this.listDecl.clear();
+  }
+  
   public boolean contains(final String name) {
     for (final VarData v : this.listDecl) {
       String _name = v.getName();

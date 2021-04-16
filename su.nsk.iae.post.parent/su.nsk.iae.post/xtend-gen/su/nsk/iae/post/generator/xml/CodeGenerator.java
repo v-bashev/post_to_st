@@ -100,6 +100,10 @@ public class CodeGenerator extends ICodeGenerator {
   }
   
   public static String generateXMLEnd() {
+    return CodeGenerator.generateXMLEnd(null);
+  }
+  
+  public static String generateXMLEnd(final VarHelper globalVars) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("\t\t");
     _builder.append("</pous>");
@@ -116,6 +120,29 @@ public class CodeGenerator extends ICodeGenerator {
     _builder.append("\t");
     _builder.append("</instances>");
     _builder.newLine();
+    {
+      if ((globalVars != null)) {
+        _builder.append("\t");
+        _builder.append("<addData>");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.append("<data name=\"http://www.3s-software.com/plcopenxml/globalvars\" handleUnknown=\"implementation\">");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t\t");
+        String _generateVar = CodeGenerator.generateVar(globalVars, "GVL");
+        _builder.append(_generateVar, "\t\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.append("</data>");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("</addData>");
+        _builder.newLine();
+      }
+    }
     _builder.append("</project>");
     _builder.newLine();
     return _builder.toString();
@@ -135,7 +162,7 @@ public class CodeGenerator extends ICodeGenerator {
     _builder.append("<interface>");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    String _generateVar = this.generateVar(this.varList);
+    String _generateVar = CodeGenerator.generateVar(this.varList);
     _builder.append(_generateVar, "\t\t\t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
@@ -196,7 +223,11 @@ public class CodeGenerator extends ICodeGenerator {
     return new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.SSSSSS").format(Calendar.getInstance().getTime());
   }
   
-  public String generateVar(final VarHelper varHelper) {
+  public static String generateVar(final VarHelper varHelper) {
+    return CodeGenerator.generateVar(varHelper, null);
+  }
+  
+  public static String generateVar(final VarHelper varHelper, final String name) {
     StringConcatenation _builder = new StringConcatenation();
     {
       boolean _isEmpty = varHelper.getList().isEmpty();
@@ -205,8 +236,18 @@ public class CodeGenerator extends ICodeGenerator {
         {
           boolean _hasConstant = varHelper.hasConstant();
           if (_hasConstant) {
-            _builder.append("<localVars constant=\"true\">");
-            _builder.newLine();
+            _builder.append("<");
+            String _mapVarType = CodeGenerator.mapVarType(varHelper.getType());
+            _builder.append(_mapVarType);
+            {
+              if ((name != null)) {
+                _builder.append(" name=\"");
+                _builder.append(name);
+                _builder.append("\"");
+              }
+            }
+            _builder.append(" constant=\"true\">");
+            _builder.newLineIfNotEmpty();
             {
               List<VarData> _list = varHelper.getList();
               for(final VarData v : _list) {
@@ -214,22 +255,35 @@ public class CodeGenerator extends ICodeGenerator {
                   boolean _isConstant = v.isConstant();
                   if (_isConstant) {
                     _builder.append("\t");
-                    String _generateSingleDeclaration = this.generateSingleDeclaration(v);
+                    String _generateSingleDeclaration = CodeGenerator.generateSingleDeclaration(v);
                     _builder.append(_generateSingleDeclaration, "\t");
                     _builder.newLineIfNotEmpty();
                   }
                 }
               }
             }
-            _builder.append("</localVars>");
-            _builder.newLine();
+            _builder.append("</");
+            String _mapVarType_1 = CodeGenerator.mapVarType(varHelper.getType());
+            _builder.append(_mapVarType_1);
+            _builder.append(">");
+            _builder.newLineIfNotEmpty();
           }
         }
         {
           boolean _hasNonConstant = varHelper.hasNonConstant();
           if (_hasNonConstant) {
-            _builder.append("<localVars>");
-            _builder.newLine();
+            _builder.append("<");
+            String _mapVarType_2 = CodeGenerator.mapVarType(varHelper.getType());
+            _builder.append(_mapVarType_2);
+            {
+              if ((name != null)) {
+                _builder.append(" name=\"");
+                _builder.append(name);
+                _builder.append("\"");
+              }
+            }
+            _builder.append(">");
+            _builder.newLineIfNotEmpty();
             {
               List<VarData> _list_1 = varHelper.getList();
               for(final VarData v_1 : _list_1) {
@@ -238,15 +292,18 @@ public class CodeGenerator extends ICodeGenerator {
                   boolean _not_1 = (!_isConstant_1);
                   if (_not_1) {
                     _builder.append("\t");
-                    String _generateSingleDeclaration_1 = this.generateSingleDeclaration(v_1);
+                    String _generateSingleDeclaration_1 = CodeGenerator.generateSingleDeclaration(v_1);
                     _builder.append(_generateSingleDeclaration_1, "\t");
                     _builder.newLineIfNotEmpty();
                   }
                 }
               }
             }
-            _builder.append("</localVars>");
-            _builder.newLine();
+            _builder.append("</");
+            String _mapVarType_3 = CodeGenerator.mapVarType(varHelper.getType());
+            _builder.append(_mapVarType_3);
+            _builder.append(">");
+            _builder.newLineIfNotEmpty();
           }
         }
       }
@@ -254,7 +311,7 @@ public class CodeGenerator extends ICodeGenerator {
     return _builder.toString();
   }
   
-  private String generateSingleDeclaration(final VarData data) {
+  private static String generateSingleDeclaration(final VarData data) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<variable name=\"");
     String _name = data.getName();
@@ -295,5 +352,37 @@ public class CodeGenerator extends ICodeGenerator {
     _builder.append("</variable>");
     _builder.newLine();
     return _builder.toString();
+  }
+  
+  private static String mapVarType(final String type) {
+    if (type != null) {
+      switch (type) {
+        case "VAR":
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("localVars");
+          return _builder.toString();
+        case "VAR_GLOBAL":
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("globalVars");
+          return _builder_1.toString();
+        case "VAR_INPUT":
+          StringConcatenation _builder_2 = new StringConcatenation();
+          _builder_2.append("inputVars");
+          return _builder_2.toString();
+        case "VAR_OUTPUT":
+          StringConcatenation _builder_3 = new StringConcatenation();
+          _builder_3.append("outputVars");
+          return _builder_3.toString();
+        case "VAR_IN_OUT":
+          StringConcatenation _builder_4 = new StringConcatenation();
+          _builder_4.append("inOutVars");
+          return _builder_4.toString();
+        case "VAR_TEMP":
+          StringConcatenation _builder_5 = new StringConcatenation();
+          _builder_5.append("tempVars");
+          return _builder_5.toString();
+      }
+    }
+    return null;
   }
 }

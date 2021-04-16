@@ -27,12 +27,16 @@ abstract class VarHelper {
 		listDecl.add(new VarData(name, type, value, isConstant))
 	}
 	
-	def getType() {
+	def String getType() {
 		return varType
 	}
 	
-	def getList() {
+	def List<VarData> getList() {
 		return listDecl
+	}
+	
+	def void clear() {
+		listDecl.clear()
 	}
 	
 	def boolean contains(String name) {

@@ -9,17 +9,27 @@ import su.nsk.iae.post.generator.IpoSTGenerator;
 import su.nsk.iae.post.generator.st.CodeGenerator;
 import su.nsk.iae.post.generator.st.FBGenerator;
 import su.nsk.iae.post.generator.st.ProgramGenerator;
+import su.nsk.iae.post.generator.st.common.vars.GlobalVarHelper;
+import su.nsk.iae.post.generator.st.common.vars.VarHelper;
 import su.nsk.iae.post.poST.FunctionBlock;
+import su.nsk.iae.post.poST.GlobalVarDeclaration;
 import su.nsk.iae.post.poST.Model;
 import su.nsk.iae.post.poST.Program;
 
 @SuppressWarnings("all")
 public class STGenerator implements IpoSTGenerator {
+  private VarHelper globVarList = new GlobalVarHelper();
+  
   private List<CodeGenerator> codes = new LinkedList<CodeGenerator>();
   
   @Override
   public void setModel(final Model model) {
+    this.globVarList.clear();
     this.codes.clear();
+    EList<GlobalVarDeclaration> _globVars = model.getGlobVars();
+    for (final GlobalVarDeclaration v : _globVars) {
+      this.globVarList.add(v);
+    }
     EList<Program> _programs = model.getPrograms();
     for (final Program p : _programs) {
       ProgramGenerator _programGenerator = new ProgramGenerator(p);
@@ -42,6 +52,10 @@ public class STGenerator implements IpoSTGenerator {
   
   @Override
   public void generateMultipleFiles(final IFileSystemAccess2 fsa, final String path) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append(path);
+    _builder.append("GVL.st");
+    fsa.generateFile(_builder.toString(), CodeGenerator.generateVar(this.globVarList));
     for (final CodeGenerator c : this.codes) {
       c.generate(fsa, path);
     }
@@ -49,6 +63,9 @@ public class STGenerator implements IpoSTGenerator {
   
   private String generateSingleFileBody() {
     StringConcatenation _builder = new StringConcatenation();
+    String _generateVar = CodeGenerator.generateVar(this.globVarList);
+    _builder.append(_generateVar);
+    _builder.newLineIfNotEmpty();
     {
       for(final CodeGenerator c : this.codes) {
         String _generateCode = c.generateCode();

@@ -30,22 +30,22 @@ public class CodeGenerator extends ICodeGenerator {
     _builder.append(this.codeName);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
-    String _generateVar = this.generateVar(this.inVarList);
+    String _generateVar = CodeGenerator.generateVar(this.inVarList);
     _builder.append(_generateVar);
     _builder.newLineIfNotEmpty();
-    String _generateVar_1 = this.generateVar(this.outVarList);
+    String _generateVar_1 = CodeGenerator.generateVar(this.outVarList);
     _builder.append(_generateVar_1);
     _builder.newLineIfNotEmpty();
-    String _generateVar_2 = this.generateVar(this.inOutVarList);
+    String _generateVar_2 = CodeGenerator.generateVar(this.inOutVarList);
     _builder.append(_generateVar_2);
     _builder.newLineIfNotEmpty();
-    String _generateVar_3 = this.generateVar(this.externalVarList);
+    String _generateVar_3 = CodeGenerator.generateVar(this.externalVarList);
     _builder.append(_generateVar_3);
     _builder.newLineIfNotEmpty();
-    String _generateVar_4 = this.generateVar(this.varList);
+    String _generateVar_4 = CodeGenerator.generateVar(this.varList);
     _builder.append(_generateVar_4);
     _builder.newLineIfNotEmpty();
-    String _generateVar_5 = this.generateVar(this.tempVarList);
+    String _generateVar_5 = CodeGenerator.generateVar(this.tempVarList);
     _builder.append(_generateVar_5);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
@@ -68,7 +68,7 @@ public class CodeGenerator extends ICodeGenerator {
     return _builder.toString();
   }
   
-  private String generateVar(final VarHelper helper) {
+  public static String generateVar(final VarHelper helper) {
     StringConcatenation _builder = new StringConcatenation();
     {
       boolean _isEmpty = helper.getList().isEmpty();
@@ -88,9 +88,9 @@ public class CodeGenerator extends ICodeGenerator {
                   boolean _isConstant = v.isConstant();
                   if (_isConstant) {
                     _builder.append("\t");
-                    String _generateSingleDeclaration = this.generateSingleDeclaration(v);
+                    String _generateSingleDeclaration = CodeGenerator.generateSingleDeclaration(v);
                     _builder.append(_generateSingleDeclaration, "\t");
-                    String _generateValue = this.generateValue(v);
+                    String _generateValue = CodeGenerator.generateValue(v);
                     _builder.append(_generateValue, "\t");
                     _builder.append(";");
                     _builder.newLineIfNotEmpty();
@@ -117,9 +117,9 @@ public class CodeGenerator extends ICodeGenerator {
                   boolean _not_1 = (!_isConstant_1);
                   if (_not_1) {
                     _builder.append("\t");
-                    String _generateSingleDeclaration_1 = this.generateSingleDeclaration(v_1);
+                    String _generateSingleDeclaration_1 = CodeGenerator.generateSingleDeclaration(v_1);
                     _builder.append(_generateSingleDeclaration_1, "\t");
-                    String _generateValue_1 = this.generateValue(v_1);
+                    String _generateValue_1 = CodeGenerator.generateValue(v_1);
                     _builder.append(_generateValue_1, "\t");
                     _builder.append(";");
                     _builder.newLineIfNotEmpty();
@@ -137,7 +137,7 @@ public class CodeGenerator extends ICodeGenerator {
     return _builder.toString();
   }
   
-  private String generateSingleDeclaration(final VarData data) {
+  private static String generateSingleDeclaration(final VarData data) {
     StringConcatenation _builder = new StringConcatenation();
     String _name = data.getName();
     _builder.append(_name);
@@ -147,7 +147,7 @@ public class CodeGenerator extends ICodeGenerator {
     return _builder.toString();
   }
   
-  private String generateValue(final VarData v) {
+  private static String generateValue(final VarData v) {
     if (((v.getValue() == null) && (v.getArraValues() == null))) {
       StringConcatenation _builder = new StringConcatenation();
       return _builder.toString();

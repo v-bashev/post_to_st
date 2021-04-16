@@ -40,12 +40,23 @@ class CodeGenerator extends ICodeGenerator {
 				<pous>
 	'''
 	
-	static def String generateXMLEnd() '''
+	static def String generateXMLEnd() {
+		return generateXMLEnd(null)
+	}
+	
+	static def String generateXMLEnd(VarHelper globalVars) '''
 				</pous>
 			</types>
 			<instances>
 				<configurations />
 			</instances>
+			«IF globalVars !== null»
+				<addData>
+					<data name="http://www.3s-software.com/plcopenxml/globalvars" handleUnknown="implementation">
+						«generateVar(globalVars, "GVL")»
+					</data>
+				</addData>
+			«ENDIF»
 		</project>
 	'''
 	
@@ -78,30 +89,34 @@ class CodeGenerator extends ICodeGenerator {
 		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS").format(Calendar.instance.time)
 	}
 	
-	def String generateVar(VarHelper varHelper) '''
+	static def String generateVar(VarHelper varHelper) {
+		return generateVar(varHelper, null)
+	}
+	
+	static def String generateVar(VarHelper varHelper, String name) '''
 		«IF !varHelper.list.empty»
 			«IF varHelper.hasConstant»
-				<localVars constant="true">
+				<«varHelper.type.mapVarType»«IF name !== null» name="«name»"«ENDIF» constant="true">
 					«FOR v : varHelper.list»
 						«IF v.isConstant»
 							«v.generateSingleDeclaration»
 						«ENDIF»
 					«ENDFOR»
-				</localVars>
+				</«varHelper.type.mapVarType»>
 			«ENDIF»
 			«IF varHelper.hasNonConstant»
-				<localVars>
+				<«varHelper.type.mapVarType»«IF name !== null» name="«name»"«ENDIF»>
 					«FOR v : varHelper.list»
 						«IF !v.isConstant»
 							«v.generateSingleDeclaration»
 						«ENDIF»
 					«ENDFOR»
-				</localVars>
+				</«varHelper.type.mapVarType»>
 			«ENDIF»
 		«ENDIF»
 	'''
 	
-	private def String generateSingleDeclaration(VarData data) '''
+	private static def String generateSingleDeclaration(VarData data) '''
 		<variable name="«data.name»">
 			<type>
 				<«data.type» />
@@ -113,5 +128,22 @@ class CodeGenerator extends ICodeGenerator {
 			«ENDIF»
 		</variable>
 	'''
+	
+	private static def String mapVarType(String type) {
+		switch type {
+			case "VAR":
+				return '''localVars'''
+			case "VAR_GLOBAL":
+				return '''globalVars'''
+			case "VAR_INPUT":
+				return '''inputVars'''
+			case "VAR_OUTPUT":
+				return '''outputVars'''
+			case "VAR_IN_OUT":
+				return '''inOutVars'''
+			case "VAR_TEMP":
+				return '''tempVars'''
+		}
+	} 
 	
 }
