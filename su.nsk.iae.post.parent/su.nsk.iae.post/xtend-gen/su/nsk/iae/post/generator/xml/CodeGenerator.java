@@ -5,10 +5,10 @@ import java.util.Calendar;
 import java.util.List;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
-import su.nsk.iae.post.generator.st.ICodeGenerator;
-import su.nsk.iae.post.generator.st.common.ProcessGenerator;
-import su.nsk.iae.post.generator.st.common.vars.VarHelper;
-import su.nsk.iae.post.generator.st.common.vars.data.VarData;
+import su.nsk.iae.post.generator.xml.ICodeGenerator;
+import su.nsk.iae.post.generator.xml.common.ProcessGenerator;
+import su.nsk.iae.post.generator.xml.common.vars.VarHelper;
+import su.nsk.iae.post.generator.xml.common.vars.data.VarData;
 
 @SuppressWarnings("all")
 public class CodeGenerator extends ICodeGenerator {
@@ -237,8 +237,8 @@ public class CodeGenerator extends ICodeGenerator {
           boolean _hasConstant = varHelper.hasConstant();
           if (_hasConstant) {
             _builder.append("<");
-            String _mapVarType = CodeGenerator.mapVarType(varHelper.getType());
-            _builder.append(_mapVarType);
+            String _type = varHelper.getType();
+            _builder.append(_type);
             {
               if ((name != null)) {
                 _builder.append(" name=\"");
@@ -263,8 +263,8 @@ public class CodeGenerator extends ICodeGenerator {
               }
             }
             _builder.append("</");
-            String _mapVarType_1 = CodeGenerator.mapVarType(varHelper.getType());
-            _builder.append(_mapVarType_1);
+            String _type_1 = varHelper.getType();
+            _builder.append(_type_1);
             _builder.append(">");
             _builder.newLineIfNotEmpty();
           }
@@ -273,8 +273,8 @@ public class CodeGenerator extends ICodeGenerator {
           boolean _hasNonConstant = varHelper.hasNonConstant();
           if (_hasNonConstant) {
             _builder.append("<");
-            String _mapVarType_2 = CodeGenerator.mapVarType(varHelper.getType());
-            _builder.append(_mapVarType_2);
+            String _type_2 = varHelper.getType();
+            _builder.append(_type_2);
             {
               if ((name != null)) {
                 _builder.append(" name=\"");
@@ -300,8 +300,8 @@ public class CodeGenerator extends ICodeGenerator {
               }
             }
             _builder.append("</");
-            String _mapVarType_3 = CodeGenerator.mapVarType(varHelper.getType());
-            _builder.append(_mapVarType_3);
+            String _type_3 = varHelper.getType();
+            _builder.append(_type_3);
             _builder.append(">");
             _builder.newLineIfNotEmpty();
           }
@@ -352,37 +352,5 @@ public class CodeGenerator extends ICodeGenerator {
     _builder.append("</variable>");
     _builder.newLine();
     return _builder.toString();
-  }
-  
-  private static String mapVarType(final String type) {
-    if (type != null) {
-      switch (type) {
-        case "VAR":
-          StringConcatenation _builder = new StringConcatenation();
-          _builder.append("localVars");
-          return _builder.toString();
-        case "VAR_GLOBAL":
-          StringConcatenation _builder_1 = new StringConcatenation();
-          _builder_1.append("globalVars");
-          return _builder_1.toString();
-        case "VAR_INPUT":
-          StringConcatenation _builder_2 = new StringConcatenation();
-          _builder_2.append("inputVars");
-          return _builder_2.toString();
-        case "VAR_OUTPUT":
-          StringConcatenation _builder_3 = new StringConcatenation();
-          _builder_3.append("outputVars");
-          return _builder_3.toString();
-        case "VAR_IN_OUT":
-          StringConcatenation _builder_4 = new StringConcatenation();
-          _builder_4.append("inOutVars");
-          return _builder_4.toString();
-        case "VAR_TEMP":
-          StringConcatenation _builder_5 = new StringConcatenation();
-          _builder_5.append("tempVars");
-          return _builder_5.toString();
-      }
-    }
-    return null;
   }
 }

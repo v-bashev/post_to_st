@@ -5,8 +5,8 @@ import su.nsk.iae.post.poST.Model
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import java.util.List
 import java.util.LinkedList
-import su.nsk.iae.post.generator.st.common.vars.VarHelper
-import su.nsk.iae.post.generator.st.common.vars.GlobalVarHelper
+import su.nsk.iae.post.generator.xml.common.vars.VarHelper
+import su.nsk.iae.post.generator.xml.common.vars.GlobalVarHelper
 
 class XMLGenerator implements IpoSTGenerator {
 	

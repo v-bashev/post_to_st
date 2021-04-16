@@ -3,9 +3,9 @@ package su.nsk.iae.post.generator.xml
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import org.eclipse.xtext.generator.IFileSystemAccess2
-import su.nsk.iae.post.generator.st.ICodeGenerator
-import su.nsk.iae.post.generator.st.common.vars.VarHelper
-import su.nsk.iae.post.generator.st.common.vars.data.VarData
+import su.nsk.iae.post.generator.xml.ICodeGenerator
+import su.nsk.iae.post.generator.xml.common.vars.VarHelper
+import su.nsk.iae.post.generator.xml.common.vars.data.VarData
 
 class CodeGenerator extends ICodeGenerator {
 	
@@ -96,22 +96,22 @@ class CodeGenerator extends ICodeGenerator {
 	static def String generateVar(VarHelper varHelper, String name) '''
 		«IF !varHelper.list.empty»
 			«IF varHelper.hasConstant»
-				<«varHelper.type.mapVarType»«IF name !== null» name="«name»"«ENDIF» constant="true">
+				<«varHelper.type»«IF name !== null» name="«name»"«ENDIF» constant="true">
 					«FOR v : varHelper.list»
 						«IF v.isConstant»
 							«v.generateSingleDeclaration»
 						«ENDIF»
 					«ENDFOR»
-				</«varHelper.type.mapVarType»>
+				</«varHelper.type»>
 			«ENDIF»
 			«IF varHelper.hasNonConstant»
-				<«varHelper.type.mapVarType»«IF name !== null» name="«name»"«ENDIF»>
+				<«varHelper.type»«IF name !== null» name="«name»"«ENDIF»>
 					«FOR v : varHelper.list»
 						«IF !v.isConstant»
 							«v.generateSingleDeclaration»
 						«ENDIF»
 					«ENDFOR»
-				</«varHelper.type.mapVarType»>
+				</«varHelper.type»>
 			«ENDIF»
 		«ENDIF»
 	'''
@@ -128,22 +128,5 @@ class CodeGenerator extends ICodeGenerator {
 			«ENDIF»
 		</variable>
 	'''
-	
-	private static def String mapVarType(String type) {
-		switch type {
-			case "VAR":
-				return '''localVars'''
-			case "VAR_GLOBAL":
-				return '''globalVars'''
-			case "VAR_INPUT":
-				return '''inputVars'''
-			case "VAR_OUTPUT":
-				return '''outputVars'''
-			case "VAR_IN_OUT":
-				return '''inOutVars'''
-			case "VAR_TEMP":
-				return '''tempVars'''
-		}
-	} 
 	
 }
