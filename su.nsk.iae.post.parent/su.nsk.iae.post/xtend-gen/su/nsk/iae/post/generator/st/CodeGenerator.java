@@ -6,7 +6,6 @@ import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
-import su.nsk.iae.post.generator.st.ICodeGenerator;
 import su.nsk.iae.post.generator.st.common.ProcessGenerator;
 import su.nsk.iae.post.generator.st.common.vars.VarHelper;
 import su.nsk.iae.post.generator.st.common.vars.data.VarData;

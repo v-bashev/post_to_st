@@ -6,7 +6,6 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.xbase.lib.IntegerRange;
 import su.nsk.iae.post.generator.xml.ICodeGenerator;
-import su.nsk.iae.post.generator.xml.common.ProcessGenerator;
 import su.nsk.iae.post.poST.AddExpression;
 import su.nsk.iae.post.poST.AddOperator;
 import su.nsk.iae.post.poST.AndExpression;

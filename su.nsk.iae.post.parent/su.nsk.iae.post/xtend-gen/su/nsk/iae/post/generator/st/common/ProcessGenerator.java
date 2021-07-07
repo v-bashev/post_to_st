@@ -8,7 +8,6 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import su.nsk.iae.post.generator.st.ICodeGenerator;
-import su.nsk.iae.post.generator.st.common.StateGenerator;
 import su.nsk.iae.post.generator.st.common.vars.SimpleVarHelper;
 import su.nsk.iae.post.generator.st.common.vars.TempVarHelper;
 import su.nsk.iae.post.generator.st.common.vars.VarHelper;

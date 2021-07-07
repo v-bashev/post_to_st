@@ -3,7 +3,11 @@ package su.nsk.iae.post.generator;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+
+import java.net.Socket;
 import java.util.List;
+import java.util.Scanner;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -20,6 +24,11 @@ import su.nsk.iae.post.PoSTStandaloneSetup;
 public class Main {
 
 	public static void main(String[] args) {
+		singleExecutions(args);
+		//service(args);
+	}
+	
+	private static void singleExecutions(String[] args) {
 		if (args.length == 0) {
 			System.err.println("Aborting: no path to poST file provided!");
 			return;
@@ -35,6 +44,26 @@ public class Main {
 				main.runGenerator(args[1], args[0].equals("-l"));
 			}
 		}
+	}
+	
+	private static boolean loop = true;
+	
+	private static void service(String[] args) {
+		boolean local = args.length == 1 ? args[0].equals("-l") ? true : false : false;
+		Injector injector = new PoSTStandaloneSetup().createInjectorAndDoEMFRegistration();
+		Main main = injector.getInstance(Main.class);
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+            public void run() {
+				loop = false;
+            }
+		});
+		Scanner scanner = new Scanner(System.in);
+		while (loop) {
+			String file = scanner.next();
+			main.runGenerator(file, local);
+		}
+		scanner.close();
 	}
 
 	@Inject
@@ -70,7 +99,12 @@ public class Main {
 		}
 		GeneratorContext context = new GeneratorContext();
 		context.setCancelIndicator(CancelIndicator.NullImpl);
-		generator.generate(resource, fileAccess, context);
+		try {
+			generator.generate(resource, fileAccess, context);
+		} catch (Exception e) {
+			System.out.println("Code generation aborted.");
+			return;
+		}
 
 		System.out.println("Code generation finished.");
 		printIssues(issues);

@@ -8,7 +8,6 @@ import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
-import su.nsk.iae.post.generator.IpoSTGenerator;
 import su.nsk.iae.post.generator.st.STGenerator;
 import su.nsk.iae.post.generator.xml.XMLGenerator;
 import su.nsk.iae.post.poST.Model;

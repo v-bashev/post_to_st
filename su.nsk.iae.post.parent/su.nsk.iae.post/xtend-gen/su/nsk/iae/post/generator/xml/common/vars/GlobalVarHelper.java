@@ -2,7 +2,6 @@ package su.nsk.iae.post.generator.xml.common.vars;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import su.nsk.iae.post.generator.xml.common.vars.VarHelper;
 import su.nsk.iae.post.generator.xml.common.vars.data.VarData;
 import su.nsk.iae.post.poST.GlobalVarDeclaration;
 import su.nsk.iae.post.poST.GlobalVarInitDeclaration;

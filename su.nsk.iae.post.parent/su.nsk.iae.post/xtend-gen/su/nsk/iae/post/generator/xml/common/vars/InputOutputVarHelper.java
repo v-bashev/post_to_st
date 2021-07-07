@@ -1,7 +1,6 @@
 package su.nsk.iae.post.generator.xml.common.vars;
 
 import org.eclipse.emf.ecore.EObject;
-import su.nsk.iae.post.generator.xml.common.vars.VarHelper;
 import su.nsk.iae.post.poST.InputOutputVarDeclaration;
 
 @SuppressWarnings("all")

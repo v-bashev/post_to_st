@@ -1,7 +1,6 @@
 package su.nsk.iae.post.generator.st;
 
 import org.eclipse.emf.common.util.EList;
-import su.nsk.iae.post.generator.st.CodeGenerator;
 import su.nsk.iae.post.poST.ExternalVarDeclaration;
 import su.nsk.iae.post.poST.FunctionBlock;
 import su.nsk.iae.post.poST.InputOutputVarDeclaration;

@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
-import su.nsk.iae.post.generator.xml.ICodeGenerator;
 import su.nsk.iae.post.generator.xml.common.ProcessGenerator;
 import su.nsk.iae.post.generator.xml.common.vars.VarHelper;
 import su.nsk.iae.post.generator.xml.common.vars.data.VarData;
