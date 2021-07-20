@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension
+		name="ST-generator"
+		point="su.nsk.iae.post.post_extension">
+		<client
+			class="su.nsk.iae.post.generator.st.STGenerator"></client>
+	</extension>
+</plugin>
