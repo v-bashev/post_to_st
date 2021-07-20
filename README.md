@@ -1,9 +1,13 @@
 # poST_to_ST
-poST translator to Structured Text (ST), based on Xtext/Xtend with Eclipse IDE
+poST language generation module to Structured Text (ST) language and PLCopen XML Exchange format.\
+Based on [Xtend](https://www.eclipse.org/xtend/) language and [Xtext](https://www.eclipse.org/Xtext/) framework.\
+Created for poST language core.
 
 # Reference
-- Branch [main](https://github.com/Vlad264/post_to_st/tree/main) : sources to install poST Plug-in to Elipse IDE.
-- Branch [dev](https://github.com/Vlad264/post_to_st/tree/dev) : project code to clone and work with it.
+- poST language core: https://github.com/v-bashev/post_core
+- Branch [main](https://github.com/v-bashev/post_to_st/tree/main) : project source code.
+- Branch [dev](https://github.com/v-bashev/post_to_st/tree/dev) : project source code to clone and work with it.
+- Branch [plugin](https://github.com/v-bashev/post_to_st/tree/plugin) : sources to install poST Plug-in to Elipse IDE.
 - JAR file to launch translator via Java 1.8+:\
   https://drive.google.com/file/d/1o6hcYSeCWji0WaqGhtoudO4zElAX27TI/view?usp=sharing \
   To launch use: `java -jar post2st.jar <File name with ".post" extension>`
@@ -12,8 +16,8 @@ poST translator to Structured Text (ST), based on Xtext/Xtend with Eclipse IDE
 1. Download and install [Eclipse](https://eclipse.org/downloads/).
 2. From the Eclipse "Help" menu select "Install New Software...".
 3. In the "Available Software" dialog click the "Add..." button.
-4. In the "Add Repository" dialog enter the name `post` and the location:
-   `https://raw.githubusercontent.com/Vlad264/post_to_st/main/site.xml`
+4. In the "Add Repository" dialog enter the name `post` and the location:\
+   `https://raw.githubusercontent.com/v-bashev/post_to_st/plugin/site.xml`
 5. In the "Work with" choose "post".
 6. Select "PoST Feature".
 7. Click "Next" and follow the prompts.
