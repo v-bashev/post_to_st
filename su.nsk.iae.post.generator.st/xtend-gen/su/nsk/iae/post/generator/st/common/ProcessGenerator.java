@@ -7,7 +7,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import su.nsk.iae.post.generator.st.ICodeGenerator;
+import su.nsk.iae.post.generator.st.common.util.GeneratorUtil;
 import su.nsk.iae.post.generator.st.common.vars.SimpleVarHelper;
 import su.nsk.iae.post.generator.st.common.vars.TempVarHelper;
 import su.nsk.iae.post.generator.st.common.vars.VarHelper;
@@ -20,7 +20,7 @@ import su.nsk.iae.post.poST.VarInitDeclaration;
 
 @SuppressWarnings("all")
 public class ProcessGenerator {
-  private ICodeGenerator program;
+  private ProgramGenerator program;
   
   private su.nsk.iae.post.poST.Process process;
   
@@ -30,7 +30,7 @@ public class ProcessGenerator {
   
   private List<StateGenerator> stateList = new LinkedList<StateGenerator>();
   
-  public ProcessGenerator(final ICodeGenerator program, final su.nsk.iae.post.poST.Process process) {
+  public ProcessGenerator(final ProgramGenerator program, final su.nsk.iae.post.poST.Process process) {
     this.program = program;
     this.process = process;
     EList<VarDeclaration> _procVars = process.getProcVars();
@@ -90,7 +90,7 @@ public class ProcessGenerator {
     if (_isFirstProcess) {
       this.program.addVar(this.generateEnumName(), "INT", this.getEnumStateName(this.stateList.get(0).getName()));
     } else {
-      this.program.addVar(this.generateEnumName(), "INT", this.program.generateStopConstant());
+      this.program.addVar(this.generateEnumName(), "INT", GeneratorUtil.generateStopConstant());
     }
   }
   
@@ -142,7 +142,7 @@ public class ProcessGenerator {
         String _generateTimeoutName = this.generateTimeoutName();
         _builder.append(_generateTimeoutName);
         _builder.append(" := ");
-        String _generateGlobalTime = this.program.generateGlobalTime();
+        String _generateGlobalTime = GeneratorUtil.generateGlobalTime();
         _builder.append(_generateGlobalTime);
         _builder.append(";");
       }
@@ -174,7 +174,7 @@ public class ProcessGenerator {
           String _generateTimeoutName = this.generateTimeoutName();
           _builder.append(_generateTimeoutName);
           _builder.append(" := ");
-          String _generateGlobalTime = this.program.generateGlobalTime();
+          String _generateGlobalTime = GeneratorUtil.generateGlobalTime();
           _builder.append(_generateGlobalTime);
           _builder.append(";");
         }
@@ -197,7 +197,7 @@ public class ProcessGenerator {
         String _generateTimeoutName_1 = this.generateTimeoutName();
         _builder_1.append(_generateTimeoutName_1);
         _builder_1.append(" := ");
-        String _generateGlobalTime_1 = this.program.generateGlobalTime();
+        String _generateGlobalTime_1 = GeneratorUtil.generateGlobalTime();
         _builder_1.append(_generateGlobalTime_1);
         _builder_1.append(";");
       }
@@ -255,7 +255,7 @@ public class ProcessGenerator {
         String _generateTimeoutName = this.generateTimeoutName();
         _builder.append(_generateTimeoutName);
         _builder.append(" := ");
-        String _generateGlobalTime = this.program.generateGlobalTime();
+        String _generateGlobalTime = GeneratorUtil.generateGlobalTime();
         _builder.append(_generateGlobalTime);
         _builder.append(";");
       }

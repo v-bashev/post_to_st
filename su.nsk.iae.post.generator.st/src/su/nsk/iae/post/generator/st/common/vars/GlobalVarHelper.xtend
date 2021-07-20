@@ -1,10 +1,10 @@
 package su.nsk.iae.post.generator.st.common.vars
 
-import org.eclipse.emf.ecore.EObject
-import su.nsk.iae.post.poST.GlobalVarDeclaration
 import org.eclipse.emf.common.util.EList
-import su.nsk.iae.post.poST.GlobalVarInitDeclaration
+import org.eclipse.emf.ecore.EObject
 import su.nsk.iae.post.generator.st.common.vars.data.VarData
+import su.nsk.iae.post.poST.GlobalVarDeclaration
+import su.nsk.iae.post.poST.GlobalVarInitDeclaration
 
 class GlobalVarHelper extends VarHelper {
 	

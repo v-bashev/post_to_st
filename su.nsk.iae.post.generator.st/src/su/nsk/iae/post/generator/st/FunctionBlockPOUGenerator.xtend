@@ -1,11 +1,12 @@
 package su.nsk.iae.post.generator.st
 
+import su.nsk.iae.post.generator.st.common.ProgramGenerator
 import su.nsk.iae.post.poST.FunctionBlock
 
-class FBGenerator extends CodeGenerator {
+class FunctionBlockPOUGenerator extends ProgramGenerator {
 	
 	new(FunctionBlock fb) {
-		codeName = fb.name
+		programName = fb.name
 		type = "FUNCTION_BLOCK"
 		for (v : fb.fbInVars) {
 			inVarList.add(v)

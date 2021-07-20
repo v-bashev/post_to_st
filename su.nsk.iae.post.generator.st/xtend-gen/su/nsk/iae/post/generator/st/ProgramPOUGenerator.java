@@ -1,6 +1,7 @@
 package su.nsk.iae.post.generator.st;
 
 import org.eclipse.emf.common.util.EList;
+import su.nsk.iae.post.generator.st.common.ProgramGenerator;
 import su.nsk.iae.post.poST.ExternalVarDeclaration;
 import su.nsk.iae.post.poST.InputOutputVarDeclaration;
 import su.nsk.iae.post.poST.InputVarDeclaration;
@@ -10,9 +11,9 @@ import su.nsk.iae.post.poST.TempVarDeclaration;
 import su.nsk.iae.post.poST.VarDeclaration;
 
 @SuppressWarnings("all")
-public class ProgramGenerator extends CodeGenerator {
-  public ProgramGenerator(final Program program) {
-    this.codeName = program.getName();
+public class ProgramPOUGenerator extends ProgramGenerator {
+  public ProgramPOUGenerator(final Program program) {
+    this.programName = program.getName();
     this.type = "PROGRAM";
     EList<InputVarDeclaration> _progInVars = program.getProgInVars();
     for (final InputVarDeclaration v : _progInVars) {

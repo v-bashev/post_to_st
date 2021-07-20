@@ -1,11 +1,12 @@
 package su.nsk.iae.post.generator.st
 
+import su.nsk.iae.post.generator.st.common.ProgramGenerator
 import su.nsk.iae.post.poST.Program
 
-class ProgramGenerator extends CodeGenerator {
+class ProgramPOUGenerator extends ProgramGenerator {
 	
 	new(Program program) {
-		codeName = program.name
+		programName = program.name
 		type = "PROGRAM"
 		for (v : program.progInVars) {
 			inVarList.add(v)

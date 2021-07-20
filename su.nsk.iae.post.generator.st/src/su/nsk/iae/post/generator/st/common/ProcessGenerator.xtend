@@ -6,11 +6,12 @@ import su.nsk.iae.post.generator.st.common.vars.SimpleVarHelper
 import su.nsk.iae.post.generator.st.common.vars.TempVarHelper
 import su.nsk.iae.post.generator.st.common.vars.VarHelper
 import su.nsk.iae.post.poST.Process
-import su.nsk.iae.post.generator.st.ICodeGenerator
+
+import static su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class ProcessGenerator {
 	
-	ICodeGenerator program
+	ProgramGenerator program
 	Process process
 	
 	VarHelper varList = new SimpleVarHelper
@@ -18,7 +19,7 @@ class ProcessGenerator {
 	
 	List<StateGenerator> stateList = new LinkedList
 	
-	new(ICodeGenerator program, Process process) {
+	new(ProgramGenerator program, Process process) {
 		this.program = program
 		this.process = process
 		
@@ -63,7 +64,7 @@ class ProcessGenerator {
 		if (program.isFirstProcess(this)) {
 			program.addVar(generateEnumName, "INT", stateList.get(0).name.enumStateName)
 		} else {
-			program.addVar(generateEnumName, "INT", program.generateStopConstant)
+			program.addVar(generateEnumName, "INT", generateStopConstant)
 		}
 	}
 	
@@ -90,7 +91,7 @@ class ProcessGenerator {
 	}
 	
 	def String generateSetState(String stateName) '''
-		«IF stateList.findFirst[name == stateName].hasTimeout»«generateTimeoutName» := «program.generateGlobalTime»;«ENDIF»
+		«IF stateList.findFirst[name == stateName].hasTimeout»«generateTimeoutName» := «generateGlobalTime»;«ENDIF»
 		«generateEnumName» := «stateName.enumStateName»;
 	'''
 	
@@ -98,13 +99,13 @@ class ProcessGenerator {
 		if (stateList.indexOf(state) + 1 < stateList.size) {
 			val s = stateList.get(stateList.indexOf(state) + 1)
 			return '''
-				«IF s.hasTimeout»«generateTimeoutName» := «program.generateGlobalTime»;«ENDIF»
+				«IF s.hasTimeout»«generateTimeoutName» := «generateGlobalTime»;«ENDIF»
 				«generateEnumName» := «s.name.enumStateName»;
 			'''
 		}
 		val s = stateList.get(0)
 		return '''
-			«IF s.hasTimeout»«generateTimeoutName» := «program.generateGlobalTime»;«ENDIF»
+			«IF s.hasTimeout»«generateTimeoutName» := «generateGlobalTime»;«ENDIF»
 			«generateEnumName» := «s.name.enumStateName»;
 		'''
 	}
@@ -123,7 +124,7 @@ class ProcessGenerator {
 				«v.name.varName» := «v.value»;
 			«ENDIF»
 		«ENDFOR»
-		«IF stateList.get(0).hasTimeout»«generateTimeoutName» := «program.generateGlobalTime»;«ENDIF»
+		«IF stateList.get(0).hasTimeout»«generateTimeoutName» := «generateGlobalTime»;«ENDIF»
 		«generateEnumName» := «stateList.get(0).name.enumStateName»;
 	'''
 	
@@ -144,4 +145,5 @@ class ProcessGenerator {
 		}
 		return false;
 	}
+	
 }

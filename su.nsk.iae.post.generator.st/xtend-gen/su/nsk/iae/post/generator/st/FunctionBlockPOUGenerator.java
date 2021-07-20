@@ -1,6 +1,7 @@
 package su.nsk.iae.post.generator.st;
 
 import org.eclipse.emf.common.util.EList;
+import su.nsk.iae.post.generator.st.common.ProgramGenerator;
 import su.nsk.iae.post.poST.ExternalVarDeclaration;
 import su.nsk.iae.post.poST.FunctionBlock;
 import su.nsk.iae.post.poST.InputOutputVarDeclaration;
@@ -10,9 +11,9 @@ import su.nsk.iae.post.poST.TempVarDeclaration;
 import su.nsk.iae.post.poST.VarDeclaration;
 
 @SuppressWarnings("all")
-public class FBGenerator extends CodeGenerator {
-  public FBGenerator(final FunctionBlock fb) {
-    this.codeName = fb.getName();
+public class FunctionBlockPOUGenerator extends ProgramGenerator {
+  public FunctionBlockPOUGenerator(final FunctionBlock fb) {
+    this.programName = fb.getName();
     this.type = "FUNCTION_BLOCK";
     EList<InputVarDeclaration> _fbInVars = fb.getFbInVars();
     for (final InputVarDeclaration v : _fbInVars) {

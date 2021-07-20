@@ -8,6 +8,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import su.nsk.iae.post.generator.IPoSTGenerator;
+import su.nsk.iae.post.generator.st.common.ProgramGenerator;
 import su.nsk.iae.post.generator.st.common.vars.GlobalVarHelper;
 import su.nsk.iae.post.generator.st.common.vars.VarHelper;
 import su.nsk.iae.post.poST.FunctionBlock;
@@ -19,25 +20,25 @@ import su.nsk.iae.post.poST.Program;
 public class STGenerator implements IPoSTGenerator {
   private VarHelper globVarList = new GlobalVarHelper();
   
-  private List<CodeGenerator> codes = new LinkedList<CodeGenerator>();
+  private List<ProgramGenerator> programs = new LinkedList<ProgramGenerator>();
   
   @Override
   public void setModel(final Model model) {
     this.globVarList.clear();
-    this.codes.clear();
+    this.programs.clear();
     EList<GlobalVarDeclaration> _globVars = model.getGlobVars();
     for (final GlobalVarDeclaration v : _globVars) {
       this.globVarList.add(v);
     }
     EList<Program> _programs = model.getPrograms();
     for (final Program p : _programs) {
-      ProgramGenerator _programGenerator = new ProgramGenerator(p);
-      this.codes.add(_programGenerator);
+      ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(p);
+      this.programs.add(_programPOUGenerator);
     }
     EList<FunctionBlock> _fbs = model.getFbs();
     for (final FunctionBlock fb : _fbs) {
-      FBGenerator _fBGenerator = new FBGenerator(fb);
-      this.codes.add(_fBGenerator);
+      FunctionBlockPOUGenerator _functionBlockPOUGenerator = new FunctionBlockPOUGenerator(fb);
+      this.programs.add(_functionBlockPOUGenerator);
     }
   }
   
@@ -61,25 +62,15 @@ public class STGenerator implements IPoSTGenerator {
     fsa.generateFile(_builder.toString(), this.generateSingleFileBody());
   }
   
-  private void generateMultipleFiles(final IFileSystemAccess2 fsa, final String path) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append(path);
-    _builder.append("GVL.st");
-    fsa.generateFile(_builder.toString(), CodeGenerator.generateVar(this.globVarList));
-    for (final CodeGenerator c : this.codes) {
-      c.generate(fsa, path);
-    }
-  }
-  
   private String generateSingleFileBody() {
     StringConcatenation _builder = new StringConcatenation();
-    String _generateVar = CodeGenerator.generateVar(this.globVarList);
-    _builder.append(_generateVar);
+    String _generateVars = ProgramGenerator.generateVars(this.globVarList);
+    _builder.append(_generateVars);
     _builder.newLineIfNotEmpty();
     {
-      for(final CodeGenerator c : this.codes) {
-        String _generateCode = c.generateCode();
-        _builder.append(_generateCode);
+      for(final ProgramGenerator c : this.programs) {
+        String _generateProgram = c.generateProgram();
+        _builder.append(_generateProgram);
         _builder.newLineIfNotEmpty();
         _builder.newLine();
       }

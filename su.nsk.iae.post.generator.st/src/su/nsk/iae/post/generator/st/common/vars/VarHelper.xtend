@@ -1,12 +1,12 @@
 package su.nsk.iae.post.generator.st.common.vars
 
-import java.util.List
 import java.util.LinkedList
+import java.util.List
 import org.eclipse.emf.common.util.EList
-import su.nsk.iae.post.poST.VarInitDeclaration
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import su.nsk.iae.post.generator.st.common.vars.data.VarData
+import su.nsk.iae.post.poST.VarInitDeclaration
 
 abstract class VarHelper {
 
