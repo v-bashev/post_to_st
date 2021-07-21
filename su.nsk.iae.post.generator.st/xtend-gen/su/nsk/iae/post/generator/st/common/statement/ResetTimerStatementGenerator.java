@@ -23,7 +23,7 @@ public class ResetTimerStatementGenerator extends IStatementGenerator {
   @Override
   public String generateStatement(final Statement statement) {
     StringConcatenation _builder = new StringConcatenation();
-    String _generateTimeoutName = this.process.generateTimeoutName();
+    String _generateTimeoutName = GeneratorUtil.generateTimeoutName(this.process);
     _builder.append(_generateTimeoutName);
     _builder.append(" := ");
     String _generateGlobalTime = GeneratorUtil.generateGlobalTime();

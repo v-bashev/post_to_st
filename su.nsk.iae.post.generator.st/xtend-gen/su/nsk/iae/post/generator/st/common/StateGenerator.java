@@ -53,7 +53,7 @@ public class StateGenerator {
     String _generateGlobalTime = GeneratorUtil.generateGlobalTime();
     _builder.append(_generateGlobalTime);
     _builder.append(" - ");
-    String _generateTimeoutName = this.process.generateTimeoutName();
+    String _generateTimeoutName = GeneratorUtil.generateTimeoutName(this.process);
     _builder.append(_generateTimeoutName);
     _builder.append(") >= ");
     {

@@ -115,7 +115,7 @@ class StatementListGenerator {
 	
 	def String generateVar(SymbolicVariable varName) {
 		if (process.containsVar(varName.name)) {
-			return process.getVarName(varName.name)
+			return process.generateVarName(varName.name)
 		}
 		return varName.name
 	}

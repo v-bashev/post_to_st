@@ -5,6 +5,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
+import su.nsk.iae.post.generator.st.common.ProcessGenerator;
 import su.nsk.iae.post.generator.st.common.vars.VarHelper;
 import su.nsk.iae.post.generator.st.common.vars.data.VarData;
 import su.nsk.iae.post.poST.Constant;
@@ -31,6 +32,55 @@ public class GeneratorUtil {
   public static String generateGlobalTime() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("_global_time");
+    return _builder.toString();
+  }
+  
+  public static String generateVarName(final su.nsk.iae.post.poST.Process process, final String variable) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("_p_");
+    String _name = process.getName();
+    _builder.append(_name);
+    _builder.append("_v_");
+    _builder.append(variable);
+    return _builder.toString();
+  }
+  
+  public static String generateVarName(final ProcessGenerator process, final String variable) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("_p_");
+    String _name = process.getName();
+    _builder.append(_name);
+    _builder.append("_v_");
+    _builder.append(variable);
+    return _builder.toString();
+  }
+  
+  public static String generateTimeoutName(final ProcessGenerator process) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("_g_p_");
+    String _name = process.getName();
+    _builder.append(_name);
+    _builder.append("_time");
+    return _builder.toString();
+  }
+  
+  public static String generateEnumName(final ProcessGenerator process) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("_g_p_");
+    String _name = process.getName();
+    _builder.append(_name);
+    _builder.append("_state");
+    return _builder.toString();
+  }
+  
+  public static String generateEnumStateConstant(final ProcessGenerator process, final String name) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("_P_");
+    String _upperCase = process.getName().toUpperCase();
+    _builder.append(_upperCase);
+    _builder.append("_S_");
+    String _upperCase_1 = name.toUpperCase();
+    _builder.append(_upperCase_1);
     return _builder.toString();
   }
   

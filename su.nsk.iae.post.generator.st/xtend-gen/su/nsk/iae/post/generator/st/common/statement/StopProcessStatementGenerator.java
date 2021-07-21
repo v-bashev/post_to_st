@@ -31,7 +31,7 @@ public class StopProcessStatementGenerator extends IStatementGenerator {
         String _generateProcessEnum = this.program.generateProcessEnum(s.getProcess().getName());
         _builder.append(_generateProcessEnum);
       } else {
-        String _generateEnumName = this.process.generateEnumName();
+        String _generateEnumName = GeneratorUtil.generateEnumName(this.process);
         _builder.append(_generateEnumName);
       }
     }

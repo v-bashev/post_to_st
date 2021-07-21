@@ -7,7 +7,7 @@ import su.nsk.iae.post.generator.st.common.StatementListGenerator
 import su.nsk.iae.post.poST.ResetTimerStatement
 import su.nsk.iae.post.poST.Statement
 
-import static su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
+import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class ResetTimerStatementGenerator extends IStatementGenerator {
 	

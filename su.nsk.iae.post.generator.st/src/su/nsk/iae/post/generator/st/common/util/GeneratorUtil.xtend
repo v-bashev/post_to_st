@@ -1,11 +1,13 @@
 package su.nsk.iae.post.generator.st.common.util
 
+import su.nsk.iae.post.generator.st.common.ProcessGenerator
 import su.nsk.iae.post.generator.st.common.vars.VarHelper
 import su.nsk.iae.post.generator.st.common.vars.data.VarData
 import su.nsk.iae.post.poST.Constant
-import su.nsk.iae.post.poST.SignedInteger
 import su.nsk.iae.post.poST.IntegerLiteral
+import su.nsk.iae.post.poST.Process
 import su.nsk.iae.post.poST.RealLiteral
+import su.nsk.iae.post.poST.SignedInteger
 
 class GeneratorUtil {
 	
@@ -19,6 +21,26 @@ class GeneratorUtil {
 	
 	static def String generateGlobalTime() {
 		return '''_global_time'''
+	}
+	
+	static def String generateVarName(Process process, String variable) {
+		return '''_p_«process.name»_v_«variable»'''
+	}
+	
+	static def String generateVarName(ProcessGenerator process, String variable) {
+		return '''_p_«process.name»_v_«variable»'''
+	}
+	
+	static def String generateTimeoutName(ProcessGenerator process) {
+		return '''_g_p_«process.name»_time'''
+	}
+	
+	static def String generateEnumName(ProcessGenerator process) {
+		return '''_g_p_«process.name»_state'''
+	}
+	
+	static def String generateEnumStateConstant(ProcessGenerator process, String name) {
+		return '''_P_«process.name.toUpperCase»_S_«name.toUpperCase»'''
 	}
 	
 	static def String generateConstant(Constant constant) {

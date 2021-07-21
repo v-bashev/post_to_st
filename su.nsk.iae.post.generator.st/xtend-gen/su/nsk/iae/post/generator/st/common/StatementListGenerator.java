@@ -278,7 +278,7 @@ public class StatementListGenerator {
   public String generateVar(final SymbolicVariable varName) {
     boolean _containsVar = this.process.containsVar(varName.getName());
     if (_containsVar) {
-      return this.process.getVarName(varName.getName());
+      return GeneratorUtil.generateVarName(this.process, varName.getName());
     }
     return varName.getName();
   }

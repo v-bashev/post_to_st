@@ -54,15 +54,15 @@ public class ProcessGenerator {
   public String generateBody() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("CASE ");
-    String _generateEnumName = this.generateEnumName();
+    String _generateEnumName = GeneratorUtil.generateEnumName(this);
     _builder.append(_generateEnumName);
     _builder.append(" OF");
     _builder.newLineIfNotEmpty();
     {
       for(final StateGenerator s : this.stateList) {
         _builder.append("\t");
-        String _enumStateName = this.getEnumStateName(s.getName());
-        _builder.append(_enumStateName, "\t");
+        String _generateEnumStateConstant = GeneratorUtil.generateEnumStateConstant(this, s.getName());
+        _builder.append(_generateEnumStateConstant, "\t");
         _builder.append(":");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
@@ -81,45 +81,6 @@ public class ProcessGenerator {
     return this.process.getName();
   }
   
-  public String generateEnumName() {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("_g_p_");
-    String _name = this.getName();
-    _builder.append(_name);
-    _builder.append("_state");
-    return _builder.toString();
-  }
-  
-  public String generateTimeoutName() {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("_g_p_");
-    String _name = this.getName();
-    _builder.append(_name);
-    _builder.append("_time");
-    return _builder.toString();
-  }
-  
-  public String getEnumStateName(final String name) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("_P_");
-    String _upperCase = this.getName().toUpperCase();
-    _builder.append(_upperCase);
-    _builder.append("_S_");
-    String _upperCase_1 = name.toUpperCase();
-    _builder.append(_upperCase_1);
-    return _builder.toString();
-  }
-  
-  public String getVarName(final String variable) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("_p_");
-    String _name = this.getName();
-    _builder.append(_name);
-    _builder.append("_v_");
-    _builder.append(variable);
-    return _builder.toString();
-  }
-  
   public boolean containsVar(final String name) {
     return ((((this.varList.contains(name) || this.tempVarList.contains(name)) || 
       this.inVarList.contains(name)) || this.outVarList.contains(name)) || this.inOutVarList.contains(name));
@@ -134,7 +95,7 @@ public class ProcessGenerator {
       };
       boolean _hasTimeout = IterableExtensions.<StateGenerator>findFirst(this.stateList, _function).hasTimeout();
       if (_hasTimeout) {
-        String _generateTimeoutName = this.generateTimeoutName();
+        String _generateTimeoutName = GeneratorUtil.generateTimeoutName(this);
         _builder.append(_generateTimeoutName);
         _builder.append(" := ");
         String _generateGlobalTime = GeneratorUtil.generateGlobalTime();
@@ -143,11 +104,11 @@ public class ProcessGenerator {
       }
     }
     _builder.newLineIfNotEmpty();
-    String _generateEnumName = this.generateEnumName();
+    String _generateEnumName = GeneratorUtil.generateEnumName(this);
     _builder.append(_generateEnumName);
     _builder.append(" := ");
-    String _enumStateName = this.getEnumStateName(stateName);
-    _builder.append(_enumStateName);
+    String _generateEnumStateConstant = GeneratorUtil.generateEnumStateConstant(this, stateName);
+    _builder.append(_generateEnumStateConstant);
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     return _builder.toString();
@@ -166,7 +127,7 @@ public class ProcessGenerator {
       {
         boolean _hasTimeout = s.hasTimeout();
         if (_hasTimeout) {
-          String _generateTimeoutName = this.generateTimeoutName();
+          String _generateTimeoutName = GeneratorUtil.generateTimeoutName(this);
           _builder.append(_generateTimeoutName);
           _builder.append(" := ");
           String _generateGlobalTime = GeneratorUtil.generateGlobalTime();
@@ -175,11 +136,11 @@ public class ProcessGenerator {
         }
       }
       _builder.newLineIfNotEmpty();
-      String _generateEnumName = this.generateEnumName();
+      String _generateEnumName = GeneratorUtil.generateEnumName(this);
       _builder.append(_generateEnumName);
       _builder.append(" := ");
-      String _enumStateName = this.getEnumStateName(s.getName());
-      _builder.append(_enumStateName);
+      String _generateEnumStateConstant = GeneratorUtil.generateEnumStateConstant(this, s.getName());
+      _builder.append(_generateEnumStateConstant);
       _builder.append(";");
       _builder.newLineIfNotEmpty();
       return _builder.toString();
@@ -189,7 +150,7 @@ public class ProcessGenerator {
     {
       boolean _hasTimeout_1 = s_1.hasTimeout();
       if (_hasTimeout_1) {
-        String _generateTimeoutName_1 = this.generateTimeoutName();
+        String _generateTimeoutName_1 = GeneratorUtil.generateTimeoutName(this);
         _builder_1.append(_generateTimeoutName_1);
         _builder_1.append(" := ");
         String _generateGlobalTime_1 = GeneratorUtil.generateGlobalTime();
@@ -198,11 +159,11 @@ public class ProcessGenerator {
       }
     }
     _builder_1.newLineIfNotEmpty();
-    String _generateEnumName_1 = this.generateEnumName();
+    String _generateEnumName_1 = GeneratorUtil.generateEnumName(this);
     _builder_1.append(_generateEnumName_1);
     _builder_1.append(" := ");
-    String _enumStateName_1 = this.getEnumStateName(s_1.getName());
-    _builder_1.append(_enumStateName_1);
+    String _generateEnumStateConstant_1 = GeneratorUtil.generateEnumStateConstant(this, s_1.getName());
+    _builder_1.append(_generateEnumStateConstant_1);
     _builder_1.append(";");
     _builder_1.newLineIfNotEmpty();
     return _builder_1.toString();
@@ -215,8 +176,8 @@ public class ProcessGenerator {
       for(final VarData v : _list) {
         {
           if (((v.getValue() != null) && (!v.isConstant()))) {
-            String _varName = this.getVarName(v.getName());
-            _builder.append(_varName);
+            String _generateVarName = GeneratorUtil.generateVarName(this, v.getName());
+            _builder.append(_generateVarName);
             _builder.append(" := ");
             String _value = v.getValue();
             _builder.append(_value);
@@ -229,7 +190,7 @@ public class ProcessGenerator {
     {
       boolean _hasTimeout = this.stateList.get(0).hasTimeout();
       if (_hasTimeout) {
-        String _generateTimeoutName = this.generateTimeoutName();
+        String _generateTimeoutName = GeneratorUtil.generateTimeoutName(this);
         _builder.append(_generateTimeoutName);
         _builder.append(" := ");
         String _generateGlobalTime = GeneratorUtil.generateGlobalTime();
@@ -238,11 +199,11 @@ public class ProcessGenerator {
       }
     }
     _builder.newLineIfNotEmpty();
-    String _generateEnumName = this.generateEnumName();
+    String _generateEnumName = GeneratorUtil.generateEnumName(this);
     _builder.append(_generateEnumName);
     _builder.append(" := ");
-    String _enumStateName = this.getEnumStateName(this.stateList.get(0).getName());
-    _builder.append(_enumStateName);
+    String _generateEnumStateConstant = GeneratorUtil.generateEnumStateConstant(this, this.stateList.get(0).getName());
+    _builder.append(_generateEnumStateConstant);
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     return _builder.toString();
@@ -254,20 +215,20 @@ public class ProcessGenerator {
   
   public void prepareStateVars() {
     for (int i = 0; (i < this.stateList.size()); i++) {
-      this.program.addVar(this.getEnumStateName(this.stateList.get(i).getName()), "INT", Integer.valueOf(i).toString(), true);
+      this.program.addVar(GeneratorUtil.generateEnumStateConstant(this, this.stateList.get(i).getName()), "INT", Integer.valueOf(i).toString(), true);
     }
     boolean _isFirstProcess = this.program.isFirstProcess(this);
     if (_isFirstProcess) {
-      this.program.addVar(this.generateEnumName(), "INT", this.getEnumStateName(this.stateList.get(0).getName()));
+      this.program.addVar(GeneratorUtil.generateEnumName(this), "INT", GeneratorUtil.generateEnumStateConstant(this, this.stateList.get(0).getName()));
     } else {
-      this.program.addVar(this.generateEnumName(), "INT", GeneratorUtil.generateStopConstant());
+      this.program.addVar(GeneratorUtil.generateEnumName(this), "INT", GeneratorUtil.generateStopConstant());
     }
   }
   
   public void prepareTimeVars() {
     boolean _hasTimeouts = this.hasTimeouts();
     if (_hasTimeouts) {
-      this.program.addVar(this.generateTimeoutName(), "TIME");
+      this.program.addVar(GeneratorUtil.generateTimeoutName(this), "TIME");
     }
   }
   
@@ -285,7 +246,7 @@ public class ProcessGenerator {
   private void prepareVars() {
     final Consumer<VarDeclaration> _function = (VarDeclaration varDecl) -> {
       this.varList.add(varDecl);
-      this.program.addVar(varDecl, this.getVarName(""));
+      this.program.addVar(varDecl, GeneratorUtil.generateVarName(this, ""));
     };
     this.process.getProcVars().stream().forEach(_function);
   }
@@ -293,7 +254,7 @@ public class ProcessGenerator {
   private void prepareTempVars() {
     final Consumer<TempVarDeclaration> _function = (TempVarDeclaration varDecl) -> {
       this.tempVarList.add(varDecl);
-      this.program.addTempVar(varDecl, this.getVarName(""));
+      this.program.addTempVar(varDecl, GeneratorUtil.generateVarName(this, ""));
     };
     this.process.getProcTempVars().stream().forEach(_function);
   }
@@ -301,7 +262,7 @@ public class ProcessGenerator {
   private void prepareInVars() {
     final Consumer<InputVarDeclaration> _function = (InputVarDeclaration varDecl) -> {
       this.inVarList.add(varDecl);
-      this.program.addInVar(varDecl, this.getVarName(""));
+      this.program.addInVar(varDecl, GeneratorUtil.generateVarName(this, ""));
     };
     this.process.getProcInVars().stream().forEach(_function);
   }
@@ -309,7 +270,7 @@ public class ProcessGenerator {
   private void prepareOutVars() {
     final Consumer<OutputVarDeclaration> _function = (OutputVarDeclaration varDecl) -> {
       this.outVarList.add(varDecl);
-      this.program.addOutVar(varDecl, this.getVarName(""));
+      this.program.addOutVar(varDecl, GeneratorUtil.generateVarName(this, ""));
     };
     this.process.getProcOutVars().stream().forEach(_function);
   }
@@ -317,7 +278,7 @@ public class ProcessGenerator {
   private void prepareInOutVars() {
     final Consumer<InputOutputVarDeclaration> _function = (InputOutputVarDeclaration varDecl) -> {
       this.inOutVarList.add(varDecl);
-      this.program.addInOutVar(varDecl, this.getVarName(""));
+      this.program.addInOutVar(varDecl, GeneratorUtil.generateVarName(this, ""));
     };
     this.process.getProcInOutVars().stream().forEach(_function);
   }

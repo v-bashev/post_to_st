@@ -203,7 +203,7 @@ public class ProgramGenerator {
       String _name = it.getName();
       return Boolean.valueOf(Objects.equal(_name, processName));
     };
-    return IterableExtensions.<ProcessGenerator>findFirst(this.processList, _function).generateEnumName();
+    return GeneratorUtil.generateEnumName(IterableExtensions.<ProcessGenerator>findFirst(this.processList, _function));
   }
   
   public String generateProcessStart(final String processName) {

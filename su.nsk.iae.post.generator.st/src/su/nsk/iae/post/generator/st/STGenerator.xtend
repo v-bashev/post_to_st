@@ -9,7 +9,7 @@ import su.nsk.iae.post.generator.IPoSTGenerator
 import su.nsk.iae.post.generator.st.common.ProgramGenerator
 import su.nsk.iae.post.generator.st.common.vars.GlobalVarHelper
 import su.nsk.iae.post.generator.st.common.vars.VarHelper
-import su.nsk.iae.post.poST.Configuration
+import su.nsk.iae.post.generator.st.configuration.ConfigurationGenerator
 import su.nsk.iae.post.poST.Model
 import su.nsk.iae.post.poST.TemplateProcessConfElement
 
@@ -18,12 +18,13 @@ import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class STGenerator implements IPoSTGenerator {
 	
-	Configuration configuration
+	ConfigurationGenerator configuration
 	VarHelper globVarList = new GlobalVarHelper
 	List<ProgramGenerator> programs = new LinkedList
 	
 	override setModel(Model model) {
-		configuration = model.conf
+		configuration = new ConfigurationGenerator(model.conf)
+		
 		globVarList.clear()
 		programs.clear()
 		
@@ -69,6 +70,7 @@ class STGenerator implements IPoSTGenerator {
 	
 	private def String generateSingleFileBody() '''
 		«globVarList.generateVars»
+		«configuration.generateConfiguration»
 		«FOR c : programs»
 			«c.generateProgram»
 			

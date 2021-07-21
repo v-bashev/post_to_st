@@ -18,6 +18,7 @@ import su.nsk.iae.post.generator.st.common.ProgramGenerator;
 import su.nsk.iae.post.generator.st.common.util.GeneratorUtil;
 import su.nsk.iae.post.generator.st.common.vars.GlobalVarHelper;
 import su.nsk.iae.post.generator.st.common.vars.VarHelper;
+import su.nsk.iae.post.generator.st.configuration.ConfigurationGenerator;
 import su.nsk.iae.post.poST.Configuration;
 import su.nsk.iae.post.poST.FunctionBlock;
 import su.nsk.iae.post.poST.GlobalVarDeclaration;
@@ -29,7 +30,7 @@ import su.nsk.iae.post.poST.TemplateProcessConfElement;
 
 @SuppressWarnings("all")
 public class STGenerator implements IPoSTGenerator {
-  private Configuration configuration;
+  private ConfigurationGenerator configuration;
   
   private VarHelper globVarList = new GlobalVarHelper();
   
@@ -37,7 +38,9 @@ public class STGenerator implements IPoSTGenerator {
   
   @Override
   public void setModel(final Model model) {
-    this.configuration = model.getConf();
+    Configuration _conf = model.getConf();
+    ConfigurationGenerator _configurationGenerator = new ConfigurationGenerator(_conf);
+    this.configuration = _configurationGenerator;
     this.globVarList.clear();
     this.programs.clear();
     final Consumer<GlobalVarDeclaration> _function = (GlobalVarDeclaration v) -> {
@@ -107,6 +110,9 @@ public class STGenerator implements IPoSTGenerator {
     StringConcatenation _builder = new StringConcatenation();
     String _generateVars = GeneratorUtil.generateVars(this.globVarList);
     _builder.append(_generateVars);
+    _builder.newLineIfNotEmpty();
+    String _generateConfiguration = this.configuration.generateConfiguration();
+    _builder.append(_generateConfiguration);
     _builder.newLineIfNotEmpty();
     {
       for(final ProgramGenerator c : this.programs) {
