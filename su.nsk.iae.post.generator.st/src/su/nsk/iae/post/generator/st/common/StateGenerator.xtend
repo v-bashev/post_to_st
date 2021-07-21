@@ -1,9 +1,8 @@
 package su.nsk.iae.post.generator.st.common
 
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import su.nsk.iae.post.poST.State
 
-import static su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
+import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class StateGenerator {
 	
@@ -34,7 +33,7 @@ class StateGenerator {
 	}
 	
 	private def String generateTimeout() '''
-		IF («generateGlobalTime» - «process.generateTimeoutName») >= «IF state.timeout.variable !== null»«statementList.generateVar(state.timeout.variable)»«ELSE»«NodeModelUtils.getNode(state.timeout.const).text.trim»«ENDIF» THEN
+		IF («generateGlobalTime» - «process.generateTimeoutName») >= «IF state.timeout.variable !== null»«statementList.generateVar(state.timeout.variable)»«ELSE»«state.timeout.const.generateConstant»«ENDIF» THEN
 			«statementList.generateStatementList(state.timeout.statement)»
 		END_IF
 	'''

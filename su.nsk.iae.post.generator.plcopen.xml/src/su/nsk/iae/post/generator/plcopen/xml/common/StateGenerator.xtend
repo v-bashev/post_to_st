@@ -1,8 +1,10 @@
 package su.nsk.iae.post.generator.plcopen.xml.common
 
+import su.nsk.iae.post.generator.plcopen.xml.ICodeGenerator
 import su.nsk.iae.post.poST.AddExpression
 import su.nsk.iae.post.poST.AddOperator
 import su.nsk.iae.post.poST.AndExpression
+import su.nsk.iae.post.poST.ArrayVariable
 import su.nsk.iae.post.poST.AssignmentStatement
 import su.nsk.iae.post.poST.CaseStatement
 import su.nsk.iae.post.poST.CompExpression
@@ -17,6 +19,7 @@ import su.nsk.iae.post.poST.MulExpression
 import su.nsk.iae.post.poST.MulOperator
 import su.nsk.iae.post.poST.PowerExpression
 import su.nsk.iae.post.poST.PrimaryExpression
+import su.nsk.iae.post.poST.ProcessStatusExpression
 import su.nsk.iae.post.poST.RepeatStatement
 import su.nsk.iae.post.poST.ResetTimerStatement
 import su.nsk.iae.post.poST.SetStateStatement
@@ -27,14 +30,11 @@ import su.nsk.iae.post.poST.StatementList
 import su.nsk.iae.post.poST.StopProcessStatement
 import su.nsk.iae.post.poST.SymbolicVariable
 import su.nsk.iae.post.poST.UnaryExpression
+import su.nsk.iae.post.poST.UnaryOperator
 import su.nsk.iae.post.poST.WhileStatement
 import su.nsk.iae.post.poST.XorExpression
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils
-import su.nsk.iae.post.poST.ProcessStatusExpression
-import su.nsk.iae.post.poST.SignedInteger
-import su.nsk.iae.post.poST.UnaryOperator
-import su.nsk.iae.post.poST.ArrayVariable
-import su.nsk.iae.post.generator.plcopen.xml.ICodeGenerator
+
+import static extension su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil.*
 
 class StateGenerator {
 	
@@ -51,7 +51,7 @@ class StateGenerator {
 	def String generateBody() '''
 		«state.statement.generateStatementList»
 		«IF state.timeout !== null»
-			IF («program.generateGlobalTime» - «process.generateTimeoutName») &gt;= «IF state.timeout.variable !== null»«state.timeout.variable.generateVar»«ELSE»«NodeModelUtils.getNode(state.timeout.const).text.trim»«ENDIF» THEN
+			IF («program.generateGlobalTime» - «process.generateTimeoutName») &gt;= «IF state.timeout.variable !== null»«state.timeout.variable.generateVar»«ELSE»«state.timeout.const»«ENDIF» THEN
 				«state.timeout.statement.generateStatementList»
 			END_IF
 		«ENDIF»
@@ -148,7 +148,7 @@ class StateGenerator {
 		switch exp {
 			PrimaryExpression: {
 				if (exp.const !== null) {
-					return NodeModelUtils.getNode(exp.const).text.trim
+					return exp.const.generateConstant
 				} else if (exp.variable !== null) {
 					return exp.variable.generateVar
 				} else if (exp.array !== null) {
@@ -225,10 +225,6 @@ class StateGenerator {
 			return '''(«program.generateProcessEnum(exp.process.name)» = «program.generateStopConstant»)'''
 		}
 		return '''(«program.generateProcessEnum(exp.process.name)» = «program.generateErrorConstant»)'''
-	}
-	
-	private def String generateSignedInteger(SignedInteger sint) {
-		return '''«IF sint.ISig»-«ENDIF»«sint.value»''' 
 	}
 	
 }

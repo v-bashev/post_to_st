@@ -2,7 +2,6 @@ package su.nsk.iae.post.generator.st.common
 
 import java.util.Arrays
 import java.util.List
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import su.nsk.iae.post.generator.st.common.statement.AssignmentStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.CaseStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.ErrorProcessStatementGenerator
@@ -29,7 +28,6 @@ import su.nsk.iae.post.poST.MulOperator
 import su.nsk.iae.post.poST.PowerExpression
 import su.nsk.iae.post.poST.PrimaryExpression
 import su.nsk.iae.post.poST.ProcessStatusExpression
-import su.nsk.iae.post.poST.SignedInteger
 import su.nsk.iae.post.poST.Statement
 import su.nsk.iae.post.poST.StatementList
 import su.nsk.iae.post.poST.SymbolicVariable
@@ -37,7 +35,7 @@ import su.nsk.iae.post.poST.UnaryExpression
 import su.nsk.iae.post.poST.UnaryOperator
 import su.nsk.iae.post.poST.XorExpression
 
-import static su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
+import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class StatementListGenerator {
 	
@@ -82,7 +80,7 @@ class StatementListGenerator {
 		switch exp {
 			PrimaryExpression: {
 				if (exp.const !== null) {
-					return NodeModelUtils.getNode(exp.const).text.trim
+					return exp.const.generateConstant
 				} else if (exp.variable !== null) {
 					return exp.variable.generateVar
 				} else if (exp.array !== null) {
@@ -159,10 +157,6 @@ class StatementListGenerator {
 			return '''(«program.generateProcessEnum(exp.process.name)» = «generateStopConstant»)'''
 		}
 		return '''(«program.generateProcessEnum(exp.process.name)» = «generateErrorConstant»)'''
-	}
-	
-	def String generateSignedInteger(SignedInteger sint) {
-		return '''«IF sint.ISig»-«ENDIF»«sint.value»''' 
 	}
 	
 }

@@ -6,6 +6,7 @@ import su.nsk.iae.post.generator.st.common.ProcessGenerator;
 import su.nsk.iae.post.generator.st.common.ProgramGenerator;
 import su.nsk.iae.post.generator.st.common.StateGenerator;
 import su.nsk.iae.post.generator.st.common.StatementListGenerator;
+import su.nsk.iae.post.generator.st.common.util.GeneratorUtil;
 import su.nsk.iae.post.poST.CaseElement;
 import su.nsk.iae.post.poST.CaseStatement;
 import su.nsk.iae.post.poST.SignedInteger;
@@ -39,7 +40,7 @@ public class CaseStatementGenerator extends IStatementGenerator {
           EList<SignedInteger> _caseListElement = e.getCaseList().getCaseListElement();
           for(final SignedInteger c : _caseListElement) {
             _builder.append("\t");
-            String _generateSignedInteger = this.context.generateSignedInteger(c);
+            String _generateSignedInteger = GeneratorUtil.generateSignedInteger(c);
             _builder.append(_generateSignedInteger, "\t");
             {
               int _indexOf = e.getCaseList().getCaseListElement().indexOf(c);

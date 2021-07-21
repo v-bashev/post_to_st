@@ -12,10 +12,9 @@ import su.nsk.iae.post.generator.st.common.vars.OutputVarHelper
 import su.nsk.iae.post.generator.st.common.vars.SimpleVarHelper
 import su.nsk.iae.post.generator.st.common.vars.TempVarHelper
 import su.nsk.iae.post.generator.st.common.vars.VarHelper
-import su.nsk.iae.post.generator.st.common.vars.data.VarData
 import su.nsk.iae.post.poST.Process
 
-import static su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
+import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class ProgramGenerator {
 	
@@ -35,7 +34,12 @@ class ProgramGenerator {
 		fsa.generateFile('''«path»«programName.toLowerCase».st''', generateProgram)
 	}
 	
-	def String generateProgram() '''
+	def String generateProgram() {
+		prepareProgramVars()
+		return generateBody()
+	}
+	
+	def String generateBody() '''
 		«type» «programName»
 		
 		«inVarList.generateVars»
@@ -54,48 +58,38 @@ class ProgramGenerator {
 		END_«type»
 	'''
 	
-	static def String generateVars(VarHelper helper) '''
-		«IF !helper.list.empty»
-			«IF helper.hasConstant»
-				«helper.type» CONSTANT
-					«FOR v : helper.list»
-						«IF v.isConstant»
-							«v.generateSingleDeclaration»«v.generateValue»;
-						«ENDIF»
-					«ENDFOR»
-				END_VAR
-				
-			«ENDIF»
-			«IF helper.hasNonConstant»
-				«helper.type»
-					«FOR v : helper.list»
-						«IF !v.isConstant»
-							«v.generateSingleDeclaration»«v.generateValue»;
-						«ENDIF»
-					«ENDFOR»
-				END_VAR
-				
-			«ENDIF»
-		«ENDIF»
-	'''
+	def String getName() {
+		return programName
+	}
 	
 	protected def parseProcesses(EList<Process> processes) {
-		for (p: processes) {
-			processList.add(new ProcessGenerator(this, p))
-		}
+		processes.stream.forEach([p |
+			val process = new ProcessGenerator(this, p)
+			if (!process.isTemplate()) {
+				processList.add(process)
+			}
+		])
+	}
+	
+	def prepareProgramVars() {
+		processList.stream.forEach([x | x.prepareProcessVars])
 		addVar(generateGlobalTime, "TIME")
-		for (p : processList) {
-			p.addTimeVars()
-		}
-		for (p : processList) {
-			p.addStateVars()
-		}
+		processList.stream.forEach([x | x.prepareTimeVars])
+		processList.stream.forEach([x | x.prepareStateVars])
 		addVar(generateStopConstant, "INT", "254", true)
 		addVar(generateErrorConstant, "INT", "255", true)
 	}
 	
+	def void addProcess(Process process) {
+		processList.add(new ProcessGenerator(this, process))
+	}
+	
 	def void addVar(EObject varDecl) {
 		varList.add(varDecl)
+	}
+	
+	def void addVar(EObject varDecl, String pref) {
+		varList.add(varDecl, pref)
 	}
 	
 	def void addVar(String name, String type) {
@@ -114,6 +108,10 @@ class ProgramGenerator {
 		tempVarList.add(varDecl)
 	}
 	
+	def void addTempVar(EObject varDecl, String pref) {
+		tempVarList.add(varDecl, pref)
+	}
+	
 	def void addTempVar(String name, String type, String value) {
 		tempVarList.add(name, type, value)
 	}
@@ -122,26 +120,36 @@ class ProgramGenerator {
 		return processList.get(0) == process
 	}
 	
+	def void addInVar(EObject varDecl) {
+		inVarList.add(varDecl)
+	}
+	
+	def void addInVar(EObject varDecl, String pref) {
+		inVarList.add(varDecl, pref)
+	}
+	
+	def void addOutVar(EObject varDecl) {
+		outVarList.add(varDecl)
+	}
+	
+	def void addOutVar(EObject varDecl, String pref) {
+		outVarList.add(varDecl, pref)
+	}
+	
+	def void addInOutVar(EObject varDecl) {
+		inOutVarList.add(varDecl)
+	}
+	
+	def void addInOutVar(EObject varDecl, String pref) {
+		inOutVarList.add(varDecl, pref)
+	}
+	
 	def String generateProcessEnum(String processName) {
 		return processList.findFirst[name == processName].generateEnumName
 	}
 	
 	def String generateProcessStart(String processName) {
 		return processList.findFirst[name == processName].generateStart
-	}
-	
-	private static def String generateSingleDeclaration(VarData data) {
-		return '''«data.name» : «data.type»'''
-	}
-	
-	private static def String generateValue(VarData v) {
-		if ((v.value === null) && (v.arraValues === null)) {
-			return ''''''
-		}
-		if (v.array) {
-			return ''' := [«v.arraValues.map[it].join(', ')»]'''	
-		}
-		return ''' := «v.value»'''
 	}
 	
 }

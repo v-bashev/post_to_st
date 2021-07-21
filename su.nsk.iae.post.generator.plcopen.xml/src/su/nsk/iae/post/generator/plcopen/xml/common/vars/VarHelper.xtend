@@ -1,12 +1,13 @@
 package su.nsk.iae.post.generator.plcopen.xml.common.vars
 
-import java.util.List
 import java.util.LinkedList
+import java.util.List
 import org.eclipse.emf.common.util.EList
-import su.nsk.iae.post.poST.VarInitDeclaration
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData
+import su.nsk.iae.post.poST.VarInitDeclaration
+
+import static extension su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil.*
 
 abstract class VarHelper {
 
@@ -76,18 +77,18 @@ abstract class VarHelper {
 				val type = v.spec.type
 				var String value = null
 				if (v.spec.value !== null) {
-					value = NodeModelUtils.getNode(v.spec.value).text.trim
+					value = v.spec.value.generateConstant
 				}
 				for (e : v.varList.vars) {
 					listDecl.add(new VarData(e.name, type, value, isConst))
 				}
 			} else {
-				val type = '''ARRAY [«NodeModelUtils.getNode(v.arrSpec.init.start).text.trim»..«NodeModelUtils.getNode(v.arrSpec.init.end).text.trim»] OF «v.arrSpec.init.type»'''
+				val type = '''ARRAY [«v.arrSpec.init.start»..«v.arrSpec.init.end»] OF «v.arrSpec.init.type»'''
 				var List<String> values = null
 				if (v.arrSpec.values !== null) {
 					values = new LinkedList
 					for (e : v.arrSpec.values.elements) {
-						values.add(NodeModelUtils.getNode(e).text.trim)
+						values.add(e.generateConstant)
 					}
 				}
 				for (e : v.varList.vars) {

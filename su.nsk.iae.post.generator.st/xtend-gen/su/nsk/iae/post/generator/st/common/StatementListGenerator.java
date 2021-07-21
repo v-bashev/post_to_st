@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import su.nsk.iae.post.generator.st.common.statement.AssignmentStatementGenerator;
 import su.nsk.iae.post.generator.st.common.statement.CaseStatementGenerator;
 import su.nsk.iae.post.generator.st.common.statement.ErrorProcessStatementGenerator;
@@ -34,7 +33,6 @@ import su.nsk.iae.post.poST.MulOperator;
 import su.nsk.iae.post.poST.PowerExpression;
 import su.nsk.iae.post.poST.PrimaryExpression;
 import su.nsk.iae.post.poST.ProcessStatusExpression;
-import su.nsk.iae.post.poST.SignedInteger;
 import su.nsk.iae.post.poST.Statement;
 import su.nsk.iae.post.poST.StatementList;
 import su.nsk.iae.post.poST.SymbolicVariable;
@@ -99,7 +97,7 @@ public class StatementListGenerator {
       Constant _const = ((PrimaryExpression)exp).getConst();
       boolean _tripleNotEquals = (_const != null);
       if (_tripleNotEquals) {
-        return NodeModelUtils.getNode(((PrimaryExpression)exp).getConst()).getText().trim();
+        return GeneratorUtil.generateConstant(((PrimaryExpression)exp).getConst());
       } else {
         SymbolicVariable _variable = ((PrimaryExpression)exp).getVariable();
         boolean _tripleNotEquals_1 = (_variable != null);
@@ -404,18 +402,5 @@ public class StatementListGenerator {
     _builder_3.append(_generateErrorConstant_2);
     _builder_3.append(")");
     return _builder_3.toString();
-  }
-  
-  public String generateSignedInteger(final SignedInteger sint) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      boolean _isISig = sint.isISig();
-      if (_isISig) {
-        _builder.append("-");
-      }
-    }
-    int _value = sint.getValue();
-    _builder.append(_value);
-    return _builder.toString();
   }
 }

@@ -1,6 +1,6 @@
 package su.nsk.iae.post.generator.st;
 
-import org.eclipse.emf.common.util.EList;
+import java.util.function.Consumer;
 import su.nsk.iae.post.generator.st.common.ProgramGenerator;
 import su.nsk.iae.post.poST.ExternalVarDeclaration;
 import su.nsk.iae.post.poST.InputOutputVarDeclaration;
@@ -15,30 +15,30 @@ public class ProgramPOUGenerator extends ProgramGenerator {
   public ProgramPOUGenerator(final Program program) {
     this.programName = program.getName();
     this.type = "PROGRAM";
-    EList<InputVarDeclaration> _progInVars = program.getProgInVars();
-    for (final InputVarDeclaration v : _progInVars) {
+    final Consumer<InputVarDeclaration> _function = (InputVarDeclaration v) -> {
       this.inVarList.add(v);
-    }
-    EList<OutputVarDeclaration> _progOutVars = program.getProgOutVars();
-    for (final OutputVarDeclaration v_1 : _progOutVars) {
-      this.outVarList.add(v_1);
-    }
-    EList<InputOutputVarDeclaration> _progInOutVars = program.getProgInOutVars();
-    for (final InputOutputVarDeclaration v_2 : _progInOutVars) {
-      this.inOutVarList.add(v_2);
-    }
-    EList<ExternalVarDeclaration> _progExternVars = program.getProgExternVars();
-    for (final ExternalVarDeclaration v_3 : _progExternVars) {
-      this.externalVarList.add(v_3);
-    }
-    EList<VarDeclaration> _progVars = program.getProgVars();
-    for (final VarDeclaration v_4 : _progVars) {
-      this.varList.add(v_4);
-    }
-    EList<TempVarDeclaration> _progTempVars = program.getProgTempVars();
-    for (final TempVarDeclaration v_5 : _progTempVars) {
-      this.tempVarList.add(v_5);
-    }
+    };
+    program.getProgInVars().stream().forEach(_function);
+    final Consumer<OutputVarDeclaration> _function_1 = (OutputVarDeclaration v) -> {
+      this.outVarList.add(v);
+    };
+    program.getProgOutVars().stream().forEach(_function_1);
+    final Consumer<InputOutputVarDeclaration> _function_2 = (InputOutputVarDeclaration v) -> {
+      this.inOutVarList.add(v);
+    };
+    program.getProgInOutVars().stream().forEach(_function_2);
+    final Consumer<ExternalVarDeclaration> _function_3 = (ExternalVarDeclaration v) -> {
+      this.externalVarList.add(v);
+    };
+    program.getProgExternVars().stream().forEach(_function_3);
+    final Consumer<VarDeclaration> _function_4 = (VarDeclaration v) -> {
+      this.varList.add(v);
+    };
+    program.getProgVars().stream().forEach(_function_4);
+    final Consumer<TempVarDeclaration> _function_5 = (TempVarDeclaration v) -> {
+      this.tempVarList.add(v);
+    };
+    program.getProgTempVars().stream().forEach(_function_5);
     this.parseProcesses(program.getProcesses());
   }
 }

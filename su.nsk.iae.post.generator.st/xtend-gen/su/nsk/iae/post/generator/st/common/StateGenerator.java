@@ -1,7 +1,6 @@
 package su.nsk.iae.post.generator.st.common;
 
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import su.nsk.iae.post.generator.st.common.util.GeneratorUtil;
 import su.nsk.iae.post.poST.State;
 import su.nsk.iae.post.poST.SymbolicVariable;
@@ -64,8 +63,8 @@ public class StateGenerator {
         String _generateVar = this.statementList.generateVar(this.state.getTimeout().getVariable());
         _builder.append(_generateVar);
       } else {
-        String _trim = NodeModelUtils.getNode(this.state.getTimeout().getConst()).getText().trim();
-        _builder.append(_trim);
+        String _generateConstant = GeneratorUtil.generateConstant(this.state.getTimeout().getConst());
+        _builder.append(_generateConstant);
       }
     }
     _builder.append(" THEN");

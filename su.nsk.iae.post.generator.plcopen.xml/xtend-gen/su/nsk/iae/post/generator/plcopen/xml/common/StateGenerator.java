@@ -3,9 +3,9 @@ package su.nsk.iae.post.generator.plcopen.xml.common;
 import com.google.common.base.Objects;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.xbase.lib.IntegerRange;
 import su.nsk.iae.post.generator.plcopen.xml.ICodeGenerator;
+import su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil;
 import su.nsk.iae.post.poST.AddExpression;
 import su.nsk.iae.post.poST.AddOperator;
 import su.nsk.iae.post.poST.AndExpression;
@@ -80,8 +80,8 @@ public class StateGenerator {
             String _generateVar = this.generateVar(this.state.getTimeout().getVariable());
             _builder.append(_generateVar);
           } else {
-            String _trim = NodeModelUtils.getNode(this.state.getTimeout().getConst()).getText().trim();
-            _builder.append(_trim);
+            Constant _const = this.state.getTimeout().getConst();
+            _builder.append(_const);
           }
         }
         _builder.append(" THEN");
@@ -213,7 +213,7 @@ public class StateGenerator {
               EList<SignedInteger> _caseListElement = e.getCaseList().getCaseListElement();
               for(final SignedInteger c : _caseListElement) {
                 _builder.append("\t");
-                String _generateSignedInteger = this.generateSignedInteger(c);
+                String _generateSignedInteger = GeneratorUtil.generateSignedInteger(c);
                 _builder.append(_generateSignedInteger, "\t");
                 {
                   int _indexOf = e.getCaseList().getCaseListElement().indexOf(c);
@@ -429,7 +429,7 @@ public class StateGenerator {
       Constant _const = ((PrimaryExpression)exp).getConst();
       boolean _tripleNotEquals = (_const != null);
       if (_tripleNotEquals) {
-        return NodeModelUtils.getNode(((PrimaryExpression)exp).getConst()).getText().trim();
+        return GeneratorUtil.generateConstant(((PrimaryExpression)exp).getConst());
       } else {
         SymbolicVariable _variable = ((PrimaryExpression)exp).getVariable();
         boolean _tripleNotEquals_1 = (_variable != null);
@@ -734,18 +734,5 @@ public class StateGenerator {
     _builder_3.append(_generateErrorConstant_2);
     _builder_3.append(")");
     return _builder_3.toString();
-  }
-  
-  private String generateSignedInteger(final SignedInteger sint) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      boolean _isISig = sint.isISig();
-      if (_isISig) {
-        _builder.append("-");
-      }
-    }
-    int _value = sint.getValue();
-    _builder.append(_value);
-    return _builder.toString();
   }
 }

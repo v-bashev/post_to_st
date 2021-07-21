@@ -9,28 +9,32 @@ import su.nsk.iae.post.generator.IPoSTGenerator
 import su.nsk.iae.post.generator.st.common.ProgramGenerator
 import su.nsk.iae.post.generator.st.common.vars.GlobalVarHelper
 import su.nsk.iae.post.generator.st.common.vars.VarHelper
+import su.nsk.iae.post.poST.Configuration
 import su.nsk.iae.post.poST.Model
+import su.nsk.iae.post.poST.TemplateProcessConfElement
+
+import static extension org.eclipse.emf.ecore.util.EcoreUtil.*
+import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class STGenerator implements IPoSTGenerator {
 	
+	Configuration configuration
 	VarHelper globVarList = new GlobalVarHelper
 	List<ProgramGenerator> programs = new LinkedList
 	
 	override setModel(Model model) {
+		configuration = model.conf
 		globVarList.clear()
 		programs.clear()
-		for (v : model.globVars) {
-			globVarList.add(v)
-		}
-		for (p : model.programs) {
-			programs.add(new ProgramPOUGenerator(p))
-		}
-		for (fb : model.fbs) {
-			programs.add(new FunctionBlockPOUGenerator(fb))
-		}
+		
+		model.globVars.stream.forEach([v | globVarList.add(v)])
+		model.programs.stream.forEach([p | programs.add(new ProgramPOUGenerator(p))])
+		model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb))])
 	}
 	
-	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {}
+	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		preparePrograms()
+	}
 	
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		generateSingleFile(fsa, "")
@@ -49,8 +53,22 @@ class STGenerator implements IPoSTGenerator {
 //		}
 //	}
 	
+	private def void preparePrograms() {
+		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |
+			programConf.args.elements.stream.forEach([processConf |
+				if (processConf instanceof TemplateProcessConfElement) {
+					val programGen = programs.stream.filter([x | x.name == programConf.program.name]).findFirst().get()
+					val process = processConf.process.copy()
+					process.name = processConf.name
+					
+					programGen.addProcess(process)
+				}
+			])
+		])
+	}
+	
 	private def String generateSingleFileBody() '''
-		«ProgramGenerator.generateVars(globVarList)»
+		«globVarList.generateVars»
 		«FOR c : programs»
 			«c.generateProgram»
 			

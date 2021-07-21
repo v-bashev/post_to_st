@@ -6,10 +6,11 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData;
 import su.nsk.iae.post.poST.ArrayInitialization;
 import su.nsk.iae.post.poST.Constant;
+import su.nsk.iae.post.poST.SignedInteger;
 import su.nsk.iae.post.poST.SimpleSpecificationInit;
 import su.nsk.iae.post.poST.SymbolicVariable;
 import su.nsk.iae.post.poST.VarInitDeclaration;
@@ -93,7 +94,7 @@ public abstract class VarHelper {
         Constant _value = v.getSpec().getValue();
         boolean _tripleNotEquals_1 = (_value != null);
         if (_tripleNotEquals_1) {
-          value = NodeModelUtils.getNode(v.getSpec().getValue()).getText().trim();
+          value = GeneratorUtil.generateConstant(v.getSpec().getValue());
         }
         EList<SymbolicVariable> _vars = v.getVarList().getVars();
         for (final SymbolicVariable e : _vars) {
@@ -104,11 +105,11 @@ public abstract class VarHelper {
       } else {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("ARRAY [");
-        String _trim = NodeModelUtils.getNode(v.getArrSpec().getInit().getStart()).getText().trim();
-        _builder.append(_trim);
+        SignedInteger _start = v.getArrSpec().getInit().getStart();
+        _builder.append(_start);
         _builder.append("..");
-        String _trim_1 = NodeModelUtils.getNode(v.getArrSpec().getInit().getEnd()).getText().trim();
-        _builder.append(_trim_1);
+        SignedInteger _end = v.getArrSpec().getInit().getEnd();
+        _builder.append(_end);
         _builder.append("] OF ");
         String _type = v.getArrSpec().getInit().getType();
         _builder.append(_type);
@@ -121,7 +122,7 @@ public abstract class VarHelper {
           values = _linkedList;
           EList<Constant> _elements = v.getArrSpec().getValues().getElements();
           for (final Constant e_1 : _elements) {
-            values.add(NodeModelUtils.getNode(e_1).getText().trim());
+            values.add(GeneratorUtil.generateConstant(e_1));
           }
         }
         EList<SymbolicVariable> _vars_1 = v.getVarList().getVars();

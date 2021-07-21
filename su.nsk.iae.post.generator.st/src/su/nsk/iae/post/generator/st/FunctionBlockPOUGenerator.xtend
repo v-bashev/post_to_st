@@ -8,24 +8,14 @@ class FunctionBlockPOUGenerator extends ProgramGenerator {
 	new(FunctionBlock fb) {
 		programName = fb.name
 		type = "FUNCTION_BLOCK"
-		for (v : fb.fbInVars) {
-			inVarList.add(v)
-		}
-		for (v : fb.fbOutVars) {
-			outVarList.add(v)
-		}
-		for (v : fb.fbInOutVars) {
-			inOutVarList.add(v)
-		}
-		for (v : fb.fbExternVars) {
-			externalVarList.add(v)
-		}
-		for (v : fb.fbVars) {
-			varList.add(v)
-		}
-		for (v : fb.fbTempVars) {
-			tempVarList.add(v)
-		}
+		
+		fb.fbInVars.stream.forEach([v | inVarList.add(v)])
+		fb.fbOutVars.stream.forEach([v | outVarList.add(v)])
+		fb.fbInOutVars.stream.forEach([v | inOutVarList.add(v)])
+		fb.fbExternVars.stream.forEach([v | externalVarList.add(v)])
+		fb.fbVars.stream.forEach([v | varList.add(v)])
+		fb.fbTempVars.stream.forEach([v | tempVarList.add(v)])
+
 		parseProcesses(fb.processes)
 	}
 	

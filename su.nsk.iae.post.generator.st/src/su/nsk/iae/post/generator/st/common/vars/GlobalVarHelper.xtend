@@ -12,14 +12,14 @@ class GlobalVarHelper extends VarHelper {
 		varType = "VAR_GLOBAL"
 	}
 	
-	override add(EObject varDecl) {
+	override add(EObject varDecl, String pref) {
 		if (varDecl instanceof GlobalVarDeclaration) {
-			parseDirectVars(varDecl.varsAs)
-			parseSimpleVar(varDecl.varsSimple, varDecl.const)
+			parseDirectVars(varDecl.varsAs, pref)
+			parseSimpleVar(varDecl.varsSimple, pref, varDecl.const)
 		}
 	}
 	
-	private def void parseDirectVars(EList<GlobalVarInitDeclaration> varList) {
+	private def void parseDirectVars(EList<GlobalVarInitDeclaration> varList, String pref) {
 		for (v : varList) {
 			val type = v.type
 			for (e : v.varList.vars) {

@@ -1,6 +1,6 @@
 package su.nsk.iae.post.generator.st;
 
-import org.eclipse.emf.common.util.EList;
+import java.util.function.Consumer;
 import su.nsk.iae.post.generator.st.common.ProgramGenerator;
 import su.nsk.iae.post.poST.ExternalVarDeclaration;
 import su.nsk.iae.post.poST.FunctionBlock;
@@ -15,30 +15,30 @@ public class FunctionBlockPOUGenerator extends ProgramGenerator {
   public FunctionBlockPOUGenerator(final FunctionBlock fb) {
     this.programName = fb.getName();
     this.type = "FUNCTION_BLOCK";
-    EList<InputVarDeclaration> _fbInVars = fb.getFbInVars();
-    for (final InputVarDeclaration v : _fbInVars) {
+    final Consumer<InputVarDeclaration> _function = (InputVarDeclaration v) -> {
       this.inVarList.add(v);
-    }
-    EList<OutputVarDeclaration> _fbOutVars = fb.getFbOutVars();
-    for (final OutputVarDeclaration v_1 : _fbOutVars) {
-      this.outVarList.add(v_1);
-    }
-    EList<InputOutputVarDeclaration> _fbInOutVars = fb.getFbInOutVars();
-    for (final InputOutputVarDeclaration v_2 : _fbInOutVars) {
-      this.inOutVarList.add(v_2);
-    }
-    EList<ExternalVarDeclaration> _fbExternVars = fb.getFbExternVars();
-    for (final ExternalVarDeclaration v_3 : _fbExternVars) {
-      this.externalVarList.add(v_3);
-    }
-    EList<VarDeclaration> _fbVars = fb.getFbVars();
-    for (final VarDeclaration v_4 : _fbVars) {
-      this.varList.add(v_4);
-    }
-    EList<TempVarDeclaration> _fbTempVars = fb.getFbTempVars();
-    for (final TempVarDeclaration v_5 : _fbTempVars) {
-      this.tempVarList.add(v_5);
-    }
+    };
+    fb.getFbInVars().stream().forEach(_function);
+    final Consumer<OutputVarDeclaration> _function_1 = (OutputVarDeclaration v) -> {
+      this.outVarList.add(v);
+    };
+    fb.getFbOutVars().stream().forEach(_function_1);
+    final Consumer<InputOutputVarDeclaration> _function_2 = (InputOutputVarDeclaration v) -> {
+      this.inOutVarList.add(v);
+    };
+    fb.getFbInOutVars().stream().forEach(_function_2);
+    final Consumer<ExternalVarDeclaration> _function_3 = (ExternalVarDeclaration v) -> {
+      this.externalVarList.add(v);
+    };
+    fb.getFbExternVars().stream().forEach(_function_3);
+    final Consumer<VarDeclaration> _function_4 = (VarDeclaration v) -> {
+      this.varList.add(v);
+    };
+    fb.getFbVars().stream().forEach(_function_4);
+    final Consumer<TempVarDeclaration> _function_5 = (TempVarDeclaration v) -> {
+      this.tempVarList.add(v);
+    };
+    fb.getFbTempVars().stream().forEach(_function_5);
     this.parseProcesses(fb.getProcesses());
   }
 }
