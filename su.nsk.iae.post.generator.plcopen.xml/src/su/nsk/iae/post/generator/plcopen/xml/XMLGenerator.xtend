@@ -23,18 +23,24 @@ class XMLGenerator implements IPoSTGenerator {
 	List<ProgramGenerator> programs = new LinkedList
 	
 	override setModel(Model model) {
-		configuration = new ConfigurationGenerator(model.conf)
-		
 		globVarList.clear()
 		programs.clear()
-		
 		model.globVars.stream.forEach([v | globVarList.add(v)])
+		if (model.conf !== null) {
+			configuration = new ConfigurationGenerator(model.conf)
+			configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf | 
+				val program = programConf.program.copy()
+				program.name = programConf.name
+				programs.add(new ProgramPOUGenerator(program))
+			])
+			return
+		}
 		model.programs.stream.forEach([p | programs.add(new ProgramPOUGenerator(p))])
 		model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb))])
 	}
 	
 	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		//preparePrograms()
+		preparePrograms()
 	}
 	
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
@@ -74,10 +80,13 @@ class XMLGenerator implements IPoSTGenerator {
 	'''
 
 	private def void preparePrograms() {
+		if (configuration === null) {
+			return
+		}
 		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |
 			programConf.args.elements.stream.forEach([processConf |
 				if (processConf instanceof TemplateProcessConfElement) {
-					val programGen = programs.stream.filter([x | x.name == programConf.program.name]).findFirst().get()
+					val programGen = programs.stream.filter([x | x.name == programConf.name]).findFirst().get()
 					val process = processConf.process.copy()
 					process.name = processConf.name
 					

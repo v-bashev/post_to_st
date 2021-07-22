@@ -18,17 +18,23 @@ import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class STGenerator implements IPoSTGenerator {
 	
-	ConfigurationGenerator configuration
+	ConfigurationGenerator configuration = null
 	VarHelper globVarList = new GlobalVarHelper
 	List<ProgramGenerator> programs = new LinkedList
 	
 	override setModel(Model model) {
-		configuration = new ConfigurationGenerator(model.conf)
-		
 		globVarList.clear()
 		programs.clear()
-		
 		model.globVars.stream.forEach([v | globVarList.add(v)])
+		if (model.conf !== null) {
+			configuration = new ConfigurationGenerator(model.conf)
+			configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf | 
+				val program = programConf.program.copy()
+				program.name = programConf.name
+				programs.add(new ProgramPOUGenerator(program))
+			])
+			return
+		}
 		model.programs.stream.forEach([p | programs.add(new ProgramPOUGenerator(p))])
 		model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb))])
 	}
@@ -53,21 +59,7 @@ class STGenerator implements IPoSTGenerator {
 //			c.generate(fsa, path)
 //		}
 //	}
-	
-	private def void preparePrograms() {
-		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |
-			programConf.args.elements.stream.forEach([processConf |
-				if (processConf instanceof TemplateProcessConfElement) {
-					val programGen = programs.stream.filter([x | x.name == programConf.program.name]).findFirst().get()
-					val process = processConf.process.copy()
-					process.name = processConf.name
-					
-					programGen.addProcess(process)
-				}
-			])
-		])
-	}
-	
+
 	private def String generateSingleFileBody() '''
 		«globVarList.generateVars»
 		«configuration.generateConfiguration»
@@ -76,5 +68,22 @@ class STGenerator implements IPoSTGenerator {
 			
 		«ENDFOR»
 	'''
+	
+	private def void preparePrograms() {
+		if (configuration === null) {
+			return
+		}
+		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |
+			programConf.args.elements.stream.forEach([processConf |
+				if (processConf instanceof TemplateProcessConfElement) {
+					val programGen = programs.stream.filter([x | x.name == programConf.name]).findFirst().get()
+					val process = processConf.process.copy()
+					process.name = processConf.name
+					
+					programGen.addProcess(process)
+				}
+			])
+		])
+	}
 	
 }

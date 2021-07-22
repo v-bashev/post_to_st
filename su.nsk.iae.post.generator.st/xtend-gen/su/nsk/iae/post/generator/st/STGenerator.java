@@ -8,7 +8,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
@@ -26,11 +25,12 @@ import su.nsk.iae.post.poST.Model;
 import su.nsk.iae.post.poST.Program;
 import su.nsk.iae.post.poST.ProgramConfElement;
 import su.nsk.iae.post.poST.ProgramConfiguration;
+import su.nsk.iae.post.poST.Resource;
 import su.nsk.iae.post.poST.TemplateProcessConfElement;
 
 @SuppressWarnings("all")
 public class STGenerator implements IPoSTGenerator {
-  private ConfigurationGenerator configuration;
+  private ConfigurationGenerator configuration = null;
   
   private VarHelper globVarList = new GlobalVarHelper();
   
@@ -38,39 +38,57 @@ public class STGenerator implements IPoSTGenerator {
   
   @Override
   public void setModel(final Model model) {
-    Configuration _conf = model.getConf();
-    ConfigurationGenerator _configurationGenerator = new ConfigurationGenerator(_conf);
-    this.configuration = _configurationGenerator;
     this.globVarList.clear();
     this.programs.clear();
     final Consumer<GlobalVarDeclaration> _function = (GlobalVarDeclaration v) -> {
       this.globVarList.add(v);
     };
     model.getGlobVars().stream().forEach(_function);
-    final Consumer<Program> _function_1 = (Program p) -> {
+    Configuration _conf = model.getConf();
+    boolean _tripleNotEquals = (_conf != null);
+    if (_tripleNotEquals) {
+      Configuration _conf_1 = model.getConf();
+      ConfigurationGenerator _configurationGenerator = new ConfigurationGenerator(_conf_1);
+      this.configuration = _configurationGenerator;
+      final Function<Resource, EList<ProgramConfiguration>> _function_1 = (Resource res) -> {
+        return res.getResStatement().getProgramConfs();
+      };
+      final Function<EList<ProgramConfiguration>, Stream<ProgramConfiguration>> _function_2 = (EList<ProgramConfiguration> res) -> {
+        return res.stream();
+      };
+      final Consumer<ProgramConfiguration> _function_3 = (ProgramConfiguration programConf) -> {
+        final Program program = EcoreUtil.<Program>copy(programConf.getProgram());
+        program.setName(programConf.getName());
+        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(program);
+        this.programs.add(_programPOUGenerator);
+      };
+      this.configuration.getResources().stream().<EList<ProgramConfiguration>>map(_function_1).<ProgramConfiguration>flatMap(_function_2).forEach(_function_3);
+      return;
+    }
+    final Consumer<Program> _function_4 = (Program p) -> {
       ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(p);
       this.programs.add(_programPOUGenerator);
     };
-    model.getPrograms().stream().forEach(_function_1);
-    final Consumer<FunctionBlock> _function_2 = (FunctionBlock fb) -> {
+    model.getPrograms().stream().forEach(_function_4);
+    final Consumer<FunctionBlock> _function_5 = (FunctionBlock fb) -> {
       FunctionBlockPOUGenerator _functionBlockPOUGenerator = new FunctionBlockPOUGenerator(fb);
       this.programs.add(_functionBlockPOUGenerator);
     };
-    model.getFbs().stream().forEach(_function_2);
+    model.getFbs().stream().forEach(_function_5);
   }
   
   @Override
-  public void beforeGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+  public void beforeGenerate(final org.eclipse.emf.ecore.resource.Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.preparePrograms();
   }
   
   @Override
-  public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+  public void doGenerate(final org.eclipse.emf.ecore.resource.Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.generateSingleFile(fsa, "");
   }
   
   @Override
-  public void afterGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+  public void afterGenerate(final org.eclipse.emf.ecore.resource.Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
   }
   
   private void generateSingleFile(final IFileSystemAccess2 fsa, final String path) {
@@ -78,32 +96,6 @@ public class STGenerator implements IPoSTGenerator {
     _builder.append(path);
     _builder.append("poST_code.st");
     fsa.generateFile(_builder.toString(), this.generateSingleFileBody());
-  }
-  
-  private void preparePrograms() {
-    final Function<su.nsk.iae.post.poST.Resource, EList<ProgramConfiguration>> _function = (su.nsk.iae.post.poST.Resource res) -> {
-      return res.getResStatement().getProgramConfs();
-    };
-    final Function<EList<ProgramConfiguration>, Stream<ProgramConfiguration>> _function_1 = (EList<ProgramConfiguration> res) -> {
-      return res.stream();
-    };
-    final Consumer<ProgramConfiguration> _function_2 = (ProgramConfiguration programConf) -> {
-      final Consumer<ProgramConfElement> _function_3 = (ProgramConfElement processConf) -> {
-        if ((processConf instanceof TemplateProcessConfElement)) {
-          final Predicate<ProgramGenerator> _function_4 = (ProgramGenerator x) -> {
-            String _name = x.getName();
-            String _name_1 = programConf.getProgram().getName();
-            return Objects.equal(_name, _name_1);
-          };
-          final ProgramGenerator programGen = this.programs.stream().filter(_function_4).findFirst().get();
-          final su.nsk.iae.post.poST.Process process = EcoreUtil.<su.nsk.iae.post.poST.Process>copy(((TemplateProcessConfElement)processConf).getProcess());
-          process.setName(((TemplateProcessConfElement)processConf).getName());
-          programGen.addProcess(process);
-        }
-      };
-      programConf.getArgs().getElements().stream().forEach(_function_3);
-    };
-    this.configuration.getResources().stream().<EList<ProgramConfiguration>>map(_function).<ProgramConfiguration>flatMap(_function_1).forEach(_function_2);
   }
   
   private String generateSingleFileBody() {
@@ -123,5 +115,34 @@ public class STGenerator implements IPoSTGenerator {
       }
     }
     return _builder.toString();
+  }
+  
+  private void preparePrograms() {
+    if ((this.configuration == null)) {
+      return;
+    }
+    final Function<Resource, EList<ProgramConfiguration>> _function = (Resource res) -> {
+      return res.getResStatement().getProgramConfs();
+    };
+    final Function<EList<ProgramConfiguration>, Stream<ProgramConfiguration>> _function_1 = (EList<ProgramConfiguration> res) -> {
+      return res.stream();
+    };
+    final Consumer<ProgramConfiguration> _function_2 = (ProgramConfiguration programConf) -> {
+      final Consumer<ProgramConfElement> _function_3 = (ProgramConfElement processConf) -> {
+        if ((processConf instanceof TemplateProcessConfElement)) {
+          final Predicate<ProgramGenerator> _function_4 = (ProgramGenerator x) -> {
+            String _name = x.getName();
+            String _name_1 = programConf.getName();
+            return Objects.equal(_name, _name_1);
+          };
+          final ProgramGenerator programGen = this.programs.stream().filter(_function_4).findFirst().get();
+          final su.nsk.iae.post.poST.Process process = EcoreUtil.<su.nsk.iae.post.poST.Process>copy(((TemplateProcessConfElement)processConf).getProcess());
+          process.setName(((TemplateProcessConfElement)processConf).getName());
+          programGen.addProcess(process);
+        }
+      };
+      programConf.getArgs().getElements().stream().forEach(_function_3);
+    };
+    this.configuration.getResources().stream().<EList<ProgramConfiguration>>map(_function).<ProgramConfiguration>flatMap(_function_1).forEach(_function_2);
   }
 }
