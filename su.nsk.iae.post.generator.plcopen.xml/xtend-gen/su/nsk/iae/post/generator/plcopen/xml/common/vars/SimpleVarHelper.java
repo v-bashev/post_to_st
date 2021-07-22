@@ -10,9 +10,9 @@ public class SimpleVarHelper extends VarHelper {
   }
   
   @Override
-  public void add(final EObject varDecl) {
+  public void add(final EObject varDecl, final String pref) {
     if ((varDecl instanceof VarDeclaration)) {
-      this.parseSimpleVar(((VarDeclaration)varDecl).getVars(), ((VarDeclaration)varDecl).isConst());
+      this.parseSimpleVar(((VarDeclaration)varDecl).getVars(), pref, ((VarDeclaration)varDecl).isConst());
     }
   }
 }

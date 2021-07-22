@@ -10,9 +10,9 @@ public class OutputVarHelper extends VarHelper {
   }
   
   @Override
-  public void add(final EObject varDecl) {
+  public void add(final EObject varDecl, final String pref) {
     if ((varDecl instanceof OutputVarDeclaration)) {
-      this.parseSimpleVar(((OutputVarDeclaration)varDecl).getVars());
+      this.parseSimpleVar(((OutputVarDeclaration)varDecl).getVars(), pref);
     }
   }
 }

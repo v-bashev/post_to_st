@@ -1,7 +1,7 @@
 package su.nsk.iae.post.generator.plcopen.xml.common.vars.data
 
-import org.eclipse.xtend.lib.annotations.Data
 import java.util.List
+import org.eclipse.xtend.lib.annotations.Data
 
 @Data
 class VarData {

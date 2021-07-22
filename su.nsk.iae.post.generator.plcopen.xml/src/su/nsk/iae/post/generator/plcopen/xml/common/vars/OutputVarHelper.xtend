@@ -9,9 +9,9 @@ class OutputVarHelper extends VarHelper {
 		varType = "outputVars"
 	}
 	
-	override add(EObject varDecl) {
+	override add(EObject varDecl, String pref) {
 		if (varDecl instanceof OutputVarDeclaration) {
-			parseSimpleVar(varDecl.vars)
+			parseSimpleVar(varDecl.vars, pref)
 		}
 	}
 }

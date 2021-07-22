@@ -14,7 +14,11 @@ abstract class VarHelper {
 	protected String varType
 	protected List<VarData> listDecl = new LinkedList
 	
-	def void add(EObject varDecl)
+	def void add(EObject varDecl) {
+		add(varDecl, "")
+	}
+	
+	def void add(EObject varDecl, String pref)
 	
 	def void add(String name, String type) {
 		add(name, type, null)
@@ -41,37 +45,22 @@ abstract class VarHelper {
 	}
 	
 	def boolean contains(String name) {
-		for (v : listDecl) {
-			if (v.name == name) {
-				return true
-			}
-		}
-		return false
+		return listDecl.stream.anyMatch([v | v.name == name])
 	}
 	
 	def boolean hasConstant() {
-		for (v : listDecl) {
-			if (v.isConstant) {
-				return true
-			}
-		}
-		return false
+		return listDecl.stream.anyMatch([v | v.isConstant])
 	}
 	
 	def boolean hasNonConstant() {
-		for (v : listDecl) {
-			if (!v.isConstant) {
-				return true
-			}
-		}
-		return false
+		return listDecl.stream.anyMatch([v | !v.isConstant])
 	}
 	
-	protected def void parseSimpleVar(EList<VarInitDeclaration> varList) {
-		parseSimpleVar(varList, false)
+	protected def void parseSimpleVar(EList<VarInitDeclaration> varList, String pref) {
+		parseSimpleVar(varList, pref, false)
 	}
 	
-	protected def void parseSimpleVar(EList<VarInitDeclaration> varList, boolean isConst) {
+	protected def void parseSimpleVar(EList<VarInitDeclaration> varList, String pref, boolean isConst) {
 		for (v : varList) {
 			if (v.spec !== null) {
 				val type = v.spec.type
@@ -80,7 +69,7 @@ abstract class VarHelper {
 					value = v.spec.value.generateConstant
 				}
 				for (e : v.varList.vars) {
-					listDecl.add(new VarData(e.name, type, value, isConst))
+					listDecl.add(new VarData(pref + e.name, type, value, isConst))
 				}
 			} else {
 				val type = '''ARRAY [«v.arrSpec.init.start»..«v.arrSpec.init.end»] OF «v.arrSpec.init.type»'''
@@ -92,7 +81,7 @@ abstract class VarHelper {
 					}
 				}
 				for (e : v.varList.vars) {
-					listDecl.add(new VarData(e.name, type, isConst, values))
+					listDecl.add(new VarData(pref + e.name, type, isConst, values))
 				}
 			}
 		}

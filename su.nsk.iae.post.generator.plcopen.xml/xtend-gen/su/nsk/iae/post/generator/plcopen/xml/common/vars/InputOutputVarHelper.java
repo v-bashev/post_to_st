@@ -6,13 +6,13 @@ import su.nsk.iae.post.poST.InputOutputVarDeclaration;
 @SuppressWarnings("all")
 public class InputOutputVarHelper extends VarHelper {
   public InputOutputVarHelper() {
-    this.varType = "globalVars";
+    this.varType = "inputOutputVars";
   }
   
   @Override
-  public void add(final EObject varDecl) {
+  public void add(final EObject varDecl, final String pref) {
     if ((varDecl instanceof InputOutputVarDeclaration)) {
-      this.parseSimpleVar(((InputOutputVarDeclaration)varDecl).getVars());
+      this.parseSimpleVar(((InputOutputVarDeclaration)varDecl).getVars(), pref);
     }
   }
 }

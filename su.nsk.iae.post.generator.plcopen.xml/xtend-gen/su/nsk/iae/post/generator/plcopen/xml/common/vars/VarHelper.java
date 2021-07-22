@@ -3,6 +3,7 @@ package su.nsk.iae.post.generator.plcopen.xml.common.vars;
 import com.google.common.base.Objects;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -21,7 +22,11 @@ public abstract class VarHelper {
   
   protected List<VarData> listDecl = new LinkedList<VarData>();
   
-  public abstract void add(final EObject varDecl);
+  public void add(final EObject varDecl) {
+    this.add(varDecl, "");
+  }
+  
+  public abstract void add(final EObject varDecl, final String pref);
   
   public void add(final String name, final String type) {
     this.add(name, type, null);
@@ -49,42 +54,33 @@ public abstract class VarHelper {
   }
   
   public boolean contains(final String name) {
-    for (final VarData v : this.listDecl) {
+    final Predicate<VarData> _function = (VarData v) -> {
       String _name = v.getName();
-      boolean _equals = Objects.equal(_name, name);
-      if (_equals) {
-        return true;
-      }
-    }
-    return false;
+      return Objects.equal(_name, name);
+    };
+    return this.listDecl.stream().anyMatch(_function);
   }
   
   public boolean hasConstant() {
-    for (final VarData v : this.listDecl) {
-      boolean _isConstant = v.isConstant();
-      if (_isConstant) {
-        return true;
-      }
-    }
-    return false;
+    final Predicate<VarData> _function = (VarData v) -> {
+      return v.isConstant();
+    };
+    return this.listDecl.stream().anyMatch(_function);
   }
   
   public boolean hasNonConstant() {
-    for (final VarData v : this.listDecl) {
+    final Predicate<VarData> _function = (VarData v) -> {
       boolean _isConstant = v.isConstant();
-      boolean _not = (!_isConstant);
-      if (_not) {
-        return true;
-      }
-    }
-    return false;
+      return (!_isConstant);
+    };
+    return this.listDecl.stream().anyMatch(_function);
   }
   
-  protected void parseSimpleVar(final EList<VarInitDeclaration> varList) {
-    this.parseSimpleVar(varList, false);
+  protected void parseSimpleVar(final EList<VarInitDeclaration> varList, final String pref) {
+    this.parseSimpleVar(varList, pref, false);
   }
   
-  protected void parseSimpleVar(final EList<VarInitDeclaration> varList, final boolean isConst) {
+  protected void parseSimpleVar(final EList<VarInitDeclaration> varList, final String pref, final boolean isConst) {
     for (final VarInitDeclaration v : varList) {
       SimpleSpecificationInit _spec = v.getSpec();
       boolean _tripleNotEquals = (_spec != null);
@@ -99,7 +95,8 @@ public abstract class VarHelper {
         EList<SymbolicVariable> _vars = v.getVarList().getVars();
         for (final SymbolicVariable e : _vars) {
           String _name = e.getName();
-          VarData _varData = new VarData(_name, type, value, isConst);
+          String _plus = (pref + _name);
+          VarData _varData = new VarData(_plus, type, value, isConst);
           this.listDecl.add(_varData);
         }
       } else {
@@ -128,7 +125,8 @@ public abstract class VarHelper {
         EList<SymbolicVariable> _vars_1 = v.getVarList().getVars();
         for (final SymbolicVariable e_2 : _vars_1) {
           String _name_1 = e_2.getName();
-          VarData _varData_1 = new VarData(_name_1, type_1, isConst, values);
+          String _plus_1 = (pref + _name_1);
+          VarData _varData_1 = new VarData(_plus_1, type_1, isConst, values);
           this.listDecl.add(_varData_1);
         }
       }
