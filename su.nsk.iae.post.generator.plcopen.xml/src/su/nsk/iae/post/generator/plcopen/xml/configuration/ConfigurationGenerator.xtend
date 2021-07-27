@@ -25,14 +25,11 @@ class ConfigurationGenerator {
 	}
 	
 	def String generateConfiguration() '''
-		CONFIGURATION «configuration.name»
-			
-			«confVarList.generateVars»
+		<data name="http://www.3s-software.com/plcopenxml/application" handleUnknown="implementation">
 			«FOR r : resources»
 				«r.generateResource»
-				
 			«ENDFOR»
-		END_CONFIGURATION
+		</data>
 		
 	'''
 	

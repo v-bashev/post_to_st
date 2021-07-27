@@ -70,7 +70,7 @@ public class ProgramConfigurationGenerator {
       } else {
         final TemplateProcessConfElement processConf = ((TemplateProcessConfElement) e);
         final Consumer<AttachVariableConfElement> _function_1 = (AttachVariableConfElement p) -> {
-          String _generateProcessVar = this.generateProcessVar(processConf.getProcess(), p.getProgramVar().getName());
+          String _generateProcessVar = this.generateProcessVar(processConf.getName(), p.getProgramVar().getName());
           String _generateAssignmentSign_1 = this.generateAssignmentSign(p.getAssig());
           String _plus_1 = (_generateProcessVar + _generateAssignmentSign_1);
           String _name_2 = p.getAttVar().getName();
@@ -103,7 +103,7 @@ public class ProgramConfigurationGenerator {
     return _builder_1.toString();
   }
   
-  private String generateProcessVar(final su.nsk.iae.post.poST.Process process, final String varName) {
+  private String generateProcessVar(final String process, final String varName) {
     return GeneratorUtil.generateVarName(process, varName);
   }
 }

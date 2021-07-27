@@ -24,17 +24,13 @@ class ResourceGenerator {
 	}
 	
 	def generateResource() '''
-		RESOURCE «resource.name» ON «resource.type»
-			
-			«resVarList.generateVars»
+		<resource name="«resource.name»">
 			«FOR t : tasks»
 				«t.generateTask»
 			«ENDFOR»
-			
 			«FOR p : programConfigurationGenerators»
 				«p.generateProgramConfiguration»
 			«ENDFOR»
-			
-		END_RESOURCE
+		</resource>
 	'''
 }

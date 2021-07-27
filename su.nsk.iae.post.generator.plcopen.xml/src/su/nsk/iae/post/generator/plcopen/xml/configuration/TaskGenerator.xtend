@@ -12,7 +12,11 @@ class TaskGenerator {
 		this.task = task
 	}
 	
-	def String generateTask() {
+	def String generateTask() '''
+		<task name="«task.name»" interval="PT0.01S" priority="«task.init.priority»">
+	'''
+	
+	def String generateTaskA() {
 		return '''TASK «task.name» («generateFirstArg», PRIORITY := «task.init.priority»);'''
 	}
 	

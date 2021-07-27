@@ -35,11 +35,10 @@ public class GeneratorUtil {
     return _builder.toString();
   }
   
-  public static String generateVarName(final su.nsk.iae.post.poST.Process process, final String variable) {
+  public static String generateVarName(final String process, final String variable) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("_p_");
-    String _name = process.getName();
-    _builder.append(_name);
+    _builder.append(process);
     _builder.append("_v_");
     _builder.append(variable);
     return _builder.toString();

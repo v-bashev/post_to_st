@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.GlobalVarHelper;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper;
 import su.nsk.iae.post.poST.GlobalVarDeclaration;
@@ -42,18 +41,10 @@ public class ResourceGenerator {
   
   public CharSequence generateResource() {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("RESOURCE ");
+    _builder.append("<resource name=\"");
     String _name = this.resource.getName();
     _builder.append(_name);
-    _builder.append(" ON ");
-    String _type = this.resource.getType();
-    _builder.append(_type);
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("\t");
-    String _generateVars = GeneratorUtil.generateVars(this.resVarList);
-    _builder.append(_generateVars, "\t");
+    _builder.append("\">");
     _builder.newLineIfNotEmpty();
     {
       for(final TaskGenerator t : this.tasks) {
@@ -63,8 +54,6 @@ public class ResourceGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
-    _builder.append("\t");
-    _builder.newLine();
     {
       for(final ProgramConfigurationGenerator p : this.programConfigurationGenerators) {
         _builder.append("\t");
@@ -73,9 +62,7 @@ public class ResourceGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("END_RESOURCE");
+    _builder.append("</resource>");
     _builder.newLine();
     return _builder;
   }

@@ -25,8 +25,8 @@ class GeneratorUtil {
 		return '''_global_time'''
 	}
 	
-	static def String generateVarName(Process process, String variable) {
-		return '''_p_«process.name»_v_«variable»'''
+	static def String generateVarName(String process, String variable) {
+		return '''_p_«process»_v_«variable»'''
 	}
 	
 	static def String generateVarName(ProcessGenerator process, String variable) {

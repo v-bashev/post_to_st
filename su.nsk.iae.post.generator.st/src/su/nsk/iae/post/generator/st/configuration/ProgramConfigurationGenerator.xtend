@@ -40,7 +40,7 @@ class ProgramConfigurationGenerator {
 			} else {
 				val processConf = e as TemplateProcessConfElement
 				processConf.args.elements.stream.forEach([p |
-					val attach = processConf.process.generateProcessVar(p.programVar.name) + p.assig.generateAssignmentSign + p.attVar.name
+					val attach = processConf.name.generateProcessVar(p.programVar.name) + p.assig.generateAssignmentSign + p.attVar.name
 					res.add(attach)
 				])
 			}
@@ -55,7 +55,7 @@ class ProgramConfigurationGenerator {
 		return ''' => '''
 	}
 	
-	private def String generateProcessVar(Process process, String varName) {
+	private def String generateProcessVar(String process, String varName) {
 		return process.generateVarName(varName)
 	}
 	
