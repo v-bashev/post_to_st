@@ -2,146 +2,151 @@ package su.nsk.iae.post.generator.st.common
 
 import java.util.LinkedList
 import java.util.List
+import su.nsk.iae.post.generator.st.common.vars.InputOutputVarHelper
+import su.nsk.iae.post.generator.st.common.vars.InputVarHelper
+import su.nsk.iae.post.generator.st.common.vars.OutputVarHelper
 import su.nsk.iae.post.generator.st.common.vars.SimpleVarHelper
 import su.nsk.iae.post.generator.st.common.vars.TempVarHelper
 import su.nsk.iae.post.generator.st.common.vars.VarHelper
 import su.nsk.iae.post.poST.Process
-import su.nsk.iae.post.generator.st.ICodeGenerator
+
+import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class ProcessGenerator {
 	
-	ICodeGenerator program
+	ProgramGenerator program
 	Process process
 	
+	VarHelper inVarList = new InputVarHelper
+	VarHelper outVarList = new OutputVarHelper
+	VarHelper inOutVarList = new InputOutputVarHelper
 	VarHelper varList = new SimpleVarHelper
 	VarHelper tempVarList = new TempVarHelper
 	
 	List<StateGenerator> stateList = new LinkedList
 	
-	new(ICodeGenerator program, Process process) {
+	new(ProgramGenerator program, Process process) {
 		this.program = program
 		this.process = process
-		
-		for (v : process.procVars) {
-			varList.add(v)
-			for (n : v.vars) {
-				for (e : n.varList.vars) {
-					e.name = e.name.varName
-				}
-			}
-			program.addVar(v)
-			for (n : v.vars) {
-				for (e : n.varList.vars) {
-					e.name = e.name.substring("".varName.length)
-				}
-			}
-		}
-		for (v : process.procTempVars) {
-			tempVarList.add(v)
-			for (n : v.vars) {
-				for (e : n.varList.vars) {
-					e.name = e.name.varName
-				}
-			}
-			program.addTempVar(v)
-			for (n : v.vars) {
-				for (e : n.varList.vars) {
-					e.name = e.name.substring("".varName.length)
-				}
-			}
-		}
-		
-		for (s : process.states) {
-			stateList.add(new StateGenerator(program, this, s))
-		}
+		process.states.stream.forEach([s | stateList.add(new StateGenerator(program, this, s))])
 	}
 	
-	def void addStateVars() {
-		for (var i = 0; i < stateList.size; i++) {
-			program.addVar(stateList.get(i).name.enumStateName, "INT", i.toString, true)
-		}
-		if (program.isFirstProcess(this)) {
-			program.addVar(generateEnumName, "INT", stateList.get(0).name.enumStateName)
-		} else {
-			program.addVar(generateEnumName, "INT", program.generateStopConstant)
-		}
-	}
-	
-	def void addTimeVars() {
-		if (hasTimeouts) {
-			program.addVar(generateTimeoutName, "TIME")
-		}
-	}
+	def String generateBody() '''
+		CASE «generateEnumName» OF
+			«FOR s : stateList»
+				«generateEnumStateConstant(s.name)»:
+					«s.generateBody»
+			«ENDFOR»
+		END_CASE
+	'''
 	
 	def String getName() {
 		return process.name
 	}
 	
-	def String getEnumStateName(String name) {
-		return '''_P_«this.name.toUpperCase»_S_«name.toUpperCase»'''
-	}
-	
 	def boolean containsVar(String name) {
-		return varList.contains(name) || tempVarList.contains(name)
-	}
-	
-	def String getVarName(String variable) {
-		return '''_p_«name»_v_«variable»'''
+		return varList.contains(name) || tempVarList.contains(name) || 
+			   inVarList.contains(name) || outVarList.contains(name) || inOutVarList.contains(name)
 	}
 	
 	def String generateSetState(String stateName) '''
-		«IF stateList.findFirst[name == stateName].hasTimeout»«generateTimeoutName» := «program.generateGlobalTime»;«ENDIF»
-		«generateEnumName» := «stateName.enumStateName»;
+		«IF stateList.findFirst[name == stateName].hasTimeout»«generateTimeoutName» := «generateGlobalTime»;«ENDIF»
+		«generateEnumName» := «generateEnumStateConstant(stateName)»;
 	'''
 	
 	def String generateNextState(StateGenerator state) {
 		if (stateList.indexOf(state) + 1 < stateList.size) {
 			val s = stateList.get(stateList.indexOf(state) + 1)
 			return '''
-				«IF s.hasTimeout»«generateTimeoutName» := «program.generateGlobalTime»;«ENDIF»
-				«generateEnumName» := «s.name.enumStateName»;
+				«IF s.hasTimeout»«generateTimeoutName» := «generateGlobalTime»;«ENDIF»
+				«generateEnumName» := «generateEnumStateConstant(s.name)»;
 			'''
 		}
 		val s = stateList.get(0)
 		return '''
-			«IF s.hasTimeout»«generateTimeoutName» := «program.generateGlobalTime»;«ENDIF»
-			«generateEnumName» := «s.name.enumStateName»;
+			«IF s.hasTimeout»«generateTimeoutName» := «generateGlobalTime»;«ENDIF»
+			«generateEnumName» := «generateEnumStateConstant(s.name)»;
 		'''
-	}
-	
-	def String generateEnumName() {
-		return '''_g_p_«name»_state'''
-	}
-	
-	def String generateTimeoutName() {
-		return '''_g_p_«name»_time'''
 	}
 	
 	def String generateStart() '''
 		«FOR v : varList.list»
 			«IF v.value !== null && ! v.isConstant»
-				«v.name.varName» := «v.value»;
+				«generateVarName(v.name)» := «v.value»;
 			«ENDIF»
 		«ENDFOR»
-		«IF stateList.get(0).hasTimeout»«generateTimeoutName» := «program.generateGlobalTime»;«ENDIF»
-		«generateEnumName» := «stateList.get(0).name.enumStateName»;
+		«IF stateList.get(0).hasTimeout»«generateTimeoutName» := «generateGlobalTime»;«ENDIF»
+		«generateEnumName» := «generateEnumStateConstant(stateList.get(0).name)»;
 	'''
 	
-	def String generateBody() '''
-		CASE «generateEnumName» OF
-			«FOR s : stateList»
-				«s.name.enumStateName»:
-					«s.generateBody»
-			«ENDFOR»
-		END_CASE
-	'''
+	def boolean isTemplate() {
+		return (!process.procInVars.empty) || (!process.procOutVars.empty) || (!process.procInOutVars.empty)
+	}
+	
+	def void prepareStateVars() {
+		for (var i = 0; i < stateList.size; i++) {
+			program.addVar(generateEnumStateConstant(stateList.get(i).name), "INT", i.toString, true)
+		}
+		if (program.isFirstProcess(this)) {
+			program.addVar(generateEnumName, "INT", generateEnumStateConstant(stateList.get(0).name))
+		} else {
+			program.addVar(generateEnumName, "INT", generateStopConstant)
+		}
+	}
+	
+	def void prepareTimeVars() {
+		if (hasTimeouts) {
+			program.addVar(generateTimeoutName, "TIME")
+		}
+	}
+	
+	def void prepareProcessVars() {
+		prepareVars()
+		prepareTempVars()
+		if (isTemplate()) {
+			prepareInVars()
+			prepareOutVars()
+			prepareInOutVars()
+		}
+	}
+	
+	private def void prepareVars() {
+		process.procVars.stream.forEach([varDecl | 
+			varList.add(varDecl)
+			program.addVar(varDecl, generateVarName(""))
+		])
+	}
+	
+	private def void prepareTempVars() {
+		process.procTempVars.stream.forEach([varDecl | 
+			tempVarList.add(varDecl)
+			program.addTempVar(varDecl, generateVarName(""))
+		])
+	}
+	
+	private def void prepareInVars() {
+		process.procInVars.stream.forEach([varDecl | 
+			inVarList.add(varDecl)
+			program.addInVar(varDecl, generateVarName(""))
+		])
+	}
+	
+	private def void prepareOutVars() {
+		process.procOutVars.stream.forEach([varDecl | 
+			outVarList.add(varDecl)
+			program.addOutVar(varDecl, generateVarName(""))
+		])
+	}
+	
+	private def void prepareInOutVars() {
+		process.procInOutVars.stream.forEach([varDecl | 
+			inOutVarList.add(varDecl)
+			program.addInOutVar(varDecl, generateVarName(""))
+		])
+	}
 	
 	private def boolean hasTimeouts() {
-		for (s : stateList) {
-			if (s.hasTimeout) {
-				return true;
-			}
-		}
-		return false;
+		return stateList.stream.anyMatch([x | x.hasTimeout])
 	}
+	
 }

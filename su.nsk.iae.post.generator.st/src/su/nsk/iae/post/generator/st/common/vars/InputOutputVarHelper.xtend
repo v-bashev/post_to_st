@@ -9,9 +9,9 @@ class InputOutputVarHelper extends VarHelper {
 		varType = "VAR_IN_OUT"
 	}
 	
-	override add(EObject varDecl) {
+	override add(EObject varDecl, String pref) {
 		if (varDecl instanceof InputOutputVarDeclaration) {
-			parseSimpleVar(varDecl.vars)
+			parseSimpleVar(varDecl.vars, pref)
 		}
 	}
 	

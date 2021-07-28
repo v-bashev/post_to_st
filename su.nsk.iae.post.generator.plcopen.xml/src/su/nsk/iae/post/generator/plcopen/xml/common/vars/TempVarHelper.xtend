@@ -9,9 +9,9 @@ class TempVarHelper extends VarHelper {
 		varType = "tempVars"
 	}
 	
-	override add(EObject varDecl) {
+	override add(EObject varDecl, String pref) {
 		if (varDecl instanceof TempVarDeclaration) {
-			parseSimpleVar(varDecl.vars)
+			parseSimpleVar(varDecl.vars, pref)
 		}
 	}
 	

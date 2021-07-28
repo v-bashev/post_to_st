@@ -1,10 +1,10 @@
 package su.nsk.iae.post.generator.st.common.vars
 
-import org.eclipse.emf.ecore.EObject
-import su.nsk.iae.post.poST.GlobalVarDeclaration
 import org.eclipse.emf.common.util.EList
-import su.nsk.iae.post.poST.GlobalVarInitDeclaration
+import org.eclipse.emf.ecore.EObject
 import su.nsk.iae.post.generator.st.common.vars.data.VarData
+import su.nsk.iae.post.poST.GlobalVarDeclaration
+import su.nsk.iae.post.poST.GlobalVarInitDeclaration
 
 class GlobalVarHelper extends VarHelper {
 	
@@ -12,14 +12,14 @@ class GlobalVarHelper extends VarHelper {
 		varType = "VAR_GLOBAL"
 	}
 	
-	override add(EObject varDecl) {
+	override add(EObject varDecl, String pref) {
 		if (varDecl instanceof GlobalVarDeclaration) {
-			parseDirectVars(varDecl.varsAs)
-			parseSimpleVar(varDecl.varsSimple, varDecl.const)
+			parseDirectVars(varDecl.varsAs, pref)
+			parseSimpleVar(varDecl.varsSimple, pref, varDecl.const)
 		}
 	}
 	
-	private def void parseDirectVars(EList<GlobalVarInitDeclaration> varList) {
+	private def void parseDirectVars(EList<GlobalVarInitDeclaration> varList, String pref) {
 		for (v : varList) {
 			val type = v.type
 			for (e : v.varList.vars) {

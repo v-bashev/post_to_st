@@ -1,28 +1,28 @@
 package su.nsk.iae.post.generator.plcopen.xml.common.vars
 
-import org.eclipse.emf.ecore.EObject
-import su.nsk.iae.post.poST.ExternalVarDeclaration
 import org.eclipse.emf.common.util.EList
-import su.nsk.iae.post.poST.ExternalVarInitDeclaration
+import org.eclipse.emf.ecore.EObject
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData
+import su.nsk.iae.post.poST.ExternalVarDeclaration
+import su.nsk.iae.post.poST.ExternalVarInitDeclaration
 
 class ExternalVarHelper extends VarHelper {
 	
 	new() {
-		varType = "VAR_EXTERNAL"
+		varType = "externalVars"
 	}
 	
-	override add(EObject varDecl) {
+	override add(EObject varDecl, String pref) {
 		if (varDecl instanceof ExternalVarDeclaration) {
-			parseExternVar(varDecl.vars, varDecl.const)
+			parseExternVar(varDecl.vars, pref, varDecl.const)
 		}
 	}
 	
-	private def void parseExternVar(EList<ExternalVarInitDeclaration> varList, boolean isConst) {
+	private def void parseExternVar(EList<ExternalVarInitDeclaration> varList, String pref, boolean isConst) {
 		for (v : varList) {
 			val type = v.type
 			for (e : v.varList.vars) {
-				listDecl.add(new VarData(e.name, type, null, isConst))
+				listDecl.add(new VarData(pref + e.name, type, null, isConst))
 			}
 		}
 	}

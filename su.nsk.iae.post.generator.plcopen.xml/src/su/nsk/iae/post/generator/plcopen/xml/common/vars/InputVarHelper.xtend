@@ -9,9 +9,9 @@ class InputVarHelper extends VarHelper {
 		varType = "inputVars"
 	}
 	
-	override add(EObject varDecl) {
+	override add(EObject varDecl, String pref) {
 		if (varDecl instanceof InputVarDeclaration) {
-			parseSimpleVar(varDecl.vars, false)
+			parseSimpleVar(varDecl.vars, pref)
 		}
 	}
 	

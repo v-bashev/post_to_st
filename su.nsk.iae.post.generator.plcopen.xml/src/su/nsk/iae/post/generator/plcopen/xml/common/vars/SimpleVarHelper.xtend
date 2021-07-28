@@ -9,9 +9,9 @@ class SimpleVarHelper extends VarHelper {
 		varType = "localVars"
 	}
 	
-	override add(EObject varDecl) {
+	override add(EObject varDecl, String pref) {
 		if (varDecl instanceof VarDeclaration) {
-			parseSimpleVar(varDecl.vars, varDecl.const)
+			parseSimpleVar(varDecl.vars, pref, varDecl.const)
 		}
 	}
 	

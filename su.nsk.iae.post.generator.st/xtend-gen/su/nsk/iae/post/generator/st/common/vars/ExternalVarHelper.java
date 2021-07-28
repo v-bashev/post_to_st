@@ -14,20 +14,21 @@ public class ExternalVarHelper extends VarHelper {
   }
   
   @Override
-  public void add(final EObject varDecl) {
+  public void add(final EObject varDecl, final String pref) {
     if ((varDecl instanceof ExternalVarDeclaration)) {
-      this.parseExternVar(((ExternalVarDeclaration)varDecl).getVars(), ((ExternalVarDeclaration)varDecl).isConst());
+      this.parseExternVar(((ExternalVarDeclaration)varDecl).getVars(), pref, ((ExternalVarDeclaration)varDecl).isConst());
     }
   }
   
-  private void parseExternVar(final EList<ExternalVarInitDeclaration> varList, final boolean isConst) {
+  private void parseExternVar(final EList<ExternalVarInitDeclaration> varList, final String pref, final boolean isConst) {
     for (final ExternalVarInitDeclaration v : varList) {
       {
         final String type = v.getType();
         EList<SymbolicVariable> _vars = v.getVarList().getVars();
         for (final SymbolicVariable e : _vars) {
           String _name = e.getName();
-          VarData _varData = new VarData(_name, type, null, isConst);
+          String _plus = (pref + _name);
+          VarData _varData = new VarData(_plus, type, null, isConst);
           this.listDecl.add(_varData);
         }
       }

@@ -14,14 +14,14 @@ public class GlobalVarHelper extends VarHelper {
   }
   
   @Override
-  public void add(final EObject varDecl) {
+  public void add(final EObject varDecl, final String pref) {
     if ((varDecl instanceof GlobalVarDeclaration)) {
-      this.parseDirectVars(((GlobalVarDeclaration)varDecl).getVarsAs());
-      this.parseSimpleVar(((GlobalVarDeclaration)varDecl).getVarsSimple(), ((GlobalVarDeclaration)varDecl).isConst());
+      this.parseDirectVars(((GlobalVarDeclaration)varDecl).getVarsAs(), pref);
+      this.parseSimpleVar(((GlobalVarDeclaration)varDecl).getVarsSimple(), pref, ((GlobalVarDeclaration)varDecl).isConst());
     }
   }
   
-  private void parseDirectVars(final EList<GlobalVarInitDeclaration> varList) {
+  private void parseDirectVars(final EList<GlobalVarInitDeclaration> varList, final String pref) {
     for (final GlobalVarInitDeclaration v : varList) {
       {
         final String type = v.getType();

@@ -6,12 +6,12 @@ import su.nsk.iae.post.poST.InputOutputVarDeclaration
 class InputOutputVarHelper extends VarHelper {
 	
 	new() {
-		varType = "globalVars"
+		varType = "inputOutputVars"
 	}
 	
-	override add(EObject varDecl) {
+	override add(EObject varDecl, String pref) {
 		if (varDecl instanceof InputOutputVarDeclaration) {
-			parseSimpleVar(varDecl.vars)
+			parseSimpleVar(varDecl.vars, pref)
 		}
 	}
 	
