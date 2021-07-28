@@ -3,7 +3,6 @@ package su.nsk.iae.post.generator.st.configuration
 import java.util.ArrayList
 import su.nsk.iae.post.poST.AssignmentType
 import su.nsk.iae.post.poST.AttachVariableConfElement
-import su.nsk.iae.post.poST.Process
 import su.nsk.iae.post.poST.ProgramConfiguration
 import su.nsk.iae.post.poST.TemplateProcessConfElement
 

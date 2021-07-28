@@ -1,15 +1,14 @@
 package su.nsk.iae.post.generator.plcopen.xml.common.util
 
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import su.nsk.iae.post.generator.plcopen.xml.common.ProcessGenerator
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData
 import su.nsk.iae.post.poST.Constant
 import su.nsk.iae.post.poST.IntegerLiteral
-import su.nsk.iae.post.poST.Process
 import su.nsk.iae.post.poST.RealLiteral
 import su.nsk.iae.post.poST.SignedInteger
-import java.util.Calendar
-import java.text.SimpleDateFormat
 
 class GeneratorUtil {
 	

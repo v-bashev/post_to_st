@@ -2,9 +2,7 @@ package su.nsk.iae.post.generator.st.common.util;
 
 import java.util.List;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.eclipse.xtext.xbase.lib.ListExtensions;
 import su.nsk.iae.post.generator.st.common.ProcessGenerator;
 import su.nsk.iae.post.generator.st.common.vars.VarHelper;
 import su.nsk.iae.post.generator.st.common.vars.data.VarData;
@@ -238,10 +236,7 @@ public class GeneratorUtil {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append(" ");
       _builder_1.append(":= [");
-      final Function1<String, String> _function = (String it) -> {
-        return it;
-      };
-      String _join = IterableExtensions.join(ListExtensions.<String, String>map(v.getArraValues(), _function), ", ");
+      String _join = IterableExtensions.join(v.getArraValues(), ", ");
       _builder_1.append(_join, " ");
       _builder_1.append("]");
       return _builder_1.toString();

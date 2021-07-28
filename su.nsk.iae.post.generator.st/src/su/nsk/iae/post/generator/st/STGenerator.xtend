@@ -33,10 +33,10 @@ class STGenerator implements IPoSTGenerator {
 				program.name = programConf.name
 				programs.add(new ProgramPOUGenerator(program))
 			])
-			return
+		} else {
+			model.programs.stream.forEach([p | programs.add(new ProgramPOUGenerator(p))])
+			model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb))])
 		}
-		model.programs.stream.forEach([p | programs.add(new ProgramPOUGenerator(p))])
-		model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb))])
 	}
 	
 	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {

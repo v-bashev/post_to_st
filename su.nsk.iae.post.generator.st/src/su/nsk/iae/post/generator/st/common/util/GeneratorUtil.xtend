@@ -5,7 +5,6 @@ import su.nsk.iae.post.generator.st.common.vars.VarHelper
 import su.nsk.iae.post.generator.st.common.vars.data.VarData
 import su.nsk.iae.post.poST.Constant
 import su.nsk.iae.post.poST.IntegerLiteral
-import su.nsk.iae.post.poST.Process
 import su.nsk.iae.post.poST.RealLiteral
 import su.nsk.iae.post.poST.SignedInteger
 
@@ -96,7 +95,7 @@ class GeneratorUtil {
 			return ''''''
 		}
 		if (v.array) {
-			return ''' := [«v.arraValues.map[it].join(', ')»]'''	
+			return ''' := [«v.arraValues.join(', ')»]'''	
 		}
 		return ''' := «v.value»'''
 	}

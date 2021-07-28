@@ -63,18 +63,18 @@ public class STGenerator implements IPoSTGenerator {
         this.programs.add(_programPOUGenerator);
       };
       this.configuration.getResources().stream().<EList<ProgramConfiguration>>map(_function_1).<ProgramConfiguration>flatMap(_function_2).forEach(_function_3);
-      return;
+    } else {
+      final Consumer<Program> _function_4 = (Program p) -> {
+        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(p);
+        this.programs.add(_programPOUGenerator);
+      };
+      model.getPrograms().stream().forEach(_function_4);
+      final Consumer<FunctionBlock> _function_5 = (FunctionBlock fb) -> {
+        FunctionBlockPOUGenerator _functionBlockPOUGenerator = new FunctionBlockPOUGenerator(fb);
+        this.programs.add(_functionBlockPOUGenerator);
+      };
+      model.getFbs().stream().forEach(_function_5);
     }
-    final Consumer<Program> _function_4 = (Program p) -> {
-      ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(p);
-      this.programs.add(_programPOUGenerator);
-    };
-    model.getPrograms().stream().forEach(_function_4);
-    final Consumer<FunctionBlock> _function_5 = (FunctionBlock fb) -> {
-      FunctionBlockPOUGenerator _functionBlockPOUGenerator = new FunctionBlockPOUGenerator(fb);
-      this.programs.add(_functionBlockPOUGenerator);
-    };
-    model.getFbs().stream().forEach(_function_5);
   }
   
   @Override
