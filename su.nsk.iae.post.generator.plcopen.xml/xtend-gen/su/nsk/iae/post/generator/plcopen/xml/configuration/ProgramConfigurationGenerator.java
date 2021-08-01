@@ -12,6 +12,7 @@ import su.nsk.iae.post.poST.ProgramConfElement;
 import su.nsk.iae.post.poST.ProgramConfElements;
 import su.nsk.iae.post.poST.ProgramConfiguration;
 import su.nsk.iae.post.poST.Task;
+import su.nsk.iae.post.poST.TemplateProcessAttachVariableConfElement;
 import su.nsk.iae.post.poST.TemplateProcessConfElement;
 
 @SuppressWarnings("all")
@@ -69,7 +70,7 @@ public class ProgramConfigurationGenerator {
         res.add(attach);
       } else {
         final TemplateProcessConfElement processConf = ((TemplateProcessConfElement) e);
-        final Consumer<AttachVariableConfElement> _function_1 = (AttachVariableConfElement p) -> {
+        final Consumer<TemplateProcessAttachVariableConfElement> _function_1 = (TemplateProcessAttachVariableConfElement p) -> {
           String _generateProcessVar = this.generateProcessVar(processConf.getName(), p.getProgramVar().getName());
           String _generateAssignmentSign_1 = this.generateAssignmentSign(p.getAssig());
           String _plus_1 = (_generateProcessVar + _generateAssignmentSign_1);

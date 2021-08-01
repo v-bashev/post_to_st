@@ -7,8 +7,7 @@ import su.nsk.iae.post.generator.plcopen.xml.common.vars.GlobalVarHelper
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper
 import su.nsk.iae.post.poST.Configuration
 import su.nsk.iae.post.poST.Resource
-
-import static extension su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil.*
+import su.nsk.iae.post.generator.plcopen.xml.XMLGenerator
 
 class ConfigurationGenerator {
 	
@@ -18,10 +17,10 @@ class ConfigurationGenerator {
 	List<ResourceGenerator> resources = new LinkedList
 	
 	
-	new (Configuration configuration) {
+	new (Configuration configuration, XMLGenerator xmlGenerator) {
 		this.configuration = configuration
-		configuration.confGlobVars.stream.forEach([v | confVarList.add(v)])
-		configuration.resources.stream.forEach([r | resources.add(new ResourceGenerator(r))])
+		configuration.confGlobVars.stream.forEach([v | confVarList.add(v) xmlGenerator.addGlobalVar(v)])
+		configuration.resources.stream.forEach([r | resources.add(new ResourceGenerator(r, xmlGenerator))])
 	}
 	
 	def String generateConfiguration() '''

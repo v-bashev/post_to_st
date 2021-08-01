@@ -2,6 +2,7 @@ package su.nsk.iae.post.generator.st
 
 import java.util.LinkedList
 import java.util.List
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
@@ -10,10 +11,20 @@ import su.nsk.iae.post.generator.st.common.ProgramGenerator
 import su.nsk.iae.post.generator.st.common.vars.GlobalVarHelper
 import su.nsk.iae.post.generator.st.common.vars.VarHelper
 import su.nsk.iae.post.generator.st.configuration.ConfigurationGenerator
+import su.nsk.iae.post.poST.ArrayVariable
+import su.nsk.iae.post.poST.AssignmentStatement
+import su.nsk.iae.post.poST.AttachVariableConfElement
+import su.nsk.iae.post.poST.ForStatement
 import su.nsk.iae.post.poST.Model
+import su.nsk.iae.post.poST.PrimaryExpression
+import su.nsk.iae.post.poST.SymbolicVariable
+import su.nsk.iae.post.poST.TemplateProcessAttachVariableConfElement
 import su.nsk.iae.post.poST.TemplateProcessConfElement
+import su.nsk.iae.post.poST.TimeoutStatement
+import su.nsk.iae.post.poST.Variable
 
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.*
+import static extension org.eclipse.xtext.EcoreUtil2.*
 import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class STGenerator implements IPoSTGenerator {
@@ -74,16 +85,44 @@ class STGenerator implements IPoSTGenerator {
 			return
 		}
 		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |
-			programConf.args.elements.stream.forEach([processConf |
-				if (processConf instanceof TemplateProcessConfElement) {
+			programConf.args.elements.stream.forEach([confElement |
+				if (confElement instanceof TemplateProcessConfElement) {
 					val programGen = programs.stream.filter([x | x.name == programConf.name]).findFirst().get()
-					val process = processConf.process.copy()
-					process.name = processConf.name
-					
+					val process = confElement.process.copy
+					process.name = confElement.name
+					confElement.args.elements.stream.forEach([e | e.changeAllVars(process)])
 					programGen.addProcess(process)
+				} else if (confElement instanceof AttachVariableConfElement) {
+					val program = programs.stream.filter([p | p.name == programConf.name]).findFirst.get
+					confElement.changeAllVars(program.EObject)
 				}
 			])
 		])
 	}
 	
+	def void changeAllVars(AttachVariableConfElement element, EObject root) {
+		changeAllVars(element.programVar, element.attVar, root)
+	}
+	
+	def void changeAllVars(TemplateProcessAttachVariableConfElement element, EObject root) {
+		changeAllVars(element.programVar, element.attVar, root)
+	}
+	
+	def void changeAllVars(Variable programVar, Variable attVar, EObject root) {
+		root.getAllContentsOfType(PrimaryExpression).stream.filter([v | (v.variable !== null) && (v.variable.name == programVar.name)]).forEach([v |
+			v.variable = (attVar as SymbolicVariable).copy
+		])
+		root.getAllContentsOfType(AssignmentStatement).stream.filter([v | (v.variable !== null) && (v.variable.name == programVar.name)]).forEach([v |
+			v.variable = (attVar as SymbolicVariable).copy
+		])
+		root.getAllContentsOfType(ForStatement).stream.filter([v | v.variable.name == programVar.name]).forEach([v |
+			v.variable = (attVar as SymbolicVariable).copy
+		])
+		root.getAllContentsOfType(ArrayVariable).stream.filter([v | v.variable.name == programVar.name]).forEach([v |
+			v.variable = (attVar as SymbolicVariable).copy
+		])
+		root.getAllContentsOfType(TimeoutStatement).stream.filter([v | (v.variable !== null) && (v.variable.name == programVar.name)]).forEach([v |
+			v.variable = (attVar as SymbolicVariable).copy
+		])
+	}	
 }

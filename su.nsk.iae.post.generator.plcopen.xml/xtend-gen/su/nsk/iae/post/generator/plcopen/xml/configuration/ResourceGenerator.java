@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import su.nsk.iae.post.generator.plcopen.xml.XMLGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.GlobalVarHelper;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper;
 import su.nsk.iae.post.poST.GlobalVarDeclaration;
@@ -21,10 +22,11 @@ public class ResourceGenerator {
   
   private List<ProgramConfigurationGenerator> programConfigurationGenerators = new LinkedList<ProgramConfigurationGenerator>();
   
-  public ResourceGenerator(final Resource resource) {
+  public ResourceGenerator(final Resource resource, final XMLGenerator xmlGenerator) {
     this.resource = resource;
     final Consumer<GlobalVarDeclaration> _function = (GlobalVarDeclaration v) -> {
       this.resVarList.add(v);
+      xmlGenerator.addGlobalVar(v);
     };
     resource.getResGlobVars().stream().forEach(_function);
     final Consumer<Task> _function_1 = (Task t) -> {

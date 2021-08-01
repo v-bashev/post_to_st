@@ -121,7 +121,7 @@ class StatementListGenerator {
 	}
 	
 	def String generateArray(ArrayVariable varDecl) {
-		return '''«varDecl.varName.generateVar»[«varDecl.index.generateExpression»]'''
+		return '''«varDecl.variable.generateVar»[«varDecl.index.generateExpression»]'''
 	}
 	
 	def String generateEquOperators(EquOperator op) {

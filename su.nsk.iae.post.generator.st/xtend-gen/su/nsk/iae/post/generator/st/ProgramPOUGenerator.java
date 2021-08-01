@@ -13,6 +13,7 @@ import su.nsk.iae.post.poST.VarDeclaration;
 @SuppressWarnings("all")
 public class ProgramPOUGenerator extends ProgramGenerator {
   public ProgramPOUGenerator(final Program program) {
+    this.object = program;
     this.programName = program.getName();
     this.type = "PROGRAM";
     final Consumer<InputVarDeclaration> _function = (InputVarDeclaration v) -> {

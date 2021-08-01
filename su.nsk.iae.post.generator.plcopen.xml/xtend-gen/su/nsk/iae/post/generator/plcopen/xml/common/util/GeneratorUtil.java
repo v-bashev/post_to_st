@@ -1,18 +1,38 @@
 package su.nsk.iae.post.generator.plcopen.xml.common.util;
 
+import com.google.common.base.Objects;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.function.Function;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import su.nsk.iae.post.generator.plcopen.xml.common.ProcessGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData;
+import su.nsk.iae.post.poST.AddExpression;
+import su.nsk.iae.post.poST.AddOperator;
+import su.nsk.iae.post.poST.AndExpression;
+import su.nsk.iae.post.poST.ArrayVariable;
+import su.nsk.iae.post.poST.CompExpression;
+import su.nsk.iae.post.poST.CompOperator;
 import su.nsk.iae.post.poST.Constant;
+import su.nsk.iae.post.poST.EquExpression;
+import su.nsk.iae.post.poST.EquOperator;
+import su.nsk.iae.post.poST.Expression;
 import su.nsk.iae.post.poST.IntegerLiteral;
+import su.nsk.iae.post.poST.MulExpression;
+import su.nsk.iae.post.poST.MulOperator;
 import su.nsk.iae.post.poST.NumericLiteral;
+import su.nsk.iae.post.poST.PowerExpression;
+import su.nsk.iae.post.poST.PrimaryExpression;
+import su.nsk.iae.post.poST.ProcessStatusExpression;
 import su.nsk.iae.post.poST.RealLiteral;
 import su.nsk.iae.post.poST.SignedInteger;
+import su.nsk.iae.post.poST.SymbolicVariable;
 import su.nsk.iae.post.poST.TimeLiteral;
+import su.nsk.iae.post.poST.UnaryExpression;
+import su.nsk.iae.post.poST.UnaryOperator;
+import su.nsk.iae.post.poST.XorExpression;
 
 @SuppressWarnings("all")
 public class GeneratorUtil {
@@ -358,10 +378,10 @@ public class GeneratorUtil {
   }
   
   public static String generateXMLEnd() {
-    return GeneratorUtil.generateXMLEnd(null);
+    return GeneratorUtil.generateXMLEndWithGlobalVars(null);
   }
   
-  public static String generateXMLEnd(final VarHelper globalVars) {
+  public static String generateXMLEndWithGlobalVars(final VarHelper globalVars) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("\t\t");
     _builder.append("</pous>");
@@ -408,5 +428,256 @@ public class GeneratorUtil {
   
   private static String generateCurrentTime() {
     return new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.SSSSSS").format(Calendar.getInstance().getTime());
+  }
+  
+  public static String generateExpression(final Expression exp) {
+    return GeneratorUtil.generateExpression(exp, null, null, null);
+  }
+  
+  public static String generateExpression(final Expression exp, final Function<SymbolicVariable, String> gVar, final Function<ArrayVariable, String> gArray, final Function<ProcessStatusExpression, String> gPStatus) {
+    boolean _matched = false;
+    if (exp instanceof PrimaryExpression) {
+      _matched=true;
+      Constant _const = ((PrimaryExpression)exp).getConst();
+      boolean _tripleNotEquals = (_const != null);
+      if (_tripleNotEquals) {
+        return GeneratorUtil.generateConstant(((PrimaryExpression)exp).getConst());
+      } else {
+        SymbolicVariable _variable = ((PrimaryExpression)exp).getVariable();
+        boolean _tripleNotEquals_1 = (_variable != null);
+        if (_tripleNotEquals_1) {
+          if ((gVar != null)) {
+            return gVar.apply(((PrimaryExpression)exp).getVariable());
+          }
+          return ((PrimaryExpression)exp).getVariable().getName();
+        } else {
+          ArrayVariable _array = ((PrimaryExpression)exp).getArray();
+          boolean _tripleNotEquals_2 = (_array != null);
+          if (_tripleNotEquals_2) {
+            if ((gArray != null)) {
+              return gArray.apply(((PrimaryExpression)exp).getArray());
+            }
+            StringConcatenation _builder = new StringConcatenation();
+            String _name = ((PrimaryExpression)exp).getArray().getVariable().getName();
+            _builder.append(_name);
+            _builder.append("[");
+            String _generateExpression = GeneratorUtil.generateExpression(((PrimaryExpression)exp).getArray().getIndex(), gVar, gArray, gPStatus);
+            _builder.append(_generateExpression);
+            _builder.append("]");
+            return _builder.toString();
+          } else {
+            ProcessStatusExpression _procStatus = ((PrimaryExpression)exp).getProcStatus();
+            boolean _tripleNotEquals_3 = (_procStatus != null);
+            if (_tripleNotEquals_3) {
+              if ((gPStatus != null)) {
+                return gPStatus.apply(((PrimaryExpression)exp).getProcStatus());
+              }
+              StringConcatenation _builder_1 = new StringConcatenation();
+              return _builder_1.toString();
+            } else {
+              StringConcatenation _builder_2 = new StringConcatenation();
+              _builder_2.append("(");
+              String _generateExpression_1 = GeneratorUtil.generateExpression(((PrimaryExpression)exp).getNestExpr(), gVar, gArray, gPStatus);
+              _builder_2.append(_generateExpression_1);
+              _builder_2.append(")");
+              return _builder_2.toString();
+            }
+          }
+        }
+      }
+    }
+    if (!_matched) {
+      if (exp instanceof UnaryExpression) {
+        _matched=true;
+        StringConcatenation _builder = new StringConcatenation();
+        {
+          UnaryOperator _unOp = ((UnaryExpression)exp).getUnOp();
+          boolean _equals = Objects.equal(_unOp, UnaryOperator.NOT);
+          if (_equals) {
+            _builder.append("NOT ");
+          } else {
+            UnaryOperator _unOp_1 = ((UnaryExpression)exp).getUnOp();
+            boolean _equals_1 = Objects.equal(_unOp_1, UnaryOperator.UNMINUS);
+            if (_equals_1) {
+              _builder.append("-");
+            }
+          }
+        }
+        String _generateExpression = GeneratorUtil.generateExpression(((UnaryExpression)exp).getRight(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression);
+        return _builder.toString();
+      }
+    }
+    if (!_matched) {
+      if (exp instanceof PowerExpression) {
+        _matched=true;
+        StringConcatenation _builder = new StringConcatenation();
+        String _generateExpression = GeneratorUtil.generateExpression(((PowerExpression)exp).getLeft(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression);
+        _builder.append(" ** ");
+        String _generateExpression_1 = GeneratorUtil.generateExpression(((PowerExpression)exp).getRight(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression_1);
+        return _builder.toString();
+      }
+    }
+    if (!_matched) {
+      if (exp instanceof MulExpression) {
+        _matched=true;
+        StringConcatenation _builder = new StringConcatenation();
+        String _generateExpression = GeneratorUtil.generateExpression(((MulExpression)exp).getLeft(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression);
+        _builder.append(" ");
+        String _generateMulOperators = GeneratorUtil.generateMulOperators(((MulExpression)exp).getMulOp());
+        _builder.append(_generateMulOperators);
+        _builder.append(" ");
+        String _generateExpression_1 = GeneratorUtil.generateExpression(((MulExpression)exp).getRight(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression_1);
+        return _builder.toString();
+      }
+    }
+    if (!_matched) {
+      if (exp instanceof AddExpression) {
+        _matched=true;
+        StringConcatenation _builder = new StringConcatenation();
+        String _generateExpression = GeneratorUtil.generateExpression(((AddExpression)exp).getLeft(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression);
+        _builder.append(" ");
+        {
+          AddOperator _addOp = ((AddExpression)exp).getAddOp();
+          boolean _equals = Objects.equal(_addOp, AddOperator.PLUS);
+          if (_equals) {
+            _builder.append("+");
+          } else {
+            _builder.append("-");
+          }
+        }
+        _builder.append(" ");
+        String _generateExpression_1 = GeneratorUtil.generateExpression(((AddExpression)exp).getRight(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression_1);
+        return _builder.toString();
+      }
+    }
+    if (!_matched) {
+      if (exp instanceof EquExpression) {
+        _matched=true;
+        StringConcatenation _builder = new StringConcatenation();
+        String _generateExpression = GeneratorUtil.generateExpression(((EquExpression)exp).getLeft(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression);
+        _builder.append(" ");
+        String _generateEquOperators = GeneratorUtil.generateEquOperators(((EquExpression)exp).getEquOp());
+        _builder.append(_generateEquOperators);
+        _builder.append(" ");
+        String _generateExpression_1 = GeneratorUtil.generateExpression(((EquExpression)exp).getRight(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression_1);
+        return _builder.toString();
+      }
+    }
+    if (!_matched) {
+      if (exp instanceof CompExpression) {
+        _matched=true;
+        StringConcatenation _builder = new StringConcatenation();
+        String _generateExpression = GeneratorUtil.generateExpression(((CompExpression)exp).getLeft(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression);
+        _builder.append(" ");
+        {
+          CompOperator _compOp = ((CompExpression)exp).getCompOp();
+          boolean _equals = Objects.equal(_compOp, CompOperator.EQUAL);
+          if (_equals) {
+            _builder.append("=");
+          } else {
+            _builder.append("<>");
+          }
+        }
+        _builder.append(" ");
+        String _generateExpression_1 = GeneratorUtil.generateExpression(((CompExpression)exp).getRight(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression_1);
+        return _builder.toString();
+      }
+    }
+    if (!_matched) {
+      if (exp instanceof AndExpression) {
+        _matched=true;
+        StringConcatenation _builder = new StringConcatenation();
+        String _generateExpression = GeneratorUtil.generateExpression(((AndExpression)exp).getLeft(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression);
+        _builder.append(" AND ");
+        String _generateExpression_1 = GeneratorUtil.generateExpression(((AndExpression)exp).getRight(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression_1);
+        return _builder.toString();
+      }
+    }
+    if (!_matched) {
+      if (exp instanceof XorExpression) {
+        _matched=true;
+        StringConcatenation _builder = new StringConcatenation();
+        String _generateExpression = GeneratorUtil.generateExpression(((XorExpression)exp).getLeft(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression);
+        _builder.append(" XOR ");
+        String _generateExpression_1 = GeneratorUtil.generateExpression(((XorExpression)exp).getRight(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression_1);
+        return _builder.toString();
+      }
+    }
+    if (!_matched) {
+      if (exp instanceof Expression) {
+        _matched=true;
+        StringConcatenation _builder = new StringConcatenation();
+        String _generateExpression = GeneratorUtil.generateExpression(exp.getLeft(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression);
+        _builder.append(" OR ");
+        String _generateExpression_1 = GeneratorUtil.generateExpression(exp.getRight(), gVar, gArray, gPStatus);
+        _builder.append(_generateExpression_1);
+        return _builder.toString();
+      }
+    }
+    return null;
+  }
+  
+  private static String generateEquOperators(final EquOperator op) {
+    if (op != null) {
+      switch (op) {
+        case LESS:
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("<");
+          return _builder.toString();
+        case LESS_EQU:
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("<=");
+          return _builder_1.toString();
+        case GREATER:
+          StringConcatenation _builder_2 = new StringConcatenation();
+          _builder_2.append(">");
+          return _builder_2.toString();
+        case GREATER_EQU:
+          StringConcatenation _builder_3 = new StringConcatenation();
+          _builder_3.append(">=");
+          return _builder_3.toString();
+        default:
+          break;
+      }
+    }
+    return null;
+  }
+  
+  private static String generateMulOperators(final MulOperator op) {
+    if (op != null) {
+      switch (op) {
+        case MUL:
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("*");
+          return _builder.toString();
+        case DIV:
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("/");
+          return _builder_1.toString();
+        case MOD:
+          StringConcatenation _builder_2 = new StringConcatenation();
+          _builder_2.append("MOD");
+          return _builder_2.toString();
+        default:
+          break;
+      }
+    }
+    return null;
   }
 }

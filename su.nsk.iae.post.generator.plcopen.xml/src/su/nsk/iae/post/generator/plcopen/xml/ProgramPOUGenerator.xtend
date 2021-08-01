@@ -6,6 +6,7 @@ import su.nsk.iae.post.poST.Program
 class ProgramPOUGenerator extends ProgramGenerator {
 	
 	new(Program program) {
+		object = program
 		programName = program.name
 		type = "PROGRAM"
 		

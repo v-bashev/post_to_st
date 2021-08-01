@@ -6,6 +6,7 @@ import su.nsk.iae.post.poST.FunctionBlock
 class FunctionBlockPOUGenerator extends ProgramGenerator {
 	
 	new(FunctionBlock fb) {
+		object = fb
 		programName = fb.name
 		type = "FUNCTION_BLOCK"
 		

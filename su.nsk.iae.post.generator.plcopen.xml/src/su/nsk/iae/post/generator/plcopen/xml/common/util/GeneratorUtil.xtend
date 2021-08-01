@@ -2,13 +2,32 @@ package su.nsk.iae.post.generator.plcopen.xml.common.util
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.function.Function
 import su.nsk.iae.post.generator.plcopen.xml.common.ProcessGenerator
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData
+import su.nsk.iae.post.poST.AddExpression
+import su.nsk.iae.post.poST.AddOperator
+import su.nsk.iae.post.poST.AndExpression
+import su.nsk.iae.post.poST.ArrayVariable
+import su.nsk.iae.post.poST.CompExpression
+import su.nsk.iae.post.poST.CompOperator
 import su.nsk.iae.post.poST.Constant
+import su.nsk.iae.post.poST.EquExpression
+import su.nsk.iae.post.poST.EquOperator
+import su.nsk.iae.post.poST.Expression
 import su.nsk.iae.post.poST.IntegerLiteral
+import su.nsk.iae.post.poST.MulExpression
+import su.nsk.iae.post.poST.MulOperator
+import su.nsk.iae.post.poST.PowerExpression
+import su.nsk.iae.post.poST.PrimaryExpression
+import su.nsk.iae.post.poST.ProcessStatusExpression
 import su.nsk.iae.post.poST.RealLiteral
 import su.nsk.iae.post.poST.SignedInteger
+import su.nsk.iae.post.poST.SymbolicVariable
+import su.nsk.iae.post.poST.UnaryExpression
+import su.nsk.iae.post.poST.UnaryOperator
+import su.nsk.iae.post.poST.XorExpression
 
 class GeneratorUtil {
 	
@@ -131,10 +150,10 @@ class GeneratorUtil {
 	'''
 	
 	static def String generateXMLEnd() {
-		return generateXMLEnd(null)
+		return generateXMLEndWithGlobalVars(null)
 	}
 	
-	static def String generateXMLEnd(VarHelper globalVars) '''
+	static def String generateXMLEndWithGlobalVars(VarHelper globalVars) '''
 				</pous>
 			</types>
 			<instances>
@@ -152,6 +171,82 @@ class GeneratorUtil {
 	
 	private static def String generateCurrentTime() {
 		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS").format(Calendar.instance.time)
+	}
+	
+	static def String generateExpression(Expression exp) {
+		return generateExpression(exp, null, null, null)
+	}
+	
+	static def String generateExpression(Expression exp, 
+		Function<SymbolicVariable, String> gVar,
+		Function<ArrayVariable, String> gArray,
+		Function<ProcessStatusExpression, String> gPStatus) {
+		switch exp {
+			PrimaryExpression: {
+				if (exp.const !== null) {
+					return exp.const.generateConstant
+				} else if (exp.variable !== null) {
+					if (gVar !== null) {
+						return gVar.apply(exp.variable)
+					}
+					return exp.variable.name
+				} else if (exp.array !== null) {
+					if (gArray !== null) {
+						return gArray.apply(exp.array)
+					}
+					return '''«exp.array.variable.name»[«exp.array.index.generateExpression(gVar, gArray, gPStatus)»]'''
+				} else if (exp.procStatus !== null) {
+					if (gPStatus !== null) {
+						return gPStatus.apply(exp.procStatus)
+					}
+					return ''''''
+				} else {
+					return '''(«exp.nestExpr.generateExpression(gVar, gArray, gPStatus)»)'''
+				}
+			}
+			UnaryExpression:
+				return '''«IF exp.unOp == UnaryOperator.NOT»NOT «ELSEIF exp.unOp == UnaryOperator.UNMINUS»-«ENDIF»«exp.right.generateExpression(gVar, gArray, gPStatus)»'''
+			PowerExpression:
+				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» ** «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
+			MulExpression:
+				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» «exp.mulOp.generateMulOperators» «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
+			AddExpression:
+				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» «IF exp.addOp == AddOperator.PLUS»+«ELSE»-«ENDIF» «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
+			EquExpression:
+				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» «exp.equOp.generateEquOperators» «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
+			CompExpression:
+				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» «IF exp.compOp == CompOperator.EQUAL»=«ELSE»<>«ENDIF» «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
+			AndExpression:
+				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» AND «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
+			XorExpression:
+				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» XOR «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
+			Expression:
+				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» OR «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
+		}
+	}
+	
+	private static def String generateEquOperators(EquOperator op) {
+		switch op {
+			case EquOperator.LESS:
+				return '''<'''
+			case EquOperator.LESS_EQU:
+				return '''<='''
+			case EquOperator.GREATER:
+				return '''>'''
+			case EquOperator.GREATER_EQU:
+				return '''>='''
+		}
+	}
+	
+	private static def String generateMulOperators(MulOperator op) {
+		switch op {
+			case MulOperator.MUL:
+				return '''*'''
+			case MulOperator.DIV:
+				return '''/'''
+			case MulOperator.MOD:
+				return '''MOD'''
+		}
 	}
 	
 }

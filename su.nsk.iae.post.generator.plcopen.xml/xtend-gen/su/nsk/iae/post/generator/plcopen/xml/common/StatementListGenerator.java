@@ -285,7 +285,7 @@ public class StatementListGenerator {
   
   public String generateArray(final ArrayVariable varDecl) {
     StringConcatenation _builder = new StringConcatenation();
-    String _generateVar = this.generateVar(varDecl.getVarName());
+    String _generateVar = this.generateVar(varDecl.getVariable());
     _builder.append(_generateVar);
     _builder.append("[");
     String _generateExpression = this.generateExpression(varDecl.getIndex());
