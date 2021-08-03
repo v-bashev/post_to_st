@@ -8,6 +8,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.AssignmentStatementGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.CaseStatementGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.ErrorProcessStatementGenerator;
+import su.nsk.iae.post.generator.plcopen.xml.common.statement.ExitStatementGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.ForStatementGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.IStatementGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.IfStatementGenerator;
@@ -16,6 +17,7 @@ import su.nsk.iae.post.generator.plcopen.xml.common.statement.ResetTimerStatemen
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.SetStateStatementGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.StartProcessStatementGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.StopProcessStatementGenerator;
+import su.nsk.iae.post.generator.plcopen.xml.common.statement.SubprogramControlStatementGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.statement.WhileStatementGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil;
 import su.nsk.iae.post.poST.AddExpression;
@@ -46,23 +48,15 @@ public class StatementListGenerator {
   
   private ProcessGenerator process;
   
+  private StateGenerator state;
+  
   private List<IStatementGenerator> statementGenerators;
   
   public StatementListGenerator(final ProgramGenerator program, final ProcessGenerator process, final StateGenerator state) {
     this.program = program;
     this.process = process;
-    AssignmentStatementGenerator _assignmentStatementGenerator = new AssignmentStatementGenerator(program, process, state, this);
-    IfStatementGenerator _ifStatementGenerator = new IfStatementGenerator(program, process, state, this);
-    CaseStatementGenerator _caseStatementGenerator = new CaseStatementGenerator(program, process, state, this);
-    ForStatementGenerator _forStatementGenerator = new ForStatementGenerator(program, process, state, this);
-    WhileStatementGenerator _whileStatementGenerator = new WhileStatementGenerator(program, process, state, this);
-    RepeatStatementGenerator _repeatStatementGenerator = new RepeatStatementGenerator(program, process, state, this);
-    StartProcessStatementGenerator _startProcessStatementGenerator = new StartProcessStatementGenerator(program, process, state, this);
-    StopProcessStatementGenerator _stopProcessStatementGenerator = new StopProcessStatementGenerator(program, process, state, this);
-    ErrorProcessStatementGenerator _errorProcessStatementGenerator = new ErrorProcessStatementGenerator(program, process, state, this);
-    SetStateStatementGenerator _setStateStatementGenerator = new SetStateStatementGenerator(program, process, state, this);
-    ResetTimerStatementGenerator _resetTimerStatementGenerator = new ResetTimerStatementGenerator(program, process, state, this);
-    this.statementGenerators = Arrays.<IStatementGenerator>asList(_assignmentStatementGenerator, _ifStatementGenerator, _caseStatementGenerator, _forStatementGenerator, _whileStatementGenerator, _repeatStatementGenerator, _startProcessStatementGenerator, _stopProcessStatementGenerator, _errorProcessStatementGenerator, _setStateStatementGenerator, _resetTimerStatementGenerator);
+    this.state = state;
+    this.statementGenerators = this.initStatementGenerators();
   }
   
   public String generateStatementList(final StatementList statementList) {
@@ -402,5 +396,22 @@ public class StatementListGenerator {
     _builder_3.append(_generateErrorConstant_2);
     _builder_3.append(")");
     return _builder_3.toString();
+  }
+  
+  private List<IStatementGenerator> initStatementGenerators() {
+    AssignmentStatementGenerator _assignmentStatementGenerator = new AssignmentStatementGenerator(this.program, this.process, this.state, this);
+    IfStatementGenerator _ifStatementGenerator = new IfStatementGenerator(this.program, this.process, this.state, this);
+    CaseStatementGenerator _caseStatementGenerator = new CaseStatementGenerator(this.program, this.process, this.state, this);
+    ForStatementGenerator _forStatementGenerator = new ForStatementGenerator(this.program, this.process, this.state, this);
+    WhileStatementGenerator _whileStatementGenerator = new WhileStatementGenerator(this.program, this.process, this.state, this);
+    RepeatStatementGenerator _repeatStatementGenerator = new RepeatStatementGenerator(this.program, this.process, this.state, this);
+    StartProcessStatementGenerator _startProcessStatementGenerator = new StartProcessStatementGenerator(this.program, this.process, this.state, this);
+    StopProcessStatementGenerator _stopProcessStatementGenerator = new StopProcessStatementGenerator(this.program, this.process, this.state, this);
+    ErrorProcessStatementGenerator _errorProcessStatementGenerator = new ErrorProcessStatementGenerator(this.program, this.process, this.state, this);
+    SetStateStatementGenerator _setStateStatementGenerator = new SetStateStatementGenerator(this.program, this.process, this.state, this);
+    ResetTimerStatementGenerator _resetTimerStatementGenerator = new ResetTimerStatementGenerator(this.program, this.process, this.state, this);
+    SubprogramControlStatementGenerator _subprogramControlStatementGenerator = new SubprogramControlStatementGenerator(this.program, this.process, this.state, this);
+    ExitStatementGenerator _exitStatementGenerator = new ExitStatementGenerator(this.program, this.process, this.state, this);
+    return Arrays.<IStatementGenerator>asList(_assignmentStatementGenerator, _ifStatementGenerator, _caseStatementGenerator, _forStatementGenerator, _whileStatementGenerator, _repeatStatementGenerator, _startProcessStatementGenerator, _stopProcessStatementGenerator, _errorProcessStatementGenerator, _setStateStatementGenerator, _resetTimerStatementGenerator, _subprogramControlStatementGenerator, _exitStatementGenerator);
   }
 }

@@ -5,6 +5,7 @@ import java.util.List
 import su.nsk.iae.post.generator.st.common.statement.AssignmentStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.CaseStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.ErrorProcessStatementGenerator
+import su.nsk.iae.post.generator.st.common.statement.ExitStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.ForStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.IStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.IfStatementGenerator
@@ -13,6 +14,7 @@ import su.nsk.iae.post.generator.st.common.statement.ResetTimerStatementGenerato
 import su.nsk.iae.post.generator.st.common.statement.SetStateStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.StartProcessStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.StopProcessStatementGenerator
+import su.nsk.iae.post.generator.st.common.statement.SubprogramControlStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.WhileStatementGenerator
 import su.nsk.iae.post.poST.ArrayVariable
 import su.nsk.iae.post.poST.Expression
@@ -27,24 +29,14 @@ class StatementListGenerator {
 	
 	ProgramGenerator program
 	ProcessGenerator process
+	StateGenerator state
 	List<IStatementGenerator> statementGenerators
 	
 	new(ProgramGenerator program, ProcessGenerator process, StateGenerator state) {
 		this.program = program
 		this.process = process
-		statementGenerators = Arrays.asList(
-			new AssignmentStatementGenerator(program, process, state, this),
-			new IfStatementGenerator(program, process, state, this),
-			new CaseStatementGenerator(program, process, state, this),
-			new ForStatementGenerator(program, process, state, this),
-			new WhileStatementGenerator(program, process, state, this),
-			new RepeatStatementGenerator(program, process, state, this),
-			new StartProcessStatementGenerator(program, process, state, this),
-			new StopProcessStatementGenerator(program, process, state, this),
-			new ErrorProcessStatementGenerator(program, process, state, this),
-			new SetStateStatementGenerator(program, process, state, this),
-			new ResetTimerStatementGenerator(program, process, state, this)
-		)
+		this.state = state
+		statementGenerators = initStatementGenerators
 	}
 	
 	def String generateStatementList(StatementList statementList) '''
@@ -59,7 +51,7 @@ class StatementListGenerator {
 				return sg.generateStatement(statement)
 			}
 		}
-		return '''RETURN'''
+		return ''''''
 	}
 	
 	def String generateExpression(Expression exp) {
@@ -86,6 +78,24 @@ class StatementListGenerator {
 			return '''(«program.generateProcessEnum(exp.process.name)» = «generateStopConstant»)'''
 		}
 		return '''(«program.generateProcessEnum(exp.process.name)» = «generateErrorConstant»)'''
+	}
+	
+	private def initStatementGenerators() {
+		return Arrays.asList(
+			new AssignmentStatementGenerator(program, process, state, this),
+			new IfStatementGenerator(program, process, state, this),
+			new CaseStatementGenerator(program, process, state, this),
+			new ForStatementGenerator(program, process, state, this),
+			new WhileStatementGenerator(program, process, state, this),
+			new RepeatStatementGenerator(program, process, state, this),
+			new StartProcessStatementGenerator(program, process, state, this),
+			new StopProcessStatementGenerator(program, process, state, this),
+			new ErrorProcessStatementGenerator(program, process, state, this),
+			new SetStateStatementGenerator(program, process, state, this),
+			new ResetTimerStatementGenerator(program, process, state, this),
+			new SubprogramControlStatementGenerator(program, process, state, this),
+			new ExitStatementGenerator(program, process, state, this)
+		)
 	}
 	
 }
