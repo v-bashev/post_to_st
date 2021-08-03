@@ -171,11 +171,32 @@ class GeneratorUtil {
 			«IF globalVars !== null»
 				<addData>
 					<data name="http://www.3s-software.com/plcopenxml/globalvars" handleUnknown="implementation">
-						«generateVars(globalVars, "GVL")»
+						«generateGlobalVars(globalVars, "GVL")»
 					</data>
 				</addData>
 			«ENDIF»
 		</project>
+	'''
+	
+	private static def String generateGlobalVars(VarHelper varHelper, String name) '''
+		«IF !varHelper.list.empty»
+			<globalVars name="«name»">
+				«FOR v : varHelper.list»
+					«IF v.isConstant»
+						«v.generateSingleDeclaration»
+					«ENDIF»«»
+				«ENDFOR»
+				«IF varHelper.hasConstant»
+					<addData>
+						<data name="http://www.3s-software.com/plcopenxml/mixedattrsvarlist" handleUnknown="implementation">
+							<MixedAttrsVarList>
+								«varHelper.generateVars(name)»
+							</MixedAttrsVarList>
+						</data>
+					</addData>
+				«ENDIF»
+			</globalVars>
+		«ENDIF»
 	'''
 	
 	private static def String generateCurrentTime() {

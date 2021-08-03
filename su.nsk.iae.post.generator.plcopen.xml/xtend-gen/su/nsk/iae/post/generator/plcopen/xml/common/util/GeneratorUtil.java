@@ -447,8 +447,8 @@ public class GeneratorUtil {
         _builder.newLine();
         _builder.append("\t");
         _builder.append("\t\t");
-        String _generateVars = GeneratorUtil.generateVars(globalVars, "GVL");
-        _builder.append(_generateVars, "\t\t\t");
+        String _generateGlobalVars = GeneratorUtil.generateGlobalVars(globalVars, "GVL");
+        _builder.append(_generateGlobalVars, "\t\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t");
@@ -461,6 +461,69 @@ public class GeneratorUtil {
     }
     _builder.append("</project>");
     _builder.newLine();
+    return _builder.toString();
+  }
+  
+  private static String generateGlobalVars(final VarHelper varHelper, final String name) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      boolean _isEmpty = varHelper.getList().isEmpty();
+      boolean _not = (!_isEmpty);
+      if (_not) {
+        _builder.append("<globalVars name=\"");
+        _builder.append(name);
+        _builder.append("\">");
+        _builder.newLineIfNotEmpty();
+        {
+          List<VarData> _list = varHelper.getList();
+          for(final VarData v : _list) {
+            {
+              boolean _isConstant = v.isConstant();
+              if (_isConstant) {
+                _builder.append("\t");
+                String _generateSingleDeclaration = GeneratorUtil.generateSingleDeclaration(v);
+                _builder.append(_generateSingleDeclaration, "\t");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+          }
+        }
+        {
+          boolean _hasConstant = varHelper.hasConstant();
+          if (_hasConstant) {
+            _builder.append("\t");
+            _builder.append("<addData>");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("<data name=\"http://www.3s-software.com/plcopenxml/mixedattrsvarlist\" handleUnknown=\"implementation\">");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t");
+            _builder.append("<MixedAttrsVarList>");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t\t\t");
+            String _generateVars = GeneratorUtil.generateVars(varHelper, name);
+            _builder.append(_generateVars, "\t\t\t\t");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("\t\t");
+            _builder.append("</MixedAttrsVarList>");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("</data>");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append("</addData>");
+            _builder.newLine();
+          }
+        }
+        _builder.append("</globalVars>");
+        _builder.newLine();
+      }
+    }
     return _builder.toString();
   }
   
