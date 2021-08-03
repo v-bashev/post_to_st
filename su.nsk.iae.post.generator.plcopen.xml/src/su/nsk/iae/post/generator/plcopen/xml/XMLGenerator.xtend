@@ -17,6 +17,7 @@ import su.nsk.iae.post.poST.AttachVariableConfElement
 import su.nsk.iae.post.poST.ForStatement
 import su.nsk.iae.post.poST.Model
 import su.nsk.iae.post.poST.PrimaryExpression
+import su.nsk.iae.post.poST.ProcessStatements
 import su.nsk.iae.post.poST.SymbolicVariable
 import su.nsk.iae.post.poST.TemplateProcessAttachVariableConfElement
 import su.nsk.iae.post.poST.TemplateProcessConfElement
@@ -26,7 +27,6 @@ import su.nsk.iae.post.poST.Variable
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.*
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import static extension su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil.*
-import su.nsk.iae.post.poST.ProcessStatements
 
 class XMLGenerator implements IPoSTGenerator {
 	
