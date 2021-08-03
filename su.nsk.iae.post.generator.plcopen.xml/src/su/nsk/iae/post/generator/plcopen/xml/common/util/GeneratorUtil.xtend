@@ -112,7 +112,16 @@ class GeneratorUtil {
 	private static def String generateSingleDeclaration(VarData data) '''
 		<variable name="«data.name»">
 			<type>
-				<«data.type» />
+				«IF !data.isArray»
+					<«data.type» />
+				«ELSE»
+					<array>
+						<dimension lower="«data.arrayStart»" upper="«data.arrayEnd»" />
+						<baseType>
+							<«data.type» />
+						</baseType>
+					</array>
+				«ENDIF»
 			</type>
 			«IF data.value !== null»
 				<initialValue>

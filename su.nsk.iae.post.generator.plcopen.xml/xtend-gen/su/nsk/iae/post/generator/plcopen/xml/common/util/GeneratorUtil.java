@@ -266,12 +266,50 @@ public class GeneratorUtil {
     _builder.append("\t");
     _builder.append("<type>");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<");
-    String _type = data.getType();
-    _builder.append(_type, "\t\t");
-    _builder.append(" />");
-    _builder.newLineIfNotEmpty();
+    {
+      boolean _isArray = data.isArray();
+      boolean _not = (!_isArray);
+      if (_not) {
+        _builder.append("\t\t");
+        _builder.append("<");
+        String _type = data.getType();
+        _builder.append(_type, "\t\t");
+        _builder.append(" />");
+        _builder.newLineIfNotEmpty();
+      } else {
+        _builder.append("\t\t");
+        _builder.append("<array>");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t");
+        _builder.append("<dimension lower=\"");
+        String _arrayStart = data.getArrayStart();
+        _builder.append(_arrayStart, "\t\t\t");
+        _builder.append("\" upper=\"");
+        String _arrayEnd = data.getArrayEnd();
+        _builder.append(_arrayEnd, "\t\t\t");
+        _builder.append("\" />");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("\t");
+        _builder.append("<baseType>");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t\t");
+        _builder.append("<");
+        String _type_1 = data.getType();
+        _builder.append(_type_1, "\t\t\t\t");
+        _builder.append(" />");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("\t");
+        _builder.append("</baseType>");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("</array>");
+        _builder.newLine();
+      }
+    }
     _builder.append("\t");
     _builder.append("</type>");
     _builder.newLine();

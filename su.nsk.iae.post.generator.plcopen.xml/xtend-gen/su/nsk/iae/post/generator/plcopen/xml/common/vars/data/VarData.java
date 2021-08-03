@@ -15,15 +15,19 @@ public class VarData {
     this.isConstant = isConstant;
     this.isArray = false;
     this.arraValues = null;
+    this.arrayStart = null;
+    this.arrayEnd = null;
   }
   
-  public VarData(final String name, final String type, final boolean isConstant, final List<String> arraValues) {
+  public VarData(final String name, final String type, final String arrayStart, final String arrayEnd, final boolean isConstant, final List<String> arraValues) {
     this.name = name;
     this.type = type;
     this.value = null;
     this.isConstant = isConstant;
     this.isArray = true;
     this.arraValues = arraValues;
+    this.arrayStart = arrayStart;
+    this.arrayEnd = arrayEnd;
   }
   
   private final String name;
@@ -35,6 +39,10 @@ public class VarData {
   private final boolean isConstant;
   
   private final boolean isArray;
+  
+  private final String arrayStart;
+  
+  private final String arrayEnd;
   
   private final List<String> arraValues;
   
@@ -48,6 +56,8 @@ public class VarData {
     result = prime * result + ((this.value== null) ? 0 : this.value.hashCode());
     result = prime * result + (this.isConstant ? 1231 : 1237);
     result = prime * result + (this.isArray ? 1231 : 1237);
+    result = prime * result + ((this.arrayStart== null) ? 0 : this.arrayStart.hashCode());
+    result = prime * result + ((this.arrayEnd== null) ? 0 : this.arrayEnd.hashCode());
     return prime * result + ((this.arraValues== null) ? 0 : this.arraValues.hashCode());
   }
   
@@ -80,6 +90,16 @@ public class VarData {
       return false;
     if (other.isArray != this.isArray)
       return false;
+    if (this.arrayStart == null) {
+      if (other.arrayStart != null)
+        return false;
+    } else if (!this.arrayStart.equals(other.arrayStart))
+      return false;
+    if (this.arrayEnd == null) {
+      if (other.arrayEnd != null)
+        return false;
+    } else if (!this.arrayEnd.equals(other.arrayEnd))
+      return false;
     if (this.arraValues == null) {
       if (other.arraValues != null)
         return false;
@@ -97,6 +117,8 @@ public class VarData {
     b.add("value", this.value);
     b.add("isConstant", this.isConstant);
     b.add("isArray", this.isArray);
+    b.add("arrayStart", this.arrayStart);
+    b.add("arrayEnd", this.arrayEnd);
     b.add("arraValues", this.arraValues);
     return b.toString();
   }
@@ -124,6 +146,16 @@ public class VarData {
   @Pure
   public boolean isArray() {
     return this.isArray;
+  }
+  
+  @Pure
+  public String getArrayStart() {
+    return this.arrayStart;
+  }
+  
+  @Pure
+  public String getArrayEnd() {
+    return this.arrayEnd;
   }
   
   @Pure

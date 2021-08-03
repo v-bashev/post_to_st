@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData;
 import su.nsk.iae.post.poST.ArrayInitialization;
@@ -100,25 +99,14 @@ public abstract class VarHelper {
           this.listDecl.add(_varData);
         }
       } else {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("ARRAY [*] OF ");
-        String _type = v.getArrSpec().getInit().getType();
-        _builder.append(_type);
-        String type_1 = _builder.toString();
+        final String type_1 = v.getArrSpec().getInit().getType();
+        String start = null;
+        String end = null;
         ArrayInterval _interval = v.getArrSpec().getInit().getInterval();
         boolean _tripleNotEquals_2 = (_interval != null);
         if (_tripleNotEquals_2) {
-          StringConcatenation _builder_1 = new StringConcatenation();
-          _builder_1.append("ARRAY [");
-          String _generateExpression = GeneratorUtil.generateExpression(v.getArrSpec().getInit().getInterval().getStart());
-          _builder_1.append(_generateExpression);
-          _builder_1.append("..");
-          String _generateExpression_1 = GeneratorUtil.generateExpression(v.getArrSpec().getInit().getInterval().getEnd());
-          _builder_1.append(_generateExpression_1);
-          _builder_1.append("] OF ");
-          String _type_1 = v.getArrSpec().getInit().getType();
-          _builder_1.append(_type_1);
-          type_1 = _builder_1.toString();
+          start = GeneratorUtil.generateExpression(v.getArrSpec().getInit().getInterval().getStart());
+          end = GeneratorUtil.generateExpression(v.getArrSpec().getInit().getInterval().getEnd());
         }
         List<String> values = null;
         ArrayInitialization _values = v.getArrSpec().getValues();
@@ -135,7 +123,7 @@ public abstract class VarHelper {
         for (final SymbolicVariable e_2 : _vars_1) {
           String _name_1 = e_2.getName();
           String _plus_1 = (pref + _name_1);
-          VarData _varData_1 = new VarData(_plus_1, type_1, isConst, values);
+          VarData _varData_1 = new VarData(_plus_1, type_1, start, end, isConst, values);
           this.listDecl.add(_varData_1);
         }
       }

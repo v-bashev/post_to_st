@@ -72,9 +72,12 @@ abstract class VarHelper {
 					listDecl.add(new VarData(pref + e.name, type, value, isConst))
 				}
 			} else {
-				var type = '''ARRAY [*] OF «v.arrSpec.init.type»'''
+				val type = v.arrSpec.init.type
+				var String start = null
+				var String end = null
 				if (v.arrSpec.init.interval !== null) {
-					type = '''ARRAY [«v.arrSpec.init.interval.start.generateExpression»..«v.arrSpec.init.interval.end.generateExpression»] OF «v.arrSpec.init.type»'''
+					start = v.arrSpec.init.interval.start.generateExpression
+					end = v.arrSpec.init.interval.end.generateExpression
 				}
 				var List<String> values = null
 				if (v.arrSpec.values !== null) {
@@ -84,7 +87,7 @@ abstract class VarHelper {
 					}
 				}
 				for (e : v.varList.vars) {
-					listDecl.add(new VarData(pref + e.name, type, isConst, values))
+					listDecl.add(new VarData(pref + e.name, type, start, end, isConst, values))
 				}
 			}
 		}
