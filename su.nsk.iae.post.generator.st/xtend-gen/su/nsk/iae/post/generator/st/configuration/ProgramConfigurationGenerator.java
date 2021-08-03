@@ -20,8 +20,8 @@ public class ProgramConfigurationGenerator {
     String _generateTask = this.generateTask();
     _builder.append(_generateTask);
     _builder.append(" : ");
-    String _name_1 = this.programConf.getName();
-    _builder.append(_name_1);
+    String _capitalizeFirst = this.capitalizeFirst(this.programConf.getName());
+    _builder.append(_capitalizeFirst);
     _builder.append(";");
     return _builder.toString();
   }
@@ -39,5 +39,11 @@ public class ProgramConfigurationGenerator {
     }
     StringConcatenation _builder_1 = new StringConcatenation();
     return _builder_1.toString();
+  }
+  
+  private String capitalizeFirst(final String str) {
+    String _upperCase = str.substring(0, 1).toUpperCase();
+    String _substring = str.substring(1);
+    return (_upperCase + _substring);
   }
 }

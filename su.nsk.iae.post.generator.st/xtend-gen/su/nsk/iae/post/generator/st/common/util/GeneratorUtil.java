@@ -81,6 +81,15 @@ public class GeneratorUtil {
     return _builder.toString();
   }
   
+  public static String generateEnumName(final su.nsk.iae.post.poST.Process process) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("_g_p_");
+    String _name = process.getName();
+    _builder.append(_name);
+    _builder.append("_state");
+    return _builder.toString();
+  }
+  
   public static String generateEnumName(final ProcessGenerator process) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("_g_p_");

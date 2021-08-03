@@ -11,7 +11,7 @@ class ProgramConfigurationGenerator {
 	}
 	
 	def String generateProgramConfiguration() {
-		return '''PROGRAM «programConf.name»«generateTask» : «programConf.name»;'''
+		return '''PROGRAM «programConf.name»«generateTask» : «programConf.name.capitalizeFirst»;'''
 	}
 	
 	private def String generateTask() {
@@ -19,6 +19,10 @@ class ProgramConfigurationGenerator {
 			return ''' WITH «programConf.task.name»'''
 		}
 		return ''''''
+	}
+	
+	private def String capitalizeFirst(String str) {
+		return str.substring(0, 1).toUpperCase() + str.substring(1)
 	}
 	
 /*

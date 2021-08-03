@@ -17,6 +17,7 @@ import su.nsk.iae.post.poST.AttachVariableConfElement
 import su.nsk.iae.post.poST.ForStatement
 import su.nsk.iae.post.poST.Model
 import su.nsk.iae.post.poST.PrimaryExpression
+import su.nsk.iae.post.poST.ProcessStatements
 import su.nsk.iae.post.poST.SymbolicVariable
 import su.nsk.iae.post.poST.TemplateProcessAttachVariableConfElement
 import su.nsk.iae.post.poST.TemplateProcessConfElement
@@ -41,7 +42,7 @@ class STGenerator implements IPoSTGenerator {
 			configuration = new ConfigurationGenerator(model.conf)
 			configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf | 
 				val program = programConf.program.copy()
-				program.name = programConf.name
+				program.name = programConf.name.capitalizeFirst
 				programs.add(new ProgramPOUGenerator(program))
 			])
 		} else {
@@ -85,30 +86,30 @@ class STGenerator implements IPoSTGenerator {
 			return
 		}
 		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |
+			val programConfName = programConf.name.capitalizeFirst
+			val programGen = programs.stream.filter([x | x.name == programConfName]).findFirst.get
 			programConf.args.elements.stream.forEach([confElement |
 				if (confElement instanceof TemplateProcessConfElement) {
-					val programGen = programs.stream.filter([x | x.name == programConf.name]).findFirst().get()
 					val process = confElement.process.copy
-					process.name = confElement.name
+					process.name = confElement.name.capitalizeFirst
 					confElement.args.elements.stream.forEach([e | e.changeAllVars(process)])
 					programGen.addProcess(process)
 				} else if (confElement instanceof AttachVariableConfElement) {
-					val program = programs.stream.filter([p | p.name == programConf.name]).findFirst.get
-					confElement.changeAllVars(program.EObject)
+					confElement.changeAllVars(programGen.EObject)
 				}
 			])
 		])
 	}
 	
-	def void changeAllVars(AttachVariableConfElement element, EObject root) {
+	private def void changeAllVars(AttachVariableConfElement element, EObject root) {
 		changeAllVars(element.programVar, element.attVar, root)
 	}
 	
-	def void changeAllVars(TemplateProcessAttachVariableConfElement element, EObject root) {
+	private def void changeAllVars(TemplateProcessAttachVariableConfElement element, EObject root) {
 		changeAllVars(element.programVar, element.attVar, root)
 	}
 	
-	def void changeAllVars(Variable programVar, Variable attVar, EObject root) {
+	private def void changeAllVars(Variable programVar, Variable attVar, EObject root) {
 		root.getAllContentsOfType(PrimaryExpression).stream.filter([v | (v.variable !== null) && (v.variable.name == programVar.name)]).forEach([v |
 			v.variable = (attVar as SymbolicVariable).copy
 		])
@@ -124,5 +125,13 @@ class STGenerator implements IPoSTGenerator {
 		root.getAllContentsOfType(TimeoutStatement).stream.filter([v | (v.variable !== null) && (v.variable.name == programVar.name)]).forEach([v |
 			v.variable = (attVar as SymbolicVariable).copy
 		])
-	}	
+		root.getAllContentsOfType(ProcessStatements).stream.filter([v | (v.process !== null) && (v.process.name == programVar.name)]).forEach([v |
+			v.process.name = v.process.name.capitalizeFirst
+		])
+	}
+	
+	private def String capitalizeFirst(String str) {
+		return str.substring(0, 1).toUpperCase() + str.substring(1)
+	}
+	
 }

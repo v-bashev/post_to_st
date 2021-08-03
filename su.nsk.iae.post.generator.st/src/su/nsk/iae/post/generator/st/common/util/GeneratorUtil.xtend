@@ -1,31 +1,32 @@
 package su.nsk.iae.post.generator.st.common.util
 
+import java.util.function.Function
 import su.nsk.iae.post.generator.st.common.ProcessGenerator
 import su.nsk.iae.post.generator.st.common.vars.VarHelper
 import su.nsk.iae.post.generator.st.common.vars.data.VarData
+import su.nsk.iae.post.poST.AddExpression
+import su.nsk.iae.post.poST.AddOperator
+import su.nsk.iae.post.poST.AndExpression
+import su.nsk.iae.post.poST.ArrayVariable
+import su.nsk.iae.post.poST.CompExpression
+import su.nsk.iae.post.poST.CompOperator
 import su.nsk.iae.post.poST.Constant
+import su.nsk.iae.post.poST.EquExpression
+import su.nsk.iae.post.poST.EquOperator
+import su.nsk.iae.post.poST.Expression
 import su.nsk.iae.post.poST.IntegerLiteral
+import su.nsk.iae.post.poST.MulExpression
+import su.nsk.iae.post.poST.MulOperator
+import su.nsk.iae.post.poST.PowerExpression
+import su.nsk.iae.post.poST.PrimaryExpression
+import su.nsk.iae.post.poST.Process
+import su.nsk.iae.post.poST.ProcessStatusExpression
 import su.nsk.iae.post.poST.RealLiteral
 import su.nsk.iae.post.poST.SignedInteger
-import su.nsk.iae.post.poST.Expression
-import su.nsk.iae.post.poST.PrimaryExpression
-import su.nsk.iae.post.poST.UnaryExpression
-import su.nsk.iae.post.poST.PowerExpression
-import su.nsk.iae.post.poST.MulExpression
-import su.nsk.iae.post.poST.AddExpression
-import su.nsk.iae.post.poST.EquExpression
-import su.nsk.iae.post.poST.CompExpression
-import su.nsk.iae.post.poST.AndExpression
-import su.nsk.iae.post.poST.XorExpression
-import su.nsk.iae.post.poST.AddOperator
-import su.nsk.iae.post.poST.CompOperator
-import su.nsk.iae.post.poST.UnaryOperator
-import su.nsk.iae.post.poST.EquOperator
-import su.nsk.iae.post.poST.MulOperator
-import java.util.function.Function
 import su.nsk.iae.post.poST.SymbolicVariable
-import su.nsk.iae.post.poST.ArrayVariable
-import su.nsk.iae.post.poST.ProcessStatusExpression
+import su.nsk.iae.post.poST.UnaryExpression
+import su.nsk.iae.post.poST.UnaryOperator
+import su.nsk.iae.post.poST.XorExpression
 
 class GeneratorUtil {
 	
@@ -51,6 +52,10 @@ class GeneratorUtil {
 	
 	static def String generateTimeoutName(ProcessGenerator process) {
 		return '''_g_p_«process.name»_time'''
+	}
+	
+	static def String generateEnumName(Process process) {
+		return '''_g_p_«process.name»_state'''
 	}
 	
 	static def String generateEnumName(ProcessGenerator process) {
