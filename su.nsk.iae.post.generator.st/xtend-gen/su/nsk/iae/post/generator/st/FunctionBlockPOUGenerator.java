@@ -13,6 +13,7 @@ import su.nsk.iae.post.poST.VarDeclaration;
 @SuppressWarnings("all")
 public class FunctionBlockPOUGenerator extends ProgramGenerator {
   public FunctionBlockPOUGenerator(final FunctionBlock fb) {
+    this.object = fb;
     this.programName = fb.getName();
     this.type = "FUNCTION_BLOCK";
     final Consumer<InputVarDeclaration> _function = (InputVarDeclaration v) -> {

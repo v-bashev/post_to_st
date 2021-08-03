@@ -8,6 +8,7 @@ import su.nsk.iae.post.generator.st.common.StatementListGenerator;
 import su.nsk.iae.post.generator.st.common.util.GeneratorUtil;
 import su.nsk.iae.post.poST.ErrorProcessStatement;
 import su.nsk.iae.post.poST.Statement;
+import su.nsk.iae.post.poST.Variable;
 
 @SuppressWarnings("all")
 public class ErrorProcessStatementGenerator extends IStatementGenerator {
@@ -25,7 +26,7 @@ public class ErrorProcessStatementGenerator extends IStatementGenerator {
     final ErrorProcessStatement s = ((ErrorProcessStatement) statement);
     StringConcatenation _builder = new StringConcatenation();
     {
-      su.nsk.iae.post.poST.Process _process = s.getProcess();
+      Variable _process = s.getProcess();
       boolean _tripleNotEquals = (_process != null);
       if (_tripleNotEquals) {
         String _generateProcessEnum = this.program.generateProcessEnum(s.getProcess().getName());

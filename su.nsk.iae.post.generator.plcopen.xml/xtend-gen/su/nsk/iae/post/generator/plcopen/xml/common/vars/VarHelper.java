@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.function.Predicate;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData;
 import su.nsk.iae.post.poST.ArrayInitialization;
-import su.nsk.iae.post.poST.Constant;
-import su.nsk.iae.post.poST.SignedInteger;
+import su.nsk.iae.post.poST.ArrayInterval;
+import su.nsk.iae.post.poST.Expression;
 import su.nsk.iae.post.poST.SimpleSpecificationInit;
 import su.nsk.iae.post.poST.SymbolicVariable;
 import su.nsk.iae.post.poST.VarInitDeclaration;
@@ -87,10 +86,10 @@ public abstract class VarHelper {
       if (_tripleNotEquals) {
         final String type = v.getSpec().getType();
         String value = null;
-        Constant _value = v.getSpec().getValue();
+        Expression _value = v.getSpec().getValue();
         boolean _tripleNotEquals_1 = (_value != null);
         if (_tripleNotEquals_1) {
-          value = GeneratorUtil.generateConstant(v.getSpec().getValue());
+          value = GeneratorUtil.generateExpression(v.getSpec().getValue());
         }
         EList<SymbolicVariable> _vars = v.getVarList().getVars();
         for (final SymbolicVariable e : _vars) {
@@ -100,33 +99,31 @@ public abstract class VarHelper {
           this.listDecl.add(_varData);
         }
       } else {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("ARRAY [");
-        SignedInteger _start = v.getArrSpec().getInit().getStart();
-        _builder.append(_start);
-        _builder.append("..");
-        SignedInteger _end = v.getArrSpec().getInit().getEnd();
-        _builder.append(_end);
-        _builder.append("] OF ");
-        String _type = v.getArrSpec().getInit().getType();
-        _builder.append(_type);
-        final String type_1 = _builder.toString();
+        final String type_1 = v.getArrSpec().getInit().getType();
+        String start = null;
+        String end = null;
+        ArrayInterval _interval = v.getArrSpec().getInit().getInterval();
+        boolean _tripleNotEquals_2 = (_interval != null);
+        if (_tripleNotEquals_2) {
+          start = GeneratorUtil.generateExpression(v.getArrSpec().getInit().getInterval().getStart());
+          end = GeneratorUtil.generateExpression(v.getArrSpec().getInit().getInterval().getEnd());
+        }
         List<String> values = null;
         ArrayInitialization _values = v.getArrSpec().getValues();
-        boolean _tripleNotEquals_2 = (_values != null);
-        if (_tripleNotEquals_2) {
+        boolean _tripleNotEquals_3 = (_values != null);
+        if (_tripleNotEquals_3) {
           LinkedList<String> _linkedList = new LinkedList<String>();
           values = _linkedList;
-          EList<Constant> _elements = v.getArrSpec().getValues().getElements();
-          for (final Constant e_1 : _elements) {
-            values.add(GeneratorUtil.generateConstant(e_1));
+          EList<Expression> _elements = v.getArrSpec().getValues().getElements();
+          for (final Expression e_1 : _elements) {
+            values.add(GeneratorUtil.generateExpression(e_1));
           }
         }
         EList<SymbolicVariable> _vars_1 = v.getVarList().getVars();
         for (final SymbolicVariable e_2 : _vars_1) {
           String _name_1 = e_2.getName();
           String _plus_1 = (pref + _name_1);
-          VarData _varData_1 = new VarData(_plus_1, type_1, isConst, values);
+          VarData _varData_1 = new VarData(_plus_1, type_1, start, end, isConst, values);
           this.listDecl.add(_varData_1);
         }
       }

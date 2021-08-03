@@ -66,22 +66,28 @@ abstract class VarHelper {
 				val type = v.spec.type
 				var String value = null
 				if (v.spec.value !== null) {
-					value = v.spec.value.generateConstant
+					value = v.spec.value.generateExpression
 				}
 				for (e : v.varList.vars) {
 					listDecl.add(new VarData(pref + e.name, type, value, isConst))
 				}
 			} else {
-				val type = '''ARRAY [«v.arrSpec.init.start»..«v.arrSpec.init.end»] OF «v.arrSpec.init.type»'''
+				val type = v.arrSpec.init.type
+				var String start = null
+				var String end = null
+				if (v.arrSpec.init.interval !== null) {
+					start = v.arrSpec.init.interval.start.generateExpression
+					end = v.arrSpec.init.interval.end.generateExpression
+				}
 				var List<String> values = null
 				if (v.arrSpec.values !== null) {
 					values = new LinkedList
 					for (e : v.arrSpec.values.elements) {
-						values.add(e.generateConstant)
+						values.add(e.generateExpression)
 					}
 				}
 				for (e : v.varList.vars) {
-					listDecl.add(new VarData(pref + e.name, type, isConst, values))
+					listDecl.add(new VarData(pref + e.name, type, start, end, isConst, values))
 				}
 			}
 		}

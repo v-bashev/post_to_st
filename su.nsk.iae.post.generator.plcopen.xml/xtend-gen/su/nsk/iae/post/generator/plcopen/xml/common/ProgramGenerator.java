@@ -21,6 +21,8 @@ import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper;
 
 @SuppressWarnings("all")
 public class ProgramGenerator {
+  protected EObject object;
+  
   protected String programName;
   
   protected String type;
@@ -81,28 +83,16 @@ public class ProgramGenerator {
     _builder.append("<interface>");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    String _generateVars = GeneratorUtil.generateVars(this.inVarList);
+    String _generateVars = GeneratorUtil.generateVars(this.externalVarList);
     _builder.append(_generateVars, "\t\t\t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    String _generateVars_1 = GeneratorUtil.generateVars(this.outVarList);
+    String _generateVars_1 = GeneratorUtil.generateVars(this.varList);
     _builder.append(_generateVars_1, "\t\t\t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    String _generateVars_2 = GeneratorUtil.generateVars(this.inOutVarList);
+    String _generateVars_2 = GeneratorUtil.generateVars(this.tempVarList);
     _builder.append(_generateVars_2, "\t\t\t\t\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    String _generateVars_3 = GeneratorUtil.generateVars(this.externalVarList);
-    _builder.append(_generateVars_3, "\t\t\t\t\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    String _generateVars_4 = GeneratorUtil.generateVars(this.varList);
-    _builder.append(_generateVars_4, "\t\t\t\t\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    String _generateVars_5 = GeneratorUtil.generateVars(this.tempVarList);
-    _builder.append(_generateVars_5, "\t\t\t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
     _builder.append("</interface>");
@@ -145,6 +135,10 @@ public class ProgramGenerator {
   
   public String getName() {
     return this.programName;
+  }
+  
+  public EObject getEObject() {
+    return this.object;
   }
   
   protected void parseProcesses(final EList<su.nsk.iae.post.poST.Process> processes) {

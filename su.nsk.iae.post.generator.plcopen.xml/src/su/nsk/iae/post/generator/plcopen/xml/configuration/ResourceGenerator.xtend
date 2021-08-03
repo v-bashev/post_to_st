@@ -5,8 +5,7 @@ import java.util.List
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.GlobalVarHelper
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper
 import su.nsk.iae.post.poST.Resource
-
-import static extension su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil.*
+import su.nsk.iae.post.generator.plcopen.xml.XMLGenerator
 
 class ResourceGenerator {
 	
@@ -16,9 +15,9 @@ class ResourceGenerator {
 	List<TaskGenerator> tasks = new LinkedList
 	List<ProgramConfigurationGenerator> programConfigurationGenerators = new LinkedList
 	
-	new (Resource resource) {
+	new (Resource resource, XMLGenerator xmlGenerator) {
 		this.resource = resource
-		resource.resGlobVars.stream.forEach([v | resVarList.add(v)])
+		resource.resGlobVars.stream.forEach([v | resVarList.add(v) xmlGenerator.addGlobalVar(v)])
 		resource.resStatement.tasks.stream.forEach([t | tasks.add(new TaskGenerator(t))])
 		resource.resStatement.programConfs.stream.forEach([p | programConfigurationGenerators.add(new ProgramConfigurationGenerator(p))])
 	}

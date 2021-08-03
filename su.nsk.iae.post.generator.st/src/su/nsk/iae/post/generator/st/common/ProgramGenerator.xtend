@@ -18,6 +18,7 @@ import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class ProgramGenerator {
 	
+	protected EObject object
 	protected String programName
 	protected String type
 	
@@ -42,9 +43,6 @@ class ProgramGenerator {
 	def String generateBody() '''
 		«type» «programName»
 		
-		«inVarList.generateVars»
-		«outVarList.generateVars»
-		«inOutVarList.generateVars»
 		«externalVarList.generateVars»
 		«varList.generateVars»
 		«tempVarList.generateVars»
@@ -60,6 +58,10 @@ class ProgramGenerator {
 	
 	def String getName() {
 		return programName
+	}
+	
+	def EObject getEObject() {
+		return object
 	}
 	
 	protected def parseProcesses(EList<Process> processes) {

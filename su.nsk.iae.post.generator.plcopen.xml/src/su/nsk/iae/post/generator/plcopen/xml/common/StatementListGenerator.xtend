@@ -36,29 +36,21 @@ import su.nsk.iae.post.poST.UnaryOperator
 import su.nsk.iae.post.poST.XorExpression
 
 import static extension su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil.*
+import su.nsk.iae.post.generator.plcopen.xml.common.statement.SubprogramControlStatementGenerator
+import su.nsk.iae.post.generator.plcopen.xml.common.statement.ExitStatementGenerator
 
 class StatementListGenerator {
 	
 	ProgramGenerator program
 	ProcessGenerator process
+	StateGenerator state
 	List<IStatementGenerator> statementGenerators
 	
 	new(ProgramGenerator program, ProcessGenerator process, StateGenerator state) {
 		this.program = program
 		this.process = process
-		statementGenerators = Arrays.asList(
-			new AssignmentStatementGenerator(program, process, state, this),
-			new IfStatementGenerator(program, process, state, this),
-			new CaseStatementGenerator(program, process, state, this),
-			new ForStatementGenerator(program, process, state, this),
-			new WhileStatementGenerator(program, process, state, this),
-			new RepeatStatementGenerator(program, process, state, this),
-			new StartProcessStatementGenerator(program, process, state, this),
-			new StopProcessStatementGenerator(program, process, state, this),
-			new ErrorProcessStatementGenerator(program, process, state, this),
-			new SetStateStatementGenerator(program, process, state, this),
-			new ResetTimerStatementGenerator(program, process, state, this)
-		)
+		this.state = state
+		statementGenerators = initStatementGenerators
 	}
 	
 	def String generateStatementList(StatementList statementList) '''
@@ -121,7 +113,7 @@ class StatementListGenerator {
 	}
 	
 	def String generateArray(ArrayVariable varDecl) {
-		return '''«varDecl.varName.generateVar»[«varDecl.index.generateExpression»]'''
+		return '''«varDecl.variable.generateVar»[«varDecl.index.generateExpression»]'''
 	}
 	
 	def String generateEquOperators(EquOperator op) {
@@ -157,6 +149,24 @@ class StatementListGenerator {
 			return '''(«program.generateProcessEnum(exp.process.name)» = «generateStopConstant»)'''
 		}
 		return '''(«program.generateProcessEnum(exp.process.name)» = «generateErrorConstant»)'''
+	}
+	
+	private def initStatementGenerators() {
+		return Arrays.asList(
+			new AssignmentStatementGenerator(program, process, state, this),
+			new IfStatementGenerator(program, process, state, this),
+			new CaseStatementGenerator(program, process, state, this),
+			new ForStatementGenerator(program, process, state, this),
+			new WhileStatementGenerator(program, process, state, this),
+			new RepeatStatementGenerator(program, process, state, this),
+			new StartProcessStatementGenerator(program, process, state, this),
+			new StopProcessStatementGenerator(program, process, state, this),
+			new ErrorProcessStatementGenerator(program, process, state, this),
+			new SetStateStatementGenerator(program, process, state, this),
+			new ResetTimerStatementGenerator(program, process, state, this),
+			new SubprogramControlStatementGenerator(program, process, state, this),
+			new ExitStatementGenerator(program, process, state, this)
+		)
 	}
 	
 }

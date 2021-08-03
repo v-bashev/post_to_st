@@ -8,6 +8,7 @@ import su.nsk.iae.post.generator.plcopen.xml.common.StatementListGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil;
 import su.nsk.iae.post.poST.Statement;
 import su.nsk.iae.post.poST.StopProcessStatement;
+import su.nsk.iae.post.poST.Variable;
 
 @SuppressWarnings("all")
 public class StopProcessStatementGenerator extends IStatementGenerator {
@@ -25,7 +26,7 @@ public class StopProcessStatementGenerator extends IStatementGenerator {
     final StopProcessStatement s = ((StopProcessStatement) statement);
     StringConcatenation _builder = new StringConcatenation();
     {
-      su.nsk.iae.post.poST.Process _process = s.getProcess();
+      Variable _process = s.getProcess();
       boolean _tripleNotEquals = (_process != null);
       if (_tripleNotEquals) {
         String _generateProcessEnum = this.program.generateProcessEnum(s.getProcess().getName());

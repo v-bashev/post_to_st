@@ -1,12 +1,6 @@
 package su.nsk.iae.post.generator.st.configuration
 
-import java.util.ArrayList
-import su.nsk.iae.post.poST.AssignmentType
-import su.nsk.iae.post.poST.AttachVariableConfElement
 import su.nsk.iae.post.poST.ProgramConfiguration
-import su.nsk.iae.post.poST.TemplateProcessConfElement
-
-import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class ProgramConfigurationGenerator {
 	
@@ -17,16 +11,21 @@ class ProgramConfigurationGenerator {
 	}
 	
 	def String generateProgramConfiguration() {
-		return '''PROGRAM «programConf.name» «generateTask»«generateArgs»;'''
+		return '''PROGRAM «programConf.name»«generateTask» : «programConf.name.capitalizeFirst»;'''
 	}
 	
 	private def String generateTask() {
 		if (programConf.task !== null) {
-			return '''WITH «programConf.task.name» '''
+			return ''' WITH «programConf.task.name»'''
 		}
 		return ''''''
 	}
 	
+	private def String capitalizeFirst(String str) {
+		return str.substring(0, 1).toUpperCase() + str.substring(1)
+	}
+	
+/*
 	private def String generateArgs() {
 		if (programConf.args === null) {
 			return ''''''
@@ -57,5 +56,6 @@ class ProgramConfigurationGenerator {
 	private def String generateProcessVar(String process, String varName) {
 		return process.generateVarName(varName)
 	}
+*/
 	
 }
