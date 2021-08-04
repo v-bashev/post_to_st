@@ -108,7 +108,7 @@ class XMLGenerator implements IPoSTGenerator {
 					val process = confElement.process.copy
 					process.name = confElement.name.capitalizeFirst
 					confElement.args.elements.stream.forEach([e | e.changeAllVars(process)])
-					programGen.addProcess(process)
+					programGen.addProcess(process, confElement.active)
 				} else if (confElement instanceof AttachVariableConfElement) {
 					confElement.changeAllVars(programGen.EObject)
 				}

@@ -134,6 +134,11 @@ public class ProgramGenerator {
     this.processList.add(_processGenerator);
   }
   
+  public void addProcess(final su.nsk.iae.post.poST.Process process, final boolean active) {
+    ProcessGenerator _processGenerator = new ProcessGenerator(this, process, active);
+    this.processList.add(_processGenerator);
+  }
+  
   public void addVar(final EObject varDecl) {
     this.varList.add(varDecl);
   }

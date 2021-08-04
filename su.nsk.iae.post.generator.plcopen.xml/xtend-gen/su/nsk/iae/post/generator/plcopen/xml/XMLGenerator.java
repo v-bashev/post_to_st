@@ -169,7 +169,7 @@ public class XMLGenerator implements IPoSTGenerator {
             this.changeAllVars(e, process);
           };
           ((TemplateProcessConfElement)confElement).getArgs().getElements().stream().forEach(_function_5);
-          programGen.addProcess(process);
+          programGen.addProcess(process, ((TemplateProcessConfElement)confElement).isActive());
         } else {
           if ((confElement instanceof AttachVariableConfElement)) {
             this.changeAllVars(((AttachVariableConfElement)confElement), programGen.getEObject());
