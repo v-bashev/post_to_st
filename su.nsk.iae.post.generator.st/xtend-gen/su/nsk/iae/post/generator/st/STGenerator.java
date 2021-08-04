@@ -24,12 +24,14 @@ import su.nsk.iae.post.poST.ArrayVariable;
 import su.nsk.iae.post.poST.AssignmentStatement;
 import su.nsk.iae.post.poST.AttachVariableConfElement;
 import su.nsk.iae.post.poST.Configuration;
+import su.nsk.iae.post.poST.Constant;
 import su.nsk.iae.post.poST.ForStatement;
 import su.nsk.iae.post.poST.FunctionBlock;
 import su.nsk.iae.post.poST.GlobalVarDeclaration;
 import su.nsk.iae.post.poST.Model;
 import su.nsk.iae.post.poST.PrimaryExpression;
 import su.nsk.iae.post.poST.ProcessStatements;
+import su.nsk.iae.post.poST.ProcessStatusExpression;
 import su.nsk.iae.post.poST.Program;
 import su.nsk.iae.post.poST.ProgramConfElement;
 import su.nsk.iae.post.poST.ProgramConfiguration;
@@ -166,27 +168,34 @@ public class STGenerator implements IPoSTGenerator {
     this.configuration.getResources().stream().<EList<ProgramConfiguration>>map(_function).<ProgramConfiguration>flatMap(_function_1).forEach(_function_2);
   }
   
-  private void changeAllVars(final AttachVariableConfElement element, final EObject root) {
-    this.changeAllVars(element.getProgramVar(), element.getAttVar(), root);
+  public void changeAllVars(final AttachVariableConfElement element, final EObject root) {
+    this.changeAllVars(element.getProgramVar(), element.getAttVar(), element.getConst(), root);
   }
   
-  private void changeAllVars(final TemplateProcessAttachVariableConfElement element, final EObject root) {
-    this.changeAllVars(element.getProgramVar(), element.getAttVar(), root);
+  public void changeAllVars(final TemplateProcessAttachVariableConfElement element, final EObject root) {
+    this.changeAllVars(element.getProgramVar(), element.getAttVar(), element.getConst(), root);
   }
   
-  private void changeAllVars(final Variable programVar, final Variable attVar, final EObject root) {
+  public void changeAllVars(final Variable programVar, final Variable attVar, final Constant const_, final EObject root) {
     final Predicate<PrimaryExpression> _function = (PrimaryExpression v) -> {
       return ((v.getVariable() != null) && Objects.equal(v.getVariable().getName(), programVar.getName()));
     };
     final Consumer<PrimaryExpression> _function_1 = (PrimaryExpression v) -> {
-      v.setVariable(EcoreUtil.<SymbolicVariable>copy(((SymbolicVariable) attVar)));
+      if ((attVar != null)) {
+        SymbolicVariable _variable = v.getVariable();
+        _variable.setName(attVar.getName());
+      } else {
+        v.setVariable(null);
+        v.setConst(EcoreUtil.<Constant>copy(const_));
+      }
     };
     EcoreUtil2.<PrimaryExpression>getAllContentsOfType(root, PrimaryExpression.class).stream().filter(_function).forEach(_function_1);
     final Predicate<AssignmentStatement> _function_2 = (AssignmentStatement v) -> {
       return ((v.getVariable() != null) && Objects.equal(v.getVariable().getName(), programVar.getName()));
     };
     final Consumer<AssignmentStatement> _function_3 = (AssignmentStatement v) -> {
-      v.setVariable(EcoreUtil.<SymbolicVariable>copy(((SymbolicVariable) attVar)));
+      SymbolicVariable _variable = v.getVariable();
+      _variable.setName(attVar.getName());
     };
     EcoreUtil2.<AssignmentStatement>getAllContentsOfType(root, AssignmentStatement.class).stream().filter(_function_2).forEach(_function_3);
     final Predicate<ForStatement> _function_4 = (ForStatement v) -> {
@@ -195,7 +204,8 @@ public class STGenerator implements IPoSTGenerator {
       return Objects.equal(_name, _name_1);
     };
     final Consumer<ForStatement> _function_5 = (ForStatement v) -> {
-      v.setVariable(EcoreUtil.<SymbolicVariable>copy(((SymbolicVariable) attVar)));
+      SymbolicVariable _variable = v.getVariable();
+      _variable.setName(attVar.getName());
     };
     EcoreUtil2.<ForStatement>getAllContentsOfType(root, ForStatement.class).stream().filter(_function_4).forEach(_function_5);
     final Predicate<ArrayVariable> _function_6 = (ArrayVariable v) -> {
@@ -204,14 +214,16 @@ public class STGenerator implements IPoSTGenerator {
       return Objects.equal(_name, _name_1);
     };
     final Consumer<ArrayVariable> _function_7 = (ArrayVariable v) -> {
-      v.setVariable(EcoreUtil.<SymbolicVariable>copy(((SymbolicVariable) attVar)));
+      SymbolicVariable _variable = v.getVariable();
+      _variable.setName(attVar.getName());
     };
     EcoreUtil2.<ArrayVariable>getAllContentsOfType(root, ArrayVariable.class).stream().filter(_function_6).forEach(_function_7);
     final Predicate<TimeoutStatement> _function_8 = (TimeoutStatement v) -> {
       return ((v.getVariable() != null) && Objects.equal(v.getVariable().getName(), programVar.getName()));
     };
     final Consumer<TimeoutStatement> _function_9 = (TimeoutStatement v) -> {
-      v.setVariable(EcoreUtil.<SymbolicVariable>copy(((SymbolicVariable) attVar)));
+      SymbolicVariable _variable = v.getVariable();
+      _variable.setName(attVar.getName());
     };
     EcoreUtil2.<TimeoutStatement>getAllContentsOfType(root, TimeoutStatement.class).stream().filter(_function_8).forEach(_function_9);
     final Predicate<ProcessStatements> _function_10 = (ProcessStatements v) -> {
@@ -219,9 +231,17 @@ public class STGenerator implements IPoSTGenerator {
     };
     final Consumer<ProcessStatements> _function_11 = (ProcessStatements v) -> {
       Variable _process = v.getProcess();
-      _process.setName(this.capitalizeFirst(v.getProcess().getName()));
+      _process.setName(this.capitalizeFirst(attVar.getName()));
     };
     EcoreUtil2.<ProcessStatements>getAllContentsOfType(root, ProcessStatements.class).stream().filter(_function_10).forEach(_function_11);
+    final Predicate<ProcessStatusExpression> _function_12 = (ProcessStatusExpression v) -> {
+      return ((v.getProcess() != null) && Objects.equal(v.getProcess().getName(), programVar.getName()));
+    };
+    final Consumer<ProcessStatusExpression> _function_13 = (ProcessStatusExpression v) -> {
+      Variable _process = v.getProcess();
+      _process.setName(this.capitalizeFirst(attVar.getName()));
+    };
+    EcoreUtil2.<ProcessStatusExpression>getAllContentsOfType(root, ProcessStatusExpression.class).stream().filter(_function_12).forEach(_function_13);
   }
   
   private String capitalizeFirst(final String str) {
