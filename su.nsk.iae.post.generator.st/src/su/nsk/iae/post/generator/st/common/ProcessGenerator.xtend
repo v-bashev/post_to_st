@@ -16,6 +16,7 @@ class ProcessGenerator {
 	
 	ProgramGenerator program
 	Process process
+	boolean active
 	
 	VarHelper inVarList = new InputVarHelper
 	VarHelper outVarList = new OutputVarHelper
@@ -26,8 +27,13 @@ class ProcessGenerator {
 	List<StateGenerator> stateList = new LinkedList
 	
 	new(ProgramGenerator program, Process process) {
+		this(program, process, false)
+	}
+	
+	new(ProgramGenerator program, Process process, boolean active) {
 		this.program = program
 		this.process = process
+		this.active = active
 		process.states.stream.forEach([s | stateList.add(new StateGenerator(program, this, s))])
 	}
 	
@@ -87,7 +93,7 @@ class ProcessGenerator {
 		for (var i = 0; i < stateList.size; i++) {
 			program.addVar(generateEnumStateConstant(stateList.get(i).name), "INT", i.toString, true)
 		}
-		if (program.isFirstProcess(this)) {
+		if (active || program.isFirstProcess(this)) {
 			program.addVar(generateEnumName, "INT", generateEnumStateConstant(stateList.get(0).name))
 		} else {
 			program.addVar(generateEnumName, "INT", generateStopConstant)

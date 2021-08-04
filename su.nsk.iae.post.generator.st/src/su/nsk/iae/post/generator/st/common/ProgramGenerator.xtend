@@ -86,6 +86,10 @@ class ProgramGenerator {
 		processList.add(new ProcessGenerator(this, process))
 	}
 	
+	def void addProcess(Process process, boolean active) {
+		processList.add(new ProcessGenerator(this, process, active))
+	}
+	
 	def void addVar(EObject varDecl) {
 		varList.add(varDecl)
 	}
