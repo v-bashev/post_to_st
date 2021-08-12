@@ -45,6 +45,8 @@ import su.nsk.iae.post.poST.Variable;
 
 @SuppressWarnings("all")
 public class STGenerator implements IPoSTGenerator {
+  private boolean hasConfiguration = false;
+  
   private ConfigurationGenerator configuration = null;
   
   private VarHelper globVarList = new GlobalVarHelper();
@@ -62,6 +64,7 @@ public class STGenerator implements IPoSTGenerator {
     Configuration _conf = model.getConf();
     boolean _tripleNotEquals = (_conf != null);
     if (_tripleNotEquals) {
+      this.hasConfiguration = true;
       Configuration _conf_1 = model.getConf();
       ConfigurationGenerator _configurationGenerator = new ConfigurationGenerator(_conf_1);
       this.configuration = _configurationGenerator;
@@ -118,12 +121,16 @@ public class STGenerator implements IPoSTGenerator {
     String _generateVars = GeneratorUtil.generateVars(this.globVarList);
     _builder.append(_generateVars);
     _builder.newLineIfNotEmpty();
-    String _generateConfiguration = this.configuration.generateConfiguration();
-    _builder.append(_generateConfiguration);
-    _builder.newLineIfNotEmpty();
+    {
+      if (this.hasConfiguration) {
+        String _generateConfiguration = this.configuration.generateConfiguration();
+        _builder.append(_generateConfiguration);
+        _builder.newLineIfNotEmpty();
+      }
+    }
     {
       for(final ProgramGenerator c : this.programs) {
-        String _generateProgram = c.generateProgram();
+        String _generateProgram = c.generateProgram((!this.hasConfiguration));
         _builder.append(_generateProgram);
         _builder.newLineIfNotEmpty();
         _builder.newLine();
@@ -133,7 +140,7 @@ public class STGenerator implements IPoSTGenerator {
   }
   
   private void preparePrograms() {
-    if ((this.configuration == null)) {
+    if ((!this.hasConfiguration)) {
       return;
     }
     final Function<Resource, EList<ProgramConfiguration>> _function = (Resource res) -> {

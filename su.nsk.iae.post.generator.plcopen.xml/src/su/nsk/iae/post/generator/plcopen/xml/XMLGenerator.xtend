@@ -31,15 +31,17 @@ import static extension su.nsk.iae.post.generator.plcopen.xml.common.util.Genera
 
 class XMLGenerator implements IPoSTGenerator {
 	
+	boolean hasConfiguration = false
 	ConfigurationGenerator configuration = null
 	VarHelper globVarList = new GlobalVarHelper
 	List<ProgramGenerator> programs = new LinkedList
-	
+
 	override setModel(Model model) {
 		globVarList.clear()
 		programs.clear()
 		model.globVars.stream.forEach([v | globVarList.add(v)])
 		if (model.conf !== null) {
+			hasConfiguration = true
 			configuration = new ConfigurationGenerator(model.conf, this)
 			configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf | 
 				val program = programConf.program.copy()
@@ -51,31 +53,31 @@ class XMLGenerator implements IPoSTGenerator {
 			model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb))])
 		}
 	}
-	
+
 	override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		preparePrograms()
 	}
-	
+
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		generateSingleFile(fsa, "")
 	}
-	
+
 	override afterGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {}
-	
+
 	def void addGlobalVar(EObject varDecl) {
 		globVarList.add(varDecl)
 	}
-	
+
 	private def void generateSingleFile(IFileSystemAccess2 fsa, String path) {
 		fsa.generateFile('''«path»poST_code.xml''', generateSingleXMLFile)
 	}
-	
+
 //	private def void generateMultipleFiles(IFileSystemAccess2 fsa, String path) {
 //		for (p : programs) {
 //			p.generate(fsa, path)
 //		}
 //		if (!globVarList.list.empty) {
-//			fsa.generateFile('''«path»GVL.xml''', generateGlobalVars)
+//			fsa.generateFile('''«path»GVL.xml''', generateGlobalVars, configuration === null)
 //		}
 //	}
 
@@ -83,11 +85,11 @@ class XMLGenerator implements IPoSTGenerator {
 //		«generateXMLStart»
 //		«generateXMLEnd(globVarList)»
 //	'''
-	
+
 	private def String generateSingleXMLFile() '''
 		«generateXMLStart»
 		«FOR c : programs»
-			«c.generateProgram»
+			«c.generateProgram(!hasConfiguration)»
 		«ENDFOR»
 		«IF !globVarList.list.empty»
 			«globVarList.generateXMLEndWithGlobalVars»
@@ -97,7 +99,7 @@ class XMLGenerator implements IPoSTGenerator {
 	'''
 
 	private def void preparePrograms() {
-		if (configuration === null) {
+		if (!hasConfiguration) {
 			return
 		}
 		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |
@@ -117,15 +119,15 @@ class XMLGenerator implements IPoSTGenerator {
 			}
 		])
 	}
-	
+
 	def void changeAllVars(AttachVariableConfElement element, EObject root) {
 		changeAllVars(element.programVar, element.attVar, element.const, root)
 	}
-	
+
 	def void changeAllVars(TemplateProcessAttachVariableConfElement element, EObject root) {
 		changeAllVars(element.programVar, element.attVar, element.const, root)
 	}
-	
+
 	def void changeAllVars(Variable programVar, Variable attVar, Constant const, EObject root) {
 		root.getAllContentsOfType(PrimaryExpression).stream.filter([v | (v.variable !== null) && (v.variable.name == programVar.name)]).forEach([v |
 			if (attVar !== null) {
@@ -154,9 +156,9 @@ class XMLGenerator implements IPoSTGenerator {
 			v.process.name = attVar.name.capitalizeFirst
 		])
 	}
-	
+
 	private def String capitalizeFirst(String str) {
 		return str.substring(0, 1).toUpperCase() + str.substring(1)
 	}
-	
+
 }

@@ -41,35 +41,48 @@ public class ProgramGenerator {
   
   protected List<ProcessGenerator> processList = new LinkedList<ProcessGenerator>();
   
-  public void generate(final IFileSystemAccess2 fsa, final String path) {
+  public void generate(final IFileSystemAccess2 fsa, final String path, final boolean genInOutVars) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(path);
     String _lowerCase = this.programName.toLowerCase();
     _builder.append(_lowerCase);
     _builder.append(".st");
-    fsa.generateFile(_builder.toString(), this.generateProgram());
+    fsa.generateFile(_builder.toString(), this.generateProgram(genInOutVars));
   }
   
-  public String generateProgram() {
+  public String generateProgram(final boolean genInOutVars) {
     this.prepareProgramVars();
-    return this.generateBody();
+    return this.generateBody(genInOutVars);
   }
   
-  public String generateBody() {
+  public String generateBody(final boolean genInOutVars) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(this.type);
     _builder.append(" ");
     _builder.append(this.programName);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
-    String _generateVars = GeneratorUtil.generateVars(this.externalVarList);
-    _builder.append(_generateVars);
+    {
+      if (genInOutVars) {
+        String _generateVars = GeneratorUtil.generateVars(this.inVarList);
+        _builder.append(_generateVars);
+        _builder.newLineIfNotEmpty();
+        String _generateVars_1 = GeneratorUtil.generateVars(this.outVarList);
+        _builder.append(_generateVars_1);
+        _builder.newLineIfNotEmpty();
+        String _generateVars_2 = GeneratorUtil.generateVars(this.inOutVarList);
+        _builder.append(_generateVars_2);
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    String _generateVars_3 = GeneratorUtil.generateVars(this.externalVarList);
+    _builder.append(_generateVars_3);
     _builder.newLineIfNotEmpty();
-    String _generateVars_1 = GeneratorUtil.generateVars(this.varList);
-    _builder.append(_generateVars_1);
+    String _generateVars_4 = GeneratorUtil.generateVars(this.varList);
+    _builder.append(_generateVars_4);
     _builder.newLineIfNotEmpty();
-    String _generateVars_2 = GeneratorUtil.generateVars(this.tempVarList);
-    _builder.append(_generateVars_2);
+    String _generateVars_5 = GeneratorUtil.generateVars(this.tempVarList);
+    _builder.append(_generateVars_5);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     String _generateGlobalTime = GeneratorUtil.generateGlobalTime();

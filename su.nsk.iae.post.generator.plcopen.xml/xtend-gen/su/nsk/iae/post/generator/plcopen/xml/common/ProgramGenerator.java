@@ -41,26 +41,26 @@ public class ProgramGenerator {
   
   protected List<ProcessGenerator> processList = new LinkedList<ProcessGenerator>();
   
-  public void generate(final IFileSystemAccess2 fsa, final String path) {
+  public void generate(final IFileSystemAccess2 fsa, final String path, final boolean genInOutVars) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(path);
     String _lowerCase = this.programName.toLowerCase();
     _builder.append(_lowerCase);
     _builder.append(".st");
-    fsa.generateFile(_builder.toString(), this.generateFullProgram());
+    fsa.generateFile(_builder.toString(), this.generateFullProgram(genInOutVars));
   }
   
-  public String generateProgram() {
+  public String generateProgram(final boolean genInOutVars) {
     this.prepareProgramVars();
-    return this.generateXMLBody();
+    return this.generateXMLBody(genInOutVars);
   }
   
-  public String generateFullProgram() {
+  public String generateFullProgram(final boolean genInOutVars) {
     StringConcatenation _builder = new StringConcatenation();
     String _generateXMLStart = GeneratorUtil.generateXMLStart();
     _builder.append(_generateXMLStart);
     _builder.newLineIfNotEmpty();
-    String _generateXMLBody = this.generateXMLBody();
+    String _generateXMLBody = this.generateXMLBody(genInOutVars);
     _builder.append(_generateXMLBody);
     _builder.newLineIfNotEmpty();
     String _generateXMLEnd = GeneratorUtil.generateXMLEnd();
@@ -69,7 +69,7 @@ public class ProgramGenerator {
     return _builder.toString();
   }
   
-  private String generateXMLBody() {
+  private String generateXMLBody(final boolean genInOutVars) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("\t\t\t");
     _builder.append("<pou name=\"");
@@ -82,17 +82,33 @@ public class ProgramGenerator {
     _builder.append("\t\t\t\t");
     _builder.append("<interface>");
     _builder.newLine();
+    {
+      if (genInOutVars) {
+        _builder.append("\t\t\t\t\t");
+        String _generateVars = GeneratorUtil.generateVars(this.inVarList);
+        _builder.append(_generateVars, "\t\t\t\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t\t\t\t");
+        String _generateVars_1 = GeneratorUtil.generateVars(this.outVarList);
+        _builder.append(_generateVars_1, "\t\t\t\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t\t\t\t");
+        String _generateVars_2 = GeneratorUtil.generateVars(this.inOutVarList);
+        _builder.append(_generateVars_2, "\t\t\t\t\t");
+        _builder.newLineIfNotEmpty();
+      }
+    }
     _builder.append("\t\t\t\t\t");
-    String _generateVars = GeneratorUtil.generateVars(this.externalVarList);
-    _builder.append(_generateVars, "\t\t\t\t\t");
+    String _generateVars_3 = GeneratorUtil.generateVars(this.externalVarList);
+    _builder.append(_generateVars_3, "\t\t\t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    String _generateVars_1 = GeneratorUtil.generateVars(this.varList);
-    _builder.append(_generateVars_1, "\t\t\t\t\t");
+    String _generateVars_4 = GeneratorUtil.generateVars(this.varList);
+    _builder.append(_generateVars_4, "\t\t\t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
-    String _generateVars_2 = GeneratorUtil.generateVars(this.tempVarList);
-    _builder.append(_generateVars_2, "\t\t\t\t\t");
+    String _generateVars_5 = GeneratorUtil.generateVars(this.tempVarList);
+    _builder.append(_generateVars_5, "\t\t\t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t");
     _builder.append("</interface>");

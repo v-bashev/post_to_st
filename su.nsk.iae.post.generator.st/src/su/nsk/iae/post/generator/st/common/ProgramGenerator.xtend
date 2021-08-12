@@ -31,18 +31,23 @@ class ProgramGenerator {
 	
 	protected List<ProcessGenerator> processList = new LinkedList
 	
-	def void generate(IFileSystemAccess2 fsa, String path) {
-		fsa.generateFile('''«path»«programName.toLowerCase».st''', generateProgram)
+	def void generate(IFileSystemAccess2 fsa, String path, boolean genInOutVars) {
+		fsa.generateFile('''«path»«programName.toLowerCase».st''', generateProgram(genInOutVars))
 	}
 	
-	def String generateProgram() {
+	def String generateProgram(boolean genInOutVars) {
 		prepareProgramVars()
-		return generateBody()
+		return generateBody(genInOutVars)
 	}
 	
-	def String generateBody() '''
+	def String generateBody(boolean genInOutVars) '''
 		«type» «programName»
 		
+		«IF genInOutVars»
+			«inVarList.generateVars»
+			«outVarList.generateVars»
+			«inOutVarList.generateVars»
+		«ENDIF»
 		«externalVarList.generateVars»
 		«varList.generateVars»
 		«tempVarList.generateVars»
