@@ -101,18 +101,20 @@ class XMLGenerator implements IPoSTGenerator {
 			return
 		}
 		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |
-			val programConfName = programConf.name.capitalizeFirst
-			val programGen = programs.stream.filter([x | x.name == programConfName]).findFirst.get
-			programConf.args.elements.stream.forEach([confElement |
-				if (confElement instanceof TemplateProcessConfElement) {
-					val process = confElement.process.copy
-					process.name = confElement.name.capitalizeFirst
-					confElement.args.elements.stream.forEach([e | e.changeAllVars(process)])
-					programGen.addProcess(process, confElement.active)
-				} else if (confElement instanceof AttachVariableConfElement) {
-					confElement.changeAllVars(programGen.EObject)
-				}
-			])
+			if (programConf.args !== null) {
+				val programConfName = programConf.name.capitalizeFirst
+				val programGen = programs.stream.filter([x | x.name == programConfName]).findFirst.get
+				programConf.args.elements.stream.forEach([confElement |
+					if (confElement instanceof TemplateProcessConfElement) {
+						val process = confElement.process.copy
+						process.name = confElement.name.capitalizeFirst
+						confElement.args.elements.stream.forEach([e | e.changeAllVars(process)])
+						programGen.addProcess(process, confElement.active)
+					} else if (confElement instanceof AttachVariableConfElement) {
+						confElement.changeAllVars(programGen.EObject)
+					}
+				])
+			}
 		])
 	}
 	
