@@ -134,7 +134,7 @@ class GeneratorUtil {
 	static def String generateXMLStart() '''
 		<?xml version="1.0" encoding="utf-8"?>
 		<project xmlns="http://www.plcopen.org/xml/tc6_0200">
-			<fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP11" creationDateTime="«generateCurrentTime»" />
+			<fileHeader companyName="" productName="poSTIDE" productVersion="" creationDateTime="«generateCurrentTime»" />
 			<contentHeader name="poST.project">
 				 <coordinateInfo>
 					<fbd>
@@ -147,11 +147,6 @@ class GeneratorUtil {
 						<scaling x="1" y="1" />
 					</sfc>
 				</coordinateInfo>
-				<addData>
-					<data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
-						<ProjectInformation />
-					</data>
-				</addData>
 			</contentHeader>
 			<types>
 				<dataTypes />
