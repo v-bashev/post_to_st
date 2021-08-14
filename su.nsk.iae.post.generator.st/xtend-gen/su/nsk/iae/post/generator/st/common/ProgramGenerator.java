@@ -27,6 +27,8 @@ public class ProgramGenerator {
   
   protected String type;
   
+  private boolean templateProcess;
+  
   protected VarHelper inVarList = new InputVarHelper();
   
   protected VarHelper outVarList = new OutputVarHelper();
@@ -41,21 +43,25 @@ public class ProgramGenerator {
   
   protected List<ProcessGenerator> processList = new LinkedList<ProcessGenerator>();
   
-  public void generate(final IFileSystemAccess2 fsa, final String path, final boolean genInOutVars) {
+  public ProgramGenerator(final boolean templateProcess) {
+    this.templateProcess = templateProcess;
+  }
+  
+  public void generate(final IFileSystemAccess2 fsa, final String path) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(path);
     String _lowerCase = this.programName.toLowerCase();
     _builder.append(_lowerCase);
     _builder.append(".st");
-    fsa.generateFile(_builder.toString(), this.generateProgram(genInOutVars));
+    fsa.generateFile(_builder.toString(), this.generateProgram());
   }
   
-  public String generateProgram(final boolean genInOutVars) {
+  public String generateProgram() {
     this.prepareProgramVars();
-    return this.generateBody(genInOutVars);
+    return this.generateBody();
   }
   
-  public String generateBody(final boolean genInOutVars) {
+  public String generateBody() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(this.type);
     _builder.append(" ");
@@ -63,7 +69,7 @@ public class ProgramGenerator {
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     {
-      if (genInOutVars) {
+      if ((!this.templateProcess)) {
         String _generateVars = GeneratorUtil.generateVars(this.inVarList);
         _builder.append(_generateVars);
         _builder.newLineIfNotEmpty();
@@ -135,7 +141,7 @@ public class ProgramGenerator {
     };
     this.processList.stream().forEach(_function_1);
     final Consumer<ProcessGenerator> _function_2 = (ProcessGenerator x) -> {
-      x.prepareStateVars();
+      x.prepareStateVars(this.templateProcess);
     };
     this.processList.stream().forEach(_function_2);
     this.addVar(GeneratorUtil.generateStopConstant(), "INT", "254", true);

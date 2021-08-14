@@ -21,6 +21,7 @@ class ProgramGenerator {
 	protected EObject object
 	protected String programName
 	protected String type
+	boolean templateProcess
 	
 	protected VarHelper inVarList = new InputVarHelper
 	protected VarHelper outVarList = new OutputVarHelper
@@ -31,19 +32,23 @@ class ProgramGenerator {
 	
 	protected List<ProcessGenerator> processList = new LinkedList
 	
-	def void generate(IFileSystemAccess2 fsa, String path, boolean genInOutVars) {
-		fsa.generateFile('''«path»«programName.toLowerCase».st''', generateProgram(genInOutVars))
+	new (boolean templateProcess) {
+		this.templateProcess = templateProcess
 	}
 	
-	def String generateProgram(boolean genInOutVars) {
-		prepareProgramVars()
-		return generateBody(genInOutVars)
+	def void generate(IFileSystemAccess2 fsa, String path) {
+		fsa.generateFile('''«path»«programName.toLowerCase».st''', generateProgram)
 	}
 	
-	def String generateBody(boolean genInOutVars) '''
+	def String generateProgram() {
+		prepareProgramVars
+		return generateBody
+	}
+	
+	def String generateBody() '''
 		«type» «programName»
 		
-		«IF genInOutVars»
+		«IF !templateProcess»
 			«inVarList.generateVars»
 			«outVarList.generateVars»
 			«inOutVarList.generateVars»
@@ -82,7 +87,7 @@ class ProgramGenerator {
 		processList.stream.forEach([x | x.prepareProcessVars])
 		addVar(generateGlobalTime, "TIME")
 		processList.stream.forEach([x | x.prepareTimeVars])
-		processList.stream.forEach([x | x.prepareStateVars])
+		processList.stream.forEach([x | x.prepareStateVars(templateProcess)])
 		addVar(generateStopConstant, "INT", "254", true)
 		addVar(generateErrorConstant, "INT", "255", true)
 	}

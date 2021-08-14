@@ -27,6 +27,8 @@ public class ProgramGenerator {
   
   protected String type;
   
+  private boolean templateProcess;
+  
   protected VarHelper inVarList = new InputVarHelper();
   
   protected VarHelper outVarList = new OutputVarHelper();
@@ -41,26 +43,30 @@ public class ProgramGenerator {
   
   protected List<ProcessGenerator> processList = new LinkedList<ProcessGenerator>();
   
-  public void generate(final IFileSystemAccess2 fsa, final String path, final boolean genInOutVars) {
+  public ProgramGenerator(final boolean templateProcess) {
+    this.templateProcess = templateProcess;
+  }
+  
+  public void generate(final IFileSystemAccess2 fsa, final String path) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(path);
     String _lowerCase = this.programName.toLowerCase();
     _builder.append(_lowerCase);
     _builder.append(".st");
-    fsa.generateFile(_builder.toString(), this.generateFullProgram(genInOutVars));
+    fsa.generateFile(_builder.toString(), this.generateFullProgram());
   }
   
-  public String generateProgram(final boolean genInOutVars) {
+  public String generateProgram() {
     this.prepareProgramVars();
-    return this.generateXMLBody(genInOutVars);
+    return this.generateXMLBody();
   }
   
-  public String generateFullProgram(final boolean genInOutVars) {
+  public String generateFullProgram() {
     StringConcatenation _builder = new StringConcatenation();
     String _generateXMLStart = GeneratorUtil.generateXMLStart();
     _builder.append(_generateXMLStart);
     _builder.newLineIfNotEmpty();
-    String _generateXMLBody = this.generateXMLBody(genInOutVars);
+    String _generateXMLBody = this.generateXMLBody();
     _builder.append(_generateXMLBody);
     _builder.newLineIfNotEmpty();
     String _generateXMLEnd = GeneratorUtil.generateXMLEnd();
@@ -69,7 +75,7 @@ public class ProgramGenerator {
     return _builder.toString();
   }
   
-  private String generateXMLBody(final boolean genInOutVars) {
+  private String generateXMLBody() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("\t\t\t");
     _builder.append("<pou name=\"");
@@ -83,7 +89,7 @@ public class ProgramGenerator {
     _builder.append("<interface>");
     _builder.newLine();
     {
-      if (genInOutVars) {
+      if ((!this.templateProcess)) {
         _builder.append("\t\t\t\t\t");
         String _generateVars = GeneratorUtil.generateVars(this.inVarList);
         _builder.append(_generateVars, "\t\t\t\t\t");
@@ -180,7 +186,7 @@ public class ProgramGenerator {
     };
     this.processList.stream().forEach(_function_1);
     final Consumer<ProcessGenerator> _function_2 = (ProcessGenerator x) -> {
-      x.prepareStateVars();
+      x.prepareStateVars(this.templateProcess);
     };
     this.processList.stream().forEach(_function_2);
     this.addVar(GeneratorUtil.generateStopConstant(), "INT", "254", true);

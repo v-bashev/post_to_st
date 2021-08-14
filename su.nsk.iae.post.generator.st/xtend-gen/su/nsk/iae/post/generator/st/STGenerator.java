@@ -45,8 +45,6 @@ import su.nsk.iae.post.poST.Variable;
 
 @SuppressWarnings("all")
 public class STGenerator implements IPoSTGenerator {
-  private boolean hasConfiguration = false;
-  
   private ConfigurationGenerator configuration = null;
   
   private VarHelper globVarList = new GlobalVarHelper();
@@ -64,7 +62,6 @@ public class STGenerator implements IPoSTGenerator {
     Configuration _conf = model.getConf();
     boolean _tripleNotEquals = (_conf != null);
     if (_tripleNotEquals) {
-      this.hasConfiguration = true;
       Configuration _conf_1 = model.getConf();
       ConfigurationGenerator _configurationGenerator = new ConfigurationGenerator(_conf_1);
       this.configuration = _configurationGenerator;
@@ -77,18 +74,18 @@ public class STGenerator implements IPoSTGenerator {
       final Consumer<ProgramConfiguration> _function_3 = (ProgramConfiguration programConf) -> {
         final Program program = EcoreUtil.<Program>copy(programConf.getProgram());
         program.setName(this.capitalizeFirst(programConf.getName()));
-        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(program);
+        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(program, true);
         this.programs.add(_programPOUGenerator);
       };
       this.configuration.getResources().stream().<EList<ProgramConfiguration>>map(_function_1).<ProgramConfiguration>flatMap(_function_2).forEach(_function_3);
     } else {
       final Consumer<Program> _function_4 = (Program p) -> {
-        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(p);
+        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(p, false);
         this.programs.add(_programPOUGenerator);
       };
       model.getPrograms().stream().forEach(_function_4);
       final Consumer<FunctionBlock> _function_5 = (FunctionBlock fb) -> {
-        FunctionBlockPOUGenerator _functionBlockPOUGenerator = new FunctionBlockPOUGenerator(fb);
+        FunctionBlockPOUGenerator _functionBlockPOUGenerator = new FunctionBlockPOUGenerator(fb, false);
         this.programs.add(_functionBlockPOUGenerator);
       };
       model.getFbs().stream().forEach(_function_5);
@@ -122,7 +119,7 @@ public class STGenerator implements IPoSTGenerator {
     _builder.append(_generateVars);
     _builder.newLineIfNotEmpty();
     {
-      if (this.hasConfiguration) {
+      if ((this.configuration != null)) {
         String _generateConfiguration = this.configuration.generateConfiguration();
         _builder.append(_generateConfiguration);
         _builder.newLineIfNotEmpty();
@@ -130,7 +127,7 @@ public class STGenerator implements IPoSTGenerator {
     }
     {
       for(final ProgramGenerator c : this.programs) {
-        String _generateProgram = c.generateProgram((!this.hasConfiguration));
+        String _generateProgram = c.generateProgram();
         _builder.append(_generateProgram);
         _builder.newLineIfNotEmpty();
         _builder.newLine();
@@ -140,7 +137,7 @@ public class STGenerator implements IPoSTGenerator {
   }
   
   private void preparePrograms() {
-    if ((!this.hasConfiguration)) {
+    if ((this.configuration == null)) {
       return;
     }
     final Function<Resource, EList<ProgramConfiguration>> _function = (Resource res) -> {

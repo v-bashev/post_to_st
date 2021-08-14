@@ -30,8 +30,7 @@ import static extension org.eclipse.xtext.EcoreUtil2.*
 import static extension su.nsk.iae.post.generator.st.common.util.GeneratorUtil.*
 
 class STGenerator implements IPoSTGenerator {
-	
-	boolean hasConfiguration = false
+
 	ConfigurationGenerator configuration = null
 	VarHelper globVarList = new GlobalVarHelper
 	List<ProgramGenerator> programs = new LinkedList
@@ -41,16 +40,15 @@ class STGenerator implements IPoSTGenerator {
 		programs.clear()
 		model.globVars.stream.forEach([v | globVarList.add(v)])
 		if (model.conf !== null) {
-			hasConfiguration = true
 			configuration = new ConfigurationGenerator(model.conf)
 			configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf | 
 				val program = programConf.program.copy()
 				program.name = programConf.name.capitalizeFirst
-				programs.add(new ProgramPOUGenerator(program))
+				programs.add(new ProgramPOUGenerator(program, true))
 			])
 		} else {
-			model.programs.stream.forEach([p | programs.add(new ProgramPOUGenerator(p))])
-			model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb))])
+			model.programs.stream.forEach([p | programs.add(new ProgramPOUGenerator(p, false))])
+			model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb, false))])
 		}
 	}
 
@@ -77,17 +75,17 @@ class STGenerator implements IPoSTGenerator {
 
 	private def String generateSingleFileBody() '''
 		«globVarList.generateVars»
-		«IF hasConfiguration»
+		«IF configuration !== null»
 			«configuration.generateConfiguration»
 		«ENDIF»
 		«FOR c : programs»
-			«c.generateProgram(!hasConfiguration)»
+			«c.generateProgram»
 			
 		«ENDFOR»
 	'''
 
 	private def void preparePrograms() {
-		if (!hasConfiguration) {
+		if (configuration === null) {
 			return
 		}
 		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |

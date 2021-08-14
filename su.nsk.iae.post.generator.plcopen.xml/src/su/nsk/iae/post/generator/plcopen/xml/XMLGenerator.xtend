@@ -30,8 +30,7 @@ import static extension org.eclipse.xtext.EcoreUtil2.*
 import static extension su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil.*
 
 class XMLGenerator implements IPoSTGenerator {
-	
-	boolean hasConfiguration = false
+
 	ConfigurationGenerator configuration = null
 	VarHelper globVarList = new GlobalVarHelper
 	List<ProgramGenerator> programs = new LinkedList
@@ -41,16 +40,15 @@ class XMLGenerator implements IPoSTGenerator {
 		programs.clear()
 		model.globVars.stream.forEach([v | globVarList.add(v)])
 		if (model.conf !== null) {
-			hasConfiguration = true
 			configuration = new ConfigurationGenerator(model.conf, this)
 			configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf | 
 				val program = programConf.program.copy()
 				program.name = programConf.name.capitalizeFirst
-				programs.add(new ProgramPOUGenerator(program))
+				programs.add(new ProgramPOUGenerator(program, true))
 			])
 		} else {
-			model.programs.stream.forEach([p | programs.add(new ProgramPOUGenerator(p))])
-			model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb))])
+			model.programs.stream.forEach([p | programs.add(new ProgramPOUGenerator(p, false))])
+			model.fbs.stream.forEach([fb | programs.add(new FunctionBlockPOUGenerator(fb, false))])
 		}
 	}
 
@@ -89,7 +87,7 @@ class XMLGenerator implements IPoSTGenerator {
 	private def String generateSingleXMLFile() '''
 		«generateXMLStart»
 		«FOR c : programs»
-			«c.generateProgram(!hasConfiguration)»
+			«c.generateProgram»
 		«ENDFOR»
 		«IF !globVarList.list.empty»
 			«globVarList.generateXMLEndWithGlobalVars»
@@ -99,7 +97,7 @@ class XMLGenerator implements IPoSTGenerator {
 	'''
 
 	private def void preparePrograms() {
-		if (!hasConfiguration) {
+		if (configuration === null) {
 			return
 		}
 		configuration.resources.stream.map([res | res.resStatement.programConfs]).flatMap([res | res.stream]).forEach([programConf |
