@@ -20,6 +20,7 @@ import su.nsk.iae.post.poST.Model
 import su.nsk.iae.post.poST.PrimaryExpression
 import su.nsk.iae.post.poST.ProcessStatements
 import su.nsk.iae.post.poST.ProcessStatusExpression
+import su.nsk.iae.post.poST.SymbolicVariable
 import su.nsk.iae.post.poST.TemplateProcessAttachVariableConfElement
 import su.nsk.iae.post.poST.TemplateProcessConfElement
 import su.nsk.iae.post.poST.TimeoutStatement
@@ -129,23 +130,23 @@ class XMLGenerator implements IPoSTGenerator {
 	def void changeAllVars(Variable programVar, Variable attVar, Constant const, EObject root) {
 		root.getAllContentsOfType(PrimaryExpression).stream.filter([v | (v.variable !== null) && (v.variable.name == programVar.name)]).forEach([v |
 			if (attVar !== null) {
-				v.variable.name = attVar.name
+				v.variable = attVar as SymbolicVariable
 			} else {
 				v.variable = null
 				v.const = const.copy
 			}
 		])
 		root.getAllContentsOfType(AssignmentStatement).stream.filter([v | (v.variable !== null) && (v.variable.name == programVar.name)]).forEach([v |
-			v.variable.name = attVar.name
+			v.variable = attVar as SymbolicVariable
 		])
 		root.getAllContentsOfType(ForStatement).stream.filter([v | v.variable.name == programVar.name]).forEach([v |
-			v.variable.name = attVar.name
+			v.variable = attVar as SymbolicVariable
 		])
 		root.getAllContentsOfType(ArrayVariable).stream.filter([v | v.variable.name == programVar.name]).forEach([v |
-			v.variable.name = attVar.name
+			v.variable = attVar as SymbolicVariable
 		])
 		root.getAllContentsOfType(TimeoutStatement).stream.filter([v | (v.variable !== null) && (v.variable.name == programVar.name)]).forEach([v |
-			v.variable.name = attVar.name
+			v.variable = attVar as SymbolicVariable
 		])
 		root.getAllContentsOfType(ProcessStatements).stream.filter([v | (v.process !== null) && (v.process.name == programVar.name)]).forEach([v |
 			v.process.name = attVar.name.capitalizeFirst

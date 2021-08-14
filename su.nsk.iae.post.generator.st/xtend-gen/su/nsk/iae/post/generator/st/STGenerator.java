@@ -191,8 +191,7 @@ public class STGenerator implements IPoSTGenerator {
     };
     final Consumer<PrimaryExpression> _function_1 = (PrimaryExpression v) -> {
       if ((attVar != null)) {
-        SymbolicVariable _variable = v.getVariable();
-        _variable.setName(attVar.getName());
+        v.setVariable(((SymbolicVariable) attVar));
       } else {
         v.setVariable(null);
         v.setConst(EcoreUtil.<Constant>copy(const_));
@@ -203,8 +202,7 @@ public class STGenerator implements IPoSTGenerator {
       return ((v.getVariable() != null) && Objects.equal(v.getVariable().getName(), programVar.getName()));
     };
     final Consumer<AssignmentStatement> _function_3 = (AssignmentStatement v) -> {
-      SymbolicVariable _variable = v.getVariable();
-      _variable.setName(attVar.getName());
+      v.setVariable(((SymbolicVariable) attVar));
     };
     EcoreUtil2.<AssignmentStatement>getAllContentsOfType(root, AssignmentStatement.class).stream().filter(_function_2).forEach(_function_3);
     final Predicate<ForStatement> _function_4 = (ForStatement v) -> {
@@ -213,8 +211,7 @@ public class STGenerator implements IPoSTGenerator {
       return Objects.equal(_name, _name_1);
     };
     final Consumer<ForStatement> _function_5 = (ForStatement v) -> {
-      SymbolicVariable _variable = v.getVariable();
-      _variable.setName(attVar.getName());
+      v.setVariable(((SymbolicVariable) attVar));
     };
     EcoreUtil2.<ForStatement>getAllContentsOfType(root, ForStatement.class).stream().filter(_function_4).forEach(_function_5);
     final Predicate<ArrayVariable> _function_6 = (ArrayVariable v) -> {
@@ -223,16 +220,14 @@ public class STGenerator implements IPoSTGenerator {
       return Objects.equal(_name, _name_1);
     };
     final Consumer<ArrayVariable> _function_7 = (ArrayVariable v) -> {
-      SymbolicVariable _variable = v.getVariable();
-      _variable.setName(attVar.getName());
+      v.setVariable(((SymbolicVariable) attVar));
     };
     EcoreUtil2.<ArrayVariable>getAllContentsOfType(root, ArrayVariable.class).stream().filter(_function_6).forEach(_function_7);
     final Predicate<TimeoutStatement> _function_8 = (TimeoutStatement v) -> {
       return ((v.getVariable() != null) && Objects.equal(v.getVariable().getName(), programVar.getName()));
     };
     final Consumer<TimeoutStatement> _function_9 = (TimeoutStatement v) -> {
-      SymbolicVariable _variable = v.getVariable();
-      _variable.setName(attVar.getName());
+      v.setVariable(((SymbolicVariable) attVar));
     };
     EcoreUtil2.<TimeoutStatement>getAllContentsOfType(root, TimeoutStatement.class).stream().filter(_function_8).forEach(_function_9);
     final Predicate<ProcessStatements> _function_10 = (ProcessStatements v) -> {
