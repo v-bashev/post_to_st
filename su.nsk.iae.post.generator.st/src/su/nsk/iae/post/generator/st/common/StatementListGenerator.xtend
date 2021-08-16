@@ -6,6 +6,7 @@ import su.nsk.iae.post.generator.st.common.statement.AssignmentStatementGenerato
 import su.nsk.iae.post.generator.st.common.statement.CaseStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.ErrorProcessStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.ExitStatementGenerator
+import su.nsk.iae.post.generator.st.common.statement.FBInvocationGenerator
 import su.nsk.iae.post.generator.st.common.statement.ForStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.IStatementGenerator
 import su.nsk.iae.post.generator.st.common.statement.IfStatementGenerator
@@ -18,6 +19,7 @@ import su.nsk.iae.post.generator.st.common.statement.SubprogramControlStatementG
 import su.nsk.iae.post.generator.st.common.statement.WhileStatementGenerator
 import su.nsk.iae.post.poST.ArrayVariable
 import su.nsk.iae.post.poST.Expression
+import su.nsk.iae.post.poST.ParamAssignmentElements
 import su.nsk.iae.post.poST.ProcessStatusExpression
 import su.nsk.iae.post.poST.Statement
 import su.nsk.iae.post.poST.StatementList
@@ -58,6 +60,10 @@ class StatementListGenerator {
 		return generateExpression(exp, [x | x.generateVar], [x | x.generateArray], [x | x.generateProcessStatus])
 	}
 	
+	def String generateParamAssignmentElements(ParamAssignmentElements elements) {
+		return generateParamAssignmentElements(elements, [x | x.generateExpression])
+	}
+	
 	def String generateVar(SymbolicVariable varName) {
 		if (process.containsVar(varName.name)) {
 			return process.generateVarName(varName.name)
@@ -88,6 +94,7 @@ class StatementListGenerator {
 			new ForStatementGenerator(program, process, state, this),
 			new WhileStatementGenerator(program, process, state, this),
 			new RepeatStatementGenerator(program, process, state, this),
+			new FBInvocationGenerator(program, process, state, this),
 			new StartProcessStatementGenerator(program, process, state, this),
 			new StopProcessStatementGenerator(program, process, state, this),
 			new ErrorProcessStatementGenerator(program, process, state, this),

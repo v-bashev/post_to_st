@@ -27,6 +27,10 @@ import su.nsk.iae.post.poST.SymbolicVariable
 import su.nsk.iae.post.poST.UnaryExpression
 import su.nsk.iae.post.poST.UnaryOperator
 import su.nsk.iae.post.poST.XorExpression
+import su.nsk.iae.post.poST.ParamAssignmentElements
+import su.nsk.iae.post.poST.ParamAssignment
+import su.nsk.iae.post.poST.AssignmentType
+import java.util.stream.Collectors
 
 class GeneratorUtil {
 	
@@ -151,6 +155,8 @@ class GeneratorUtil {
 						return gPStatus.apply(exp.procStatus)
 					}
 					return ''''''
+				} else if (exp.funCall !== null) {
+					return '''«exp.funCall.function.name»(«exp.funCall.args.generateParamAssignmentElements([x | x.generateExpression(gVar, gArray, gPStatus)])»)'''
 				} else {
 					return '''(«exp.nestExpr.generateExpression(gVar, gArray, gPStatus)»)'''
 				}
@@ -174,6 +180,18 @@ class GeneratorUtil {
 			Expression:
 				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» OR «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
 		}
+	}
+	
+	static def String generateParamAssignmentElements(ParamAssignmentElements elements) {
+		return generateParamAssignmentElements(elements, [x | x.generateExpression])
+	}
+	
+	static def String generateParamAssignmentElements(ParamAssignmentElements elements, Function<Expression, String> gExp) {
+		return elements.elements.stream.map([x | x.generateParamAssignment(gExp)]).collect(Collectors.toList).join(", ")
+	}
+	
+	private static def String generateParamAssignment(ParamAssignment ele, Function<Expression, String> gExp) {
+		return '''«ele.variable.name» «IF ele.assig == AssignmentType.IN»:=«ELSE»=>«ENDIF» «gExp.apply(ele.value)»'''
 	}
 	
 	private static def String generateEquOperators(EquOperator op) {

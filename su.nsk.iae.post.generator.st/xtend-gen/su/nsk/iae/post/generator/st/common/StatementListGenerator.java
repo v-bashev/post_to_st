@@ -9,6 +9,7 @@ import su.nsk.iae.post.generator.st.common.statement.AssignmentStatementGenerato
 import su.nsk.iae.post.generator.st.common.statement.CaseStatementGenerator;
 import su.nsk.iae.post.generator.st.common.statement.ErrorProcessStatementGenerator;
 import su.nsk.iae.post.generator.st.common.statement.ExitStatementGenerator;
+import su.nsk.iae.post.generator.st.common.statement.FBInvocationGenerator;
 import su.nsk.iae.post.generator.st.common.statement.ForStatementGenerator;
 import su.nsk.iae.post.generator.st.common.statement.IStatementGenerator;
 import su.nsk.iae.post.generator.st.common.statement.IfStatementGenerator;
@@ -22,6 +23,7 @@ import su.nsk.iae.post.generator.st.common.statement.WhileStatementGenerator;
 import su.nsk.iae.post.generator.st.common.util.GeneratorUtil;
 import su.nsk.iae.post.poST.ArrayVariable;
 import su.nsk.iae.post.poST.Expression;
+import su.nsk.iae.post.poST.ParamAssignmentElements;
 import su.nsk.iae.post.poST.ProcessStatusExpression;
 import su.nsk.iae.post.poST.Statement;
 import su.nsk.iae.post.poST.StatementList;
@@ -79,6 +81,13 @@ public class StatementListGenerator {
       return this.generateProcessStatus(x);
     };
     return GeneratorUtil.generateExpression(exp, _function, _function_1, _function_2);
+  }
+  
+  public String generateParamAssignmentElements(final ParamAssignmentElements elements) {
+    final Function<Expression, String> _function = (Expression x) -> {
+      return this.generateExpression(x);
+    };
+    return GeneratorUtil.generateParamAssignmentElements(elements, _function);
   }
   
   public String generateVar(final SymbolicVariable varName) {
@@ -169,6 +178,7 @@ public class StatementListGenerator {
     ForStatementGenerator _forStatementGenerator = new ForStatementGenerator(this.program, this.process, this.state, this);
     WhileStatementGenerator _whileStatementGenerator = new WhileStatementGenerator(this.program, this.process, this.state, this);
     RepeatStatementGenerator _repeatStatementGenerator = new RepeatStatementGenerator(this.program, this.process, this.state, this);
+    FBInvocationGenerator _fBInvocationGenerator = new FBInvocationGenerator(this.program, this.process, this.state, this);
     StartProcessStatementGenerator _startProcessStatementGenerator = new StartProcessStatementGenerator(this.program, this.process, this.state, this);
     StopProcessStatementGenerator _stopProcessStatementGenerator = new StopProcessStatementGenerator(this.program, this.process, this.state, this);
     ErrorProcessStatementGenerator _errorProcessStatementGenerator = new ErrorProcessStatementGenerator(this.program, this.process, this.state, this);
@@ -176,6 +186,6 @@ public class StatementListGenerator {
     ResetTimerStatementGenerator _resetTimerStatementGenerator = new ResetTimerStatementGenerator(this.program, this.process, this.state, this);
     SubprogramControlStatementGenerator _subprogramControlStatementGenerator = new SubprogramControlStatementGenerator(this.program, this.process, this.state, this);
     ExitStatementGenerator _exitStatementGenerator = new ExitStatementGenerator(this.program, this.process, this.state, this);
-    return Arrays.<IStatementGenerator>asList(_assignmentStatementGenerator, _ifStatementGenerator, _caseStatementGenerator, _forStatementGenerator, _whileStatementGenerator, _repeatStatementGenerator, _startProcessStatementGenerator, _stopProcessStatementGenerator, _errorProcessStatementGenerator, _setStateStatementGenerator, _resetTimerStatementGenerator, _subprogramControlStatementGenerator, _exitStatementGenerator);
+    return Arrays.<IStatementGenerator>asList(_assignmentStatementGenerator, _ifStatementGenerator, _caseStatementGenerator, _forStatementGenerator, _whileStatementGenerator, _repeatStatementGenerator, _fBInvocationGenerator, _startProcessStatementGenerator, _stopProcessStatementGenerator, _errorProcessStatementGenerator, _setStateStatementGenerator, _resetTimerStatementGenerator, _subprogramControlStatementGenerator, _exitStatementGenerator);
   }
 }
