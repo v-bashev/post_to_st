@@ -71,6 +71,11 @@ abstract class VarHelper {
 				for (e : v.varList.vars) {
 					listDecl.add(new VarData(pref + e.name, type, value, isConst))
 				}
+			} else if (v.fb !== null) {
+				val type = v.fb.name
+				for (e : v.varList.vars) {
+					listDecl.add(new VarData(pref + e.name, type, null, isConst))
+				}
 			} else {
 				val type = v.arrSpec.init.type
 				var String start = null
