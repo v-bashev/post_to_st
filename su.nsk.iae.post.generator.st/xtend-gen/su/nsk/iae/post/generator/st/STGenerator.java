@@ -34,6 +34,7 @@ import su.nsk.iae.post.poST.ProcessStatements;
 import su.nsk.iae.post.poST.ProcessStatusExpression;
 import su.nsk.iae.post.poST.Program;
 import su.nsk.iae.post.poST.ProgramConfElement;
+import su.nsk.iae.post.poST.ProgramConfElements;
 import su.nsk.iae.post.poST.ProgramConfiguration;
 import su.nsk.iae.post.poST.Resource;
 import su.nsk.iae.post.poST.SymbolicVariable;
@@ -73,18 +74,18 @@ public class STGenerator implements IPoSTGenerator {
       final Consumer<ProgramConfiguration> _function_3 = (ProgramConfiguration programConf) -> {
         final Program program = EcoreUtil.<Program>copy(programConf.getProgram());
         program.setName(this.capitalizeFirst(programConf.getName()));
-        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(program);
+        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(program, true);
         this.programs.add(_programPOUGenerator);
       };
       this.configuration.getResources().stream().<EList<ProgramConfiguration>>map(_function_1).<ProgramConfiguration>flatMap(_function_2).forEach(_function_3);
     } else {
       final Consumer<Program> _function_4 = (Program p) -> {
-        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(p);
+        ProgramPOUGenerator _programPOUGenerator = new ProgramPOUGenerator(p, false);
         this.programs.add(_programPOUGenerator);
       };
       model.getPrograms().stream().forEach(_function_4);
       final Consumer<FunctionBlock> _function_5 = (FunctionBlock fb) -> {
-        FunctionBlockPOUGenerator _functionBlockPOUGenerator = new FunctionBlockPOUGenerator(fb);
+        FunctionBlockPOUGenerator _functionBlockPOUGenerator = new FunctionBlockPOUGenerator(fb, false);
         this.programs.add(_functionBlockPOUGenerator);
       };
       model.getFbs().stream().forEach(_function_5);
@@ -117,9 +118,13 @@ public class STGenerator implements IPoSTGenerator {
     String _generateVars = GeneratorUtil.generateVars(this.globVarList);
     _builder.append(_generateVars);
     _builder.newLineIfNotEmpty();
-    String _generateConfiguration = this.configuration.generateConfiguration();
-    _builder.append(_generateConfiguration);
-    _builder.newLineIfNotEmpty();
+    {
+      if ((this.configuration != null)) {
+        String _generateConfiguration = this.configuration.generateConfiguration();
+        _builder.append(_generateConfiguration);
+        _builder.newLineIfNotEmpty();
+      }
+    }
     {
       for(final ProgramGenerator c : this.programs) {
         String _generateProgram = c.generateProgram();
@@ -142,28 +147,32 @@ public class STGenerator implements IPoSTGenerator {
       return res.stream();
     };
     final Consumer<ProgramConfiguration> _function_2 = (ProgramConfiguration programConf) -> {
-      final String programConfName = this.capitalizeFirst(programConf.getName());
-      final Predicate<ProgramGenerator> _function_3 = (ProgramGenerator x) -> {
-        String _name = x.getName();
-        return Objects.equal(_name, programConfName);
-      };
-      final ProgramGenerator programGen = this.programs.stream().filter(_function_3).findFirst().get();
-      final Consumer<ProgramConfElement> _function_4 = (ProgramConfElement confElement) -> {
-        if ((confElement instanceof TemplateProcessConfElement)) {
-          final su.nsk.iae.post.poST.Process process = EcoreUtil.<su.nsk.iae.post.poST.Process>copy(((TemplateProcessConfElement)confElement).getProcess());
-          process.setName(this.capitalizeFirst(((TemplateProcessConfElement)confElement).getName()));
-          final Consumer<TemplateProcessAttachVariableConfElement> _function_5 = (TemplateProcessAttachVariableConfElement e) -> {
-            this.changeAllVars(e, process);
-          };
-          ((TemplateProcessConfElement)confElement).getArgs().getElements().stream().forEach(_function_5);
-          programGen.addProcess(process, ((TemplateProcessConfElement)confElement).isActive());
-        } else {
-          if ((confElement instanceof AttachVariableConfElement)) {
-            this.changeAllVars(((AttachVariableConfElement)confElement), programGen.getEObject());
+      ProgramConfElements _args = programConf.getArgs();
+      boolean _tripleNotEquals = (_args != null);
+      if (_tripleNotEquals) {
+        final String programConfName = this.capitalizeFirst(programConf.getName());
+        final Predicate<ProgramGenerator> _function_3 = (ProgramGenerator x) -> {
+          String _name = x.getName();
+          return Objects.equal(_name, programConfName);
+        };
+        final ProgramGenerator programGen = this.programs.stream().filter(_function_3).findFirst().get();
+        final Consumer<ProgramConfElement> _function_4 = (ProgramConfElement confElement) -> {
+          if ((confElement instanceof TemplateProcessConfElement)) {
+            final su.nsk.iae.post.poST.Process process = EcoreUtil.<su.nsk.iae.post.poST.Process>copy(((TemplateProcessConfElement)confElement).getProcess());
+            process.setName(this.capitalizeFirst(((TemplateProcessConfElement)confElement).getName()));
+            final Consumer<TemplateProcessAttachVariableConfElement> _function_5 = (TemplateProcessAttachVariableConfElement e) -> {
+              this.changeAllVars(e, process);
+            };
+            ((TemplateProcessConfElement)confElement).getArgs().getElements().stream().forEach(_function_5);
+            programGen.addProcess(process, ((TemplateProcessConfElement)confElement).isActive());
+          } else {
+            if ((confElement instanceof AttachVariableConfElement)) {
+              this.changeAllVars(((AttachVariableConfElement)confElement), programGen.getEObject());
+            }
           }
-        }
-      };
-      programConf.getArgs().getElements().stream().forEach(_function_4);
+        };
+        programConf.getArgs().getElements().stream().forEach(_function_4);
+      }
     };
     this.configuration.getResources().stream().<EList<ProgramConfiguration>>map(_function).<ProgramConfiguration>flatMap(_function_1).forEach(_function_2);
   }
@@ -182,8 +191,7 @@ public class STGenerator implements IPoSTGenerator {
     };
     final Consumer<PrimaryExpression> _function_1 = (PrimaryExpression v) -> {
       if ((attVar != null)) {
-        SymbolicVariable _variable = v.getVariable();
-        _variable.setName(attVar.getName());
+        v.setVariable(((SymbolicVariable) attVar));
       } else {
         v.setVariable(null);
         v.setConst(EcoreUtil.<Constant>copy(const_));
@@ -194,8 +202,7 @@ public class STGenerator implements IPoSTGenerator {
       return ((v.getVariable() != null) && Objects.equal(v.getVariable().getName(), programVar.getName()));
     };
     final Consumer<AssignmentStatement> _function_3 = (AssignmentStatement v) -> {
-      SymbolicVariable _variable = v.getVariable();
-      _variable.setName(attVar.getName());
+      v.setVariable(((SymbolicVariable) attVar));
     };
     EcoreUtil2.<AssignmentStatement>getAllContentsOfType(root, AssignmentStatement.class).stream().filter(_function_2).forEach(_function_3);
     final Predicate<ForStatement> _function_4 = (ForStatement v) -> {
@@ -204,8 +211,7 @@ public class STGenerator implements IPoSTGenerator {
       return Objects.equal(_name, _name_1);
     };
     final Consumer<ForStatement> _function_5 = (ForStatement v) -> {
-      SymbolicVariable _variable = v.getVariable();
-      _variable.setName(attVar.getName());
+      v.setVariable(((SymbolicVariable) attVar));
     };
     EcoreUtil2.<ForStatement>getAllContentsOfType(root, ForStatement.class).stream().filter(_function_4).forEach(_function_5);
     final Predicate<ArrayVariable> _function_6 = (ArrayVariable v) -> {
@@ -214,16 +220,14 @@ public class STGenerator implements IPoSTGenerator {
       return Objects.equal(_name, _name_1);
     };
     final Consumer<ArrayVariable> _function_7 = (ArrayVariable v) -> {
-      SymbolicVariable _variable = v.getVariable();
-      _variable.setName(attVar.getName());
+      v.setVariable(((SymbolicVariable) attVar));
     };
     EcoreUtil2.<ArrayVariable>getAllContentsOfType(root, ArrayVariable.class).stream().filter(_function_6).forEach(_function_7);
     final Predicate<TimeoutStatement> _function_8 = (TimeoutStatement v) -> {
       return ((v.getVariable() != null) && Objects.equal(v.getVariable().getName(), programVar.getName()));
     };
     final Consumer<TimeoutStatement> _function_9 = (TimeoutStatement v) -> {
-      SymbolicVariable _variable = v.getVariable();
-      _variable.setName(attVar.getName());
+      v.setVariable(((SymbolicVariable) attVar));
     };
     EcoreUtil2.<TimeoutStatement>getAllContentsOfType(root, TimeoutStatement.class).stream().filter(_function_8).forEach(_function_9);
     final Predicate<ProcessStatements> _function_10 = (ProcessStatements v) -> {

@@ -27,6 +27,8 @@ public class ProgramGenerator {
   
   protected String type;
   
+  private boolean templateProcess;
+  
   protected VarHelper inVarList = new InputVarHelper();
   
   protected VarHelper outVarList = new OutputVarHelper();
@@ -40,6 +42,10 @@ public class ProgramGenerator {
   protected VarHelper tempVarList = new TempVarHelper();
   
   protected List<ProcessGenerator> processList = new LinkedList<ProcessGenerator>();
+  
+  public ProgramGenerator(final boolean templateProcess) {
+    this.templateProcess = templateProcess;
+  }
   
   public void generate(final IFileSystemAccess2 fsa, final String path) {
     StringConcatenation _builder = new StringConcatenation();
@@ -62,14 +68,27 @@ public class ProgramGenerator {
     _builder.append(this.programName);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
-    String _generateVars = GeneratorUtil.generateVars(this.externalVarList);
-    _builder.append(_generateVars);
+    {
+      if ((!this.templateProcess)) {
+        String _generateVars = GeneratorUtil.generateVars(this.inVarList);
+        _builder.append(_generateVars);
+        _builder.newLineIfNotEmpty();
+        String _generateVars_1 = GeneratorUtil.generateVars(this.outVarList);
+        _builder.append(_generateVars_1);
+        _builder.newLineIfNotEmpty();
+        String _generateVars_2 = GeneratorUtil.generateVars(this.inOutVarList);
+        _builder.append(_generateVars_2);
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    String _generateVars_3 = GeneratorUtil.generateVars(this.externalVarList);
+    _builder.append(_generateVars_3);
     _builder.newLineIfNotEmpty();
-    String _generateVars_1 = GeneratorUtil.generateVars(this.varList);
-    _builder.append(_generateVars_1);
+    String _generateVars_4 = GeneratorUtil.generateVars(this.varList);
+    _builder.append(_generateVars_4);
     _builder.newLineIfNotEmpty();
-    String _generateVars_2 = GeneratorUtil.generateVars(this.tempVarList);
-    _builder.append(_generateVars_2);
+    String _generateVars_5 = GeneratorUtil.generateVars(this.tempVarList);
+    _builder.append(_generateVars_5);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     String _generateGlobalTime = GeneratorUtil.generateGlobalTime();
@@ -122,7 +141,7 @@ public class ProgramGenerator {
     };
     this.processList.stream().forEach(_function_1);
     final Consumer<ProcessGenerator> _function_2 = (ProcessGenerator x) -> {
-      x.prepareStateVars();
+      x.prepareStateVars(this.templateProcess);
     };
     this.processList.stream().forEach(_function_2);
     this.addVar(GeneratorUtil.generateStopConstant(), "INT", "254", true);

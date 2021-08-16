@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ST-generator
 Bundle-SymbolicName: su.nsk.iae.post.generator.st; singleton:=true
-Bundle-Version: 0.1.4
+Bundle-Version: 0.2.1
 Bundle-Vendor: Institute of Automation and Electrometry SB RAS
 Automatic-Module-Name: su.nsk.iae.post.generator.st
 Bundle-RequiredExecutionEnvironment: JavaSE-11

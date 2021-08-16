@@ -12,7 +12,8 @@ import su.nsk.iae.post.poST.VarDeclaration;
 
 @SuppressWarnings("all")
 public class FunctionBlockPOUGenerator extends ProgramGenerator {
-  public FunctionBlockPOUGenerator(final FunctionBlock fb) {
+  public FunctionBlockPOUGenerator(final FunctionBlock fb, final boolean templateProcess) {
+    super(templateProcess);
     this.object = fb;
     this.programName = fb.getName();
     this.type = "FUNCTION_BLOCK";

@@ -220,11 +220,11 @@ public class ProcessGenerator {
     return (((!this.process.getProcInVars().isEmpty()) || (!this.process.getProcOutVars().isEmpty())) || (!this.process.getProcInOutVars().isEmpty()));
   }
   
-  public void prepareStateVars() {
+  public void prepareStateVars(final boolean templateProcess) {
     for (int i = 0; (i < this.stateList.size()); i++) {
       this.program.addVar(GeneratorUtil.generateEnumStateConstant(this, this.stateList.get(i).getName()), "INT", Integer.valueOf(i).toString(), true);
     }
-    if ((this.active || this.program.isFirstProcess(this))) {
+    if (((templateProcess && this.active) || ((!templateProcess) && this.program.isFirstProcess(this)))) {
       this.program.addVar(GeneratorUtil.generateEnumName(this), "INT", GeneratorUtil.generateEnumStateConstant(this, this.stateList.get(0).getName()));
     } else {
       this.program.addVar(GeneratorUtil.generateEnumName(this), "INT", GeneratorUtil.generateStopConstant());

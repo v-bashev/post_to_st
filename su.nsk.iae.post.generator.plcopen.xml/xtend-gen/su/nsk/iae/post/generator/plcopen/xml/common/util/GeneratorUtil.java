@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import su.nsk.iae.post.generator.plcopen.xml.common.ProcessGenerator;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper;
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData;
@@ -13,16 +15,20 @@ import su.nsk.iae.post.poST.AddExpression;
 import su.nsk.iae.post.poST.AddOperator;
 import su.nsk.iae.post.poST.AndExpression;
 import su.nsk.iae.post.poST.ArrayVariable;
+import su.nsk.iae.post.poST.AssignmentType;
 import su.nsk.iae.post.poST.CompExpression;
 import su.nsk.iae.post.poST.CompOperator;
 import su.nsk.iae.post.poST.Constant;
 import su.nsk.iae.post.poST.EquExpression;
 import su.nsk.iae.post.poST.EquOperator;
 import su.nsk.iae.post.poST.Expression;
+import su.nsk.iae.post.poST.FunctionCall;
 import su.nsk.iae.post.poST.IntegerLiteral;
 import su.nsk.iae.post.poST.MulExpression;
 import su.nsk.iae.post.poST.MulOperator;
 import su.nsk.iae.post.poST.NumericLiteral;
+import su.nsk.iae.post.poST.ParamAssignment;
+import su.nsk.iae.post.poST.ParamAssignmentElements;
 import su.nsk.iae.post.poST.PowerExpression;
 import su.nsk.iae.post.poST.PrimaryExpression;
 import su.nsk.iae.post.poST.ProcessStatusExpression;
@@ -344,7 +350,7 @@ public class GeneratorUtil {
     _builder.append("<project xmlns=\"http://www.plcopen.org/xml/tc6_0200\">");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("<fileHeader companyName=\"\" productName=\"CODESYS\" productVersion=\"CODESYS V3.5 SP11\" creationDateTime=\"");
+    _builder.append("<fileHeader companyName=\"\" productName=\"poSTIDE\" productVersion=\"\" creationDateTime=\"");
     String _generateCurrentTime = GeneratorUtil.generateCurrentTime();
     _builder.append(_generateCurrentTime, "\t");
     _builder.append("\" />");
@@ -384,21 +390,6 @@ public class GeneratorUtil {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("</coordinateInfo>");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<addData>");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("<data name=\"http://www.3s-software.com/plcopenxml/projectinformation\" handleUnknown=\"implementation\">");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("<ProjectInformation />");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("</data>");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("</addData>");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("</contentHeader>");
@@ -576,12 +567,28 @@ public class GeneratorUtil {
               StringConcatenation _builder_1 = new StringConcatenation();
               return _builder_1.toString();
             } else {
-              StringConcatenation _builder_2 = new StringConcatenation();
-              _builder_2.append("(");
-              String _generateExpression_1 = GeneratorUtil.generateExpression(((PrimaryExpression)exp).getNestExpr(), gVar, gArray, gPStatus);
-              _builder_2.append(_generateExpression_1);
-              _builder_2.append(")");
-              return _builder_2.toString();
+              FunctionCall _funCall = ((PrimaryExpression)exp).getFunCall();
+              boolean _tripleNotEquals_4 = (_funCall != null);
+              if (_tripleNotEquals_4) {
+                StringConcatenation _builder_2 = new StringConcatenation();
+                String _name_1 = ((PrimaryExpression)exp).getFunCall().getFunction().getName();
+                _builder_2.append(_name_1);
+                _builder_2.append("(");
+                final Function<Expression, String> _function = (Expression x) -> {
+                  return GeneratorUtil.generateExpression(x, gVar, gArray, gPStatus);
+                };
+                String _generateParamAssignmentElements = GeneratorUtil.generateParamAssignmentElements(((PrimaryExpression)exp).getFunCall().getArgs(), _function);
+                _builder_2.append(_generateParamAssignmentElements);
+                _builder_2.append(")");
+                return _builder_2.toString();
+              } else {
+                StringConcatenation _builder_3 = new StringConcatenation();
+                _builder_3.append("(");
+                String _generateExpression_1 = GeneratorUtil.generateExpression(((PrimaryExpression)exp).getNestExpr(), gVar, gArray, gPStatus);
+                _builder_3.append(_generateExpression_1);
+                _builder_3.append(")");
+                return _builder_3.toString();
+              }
             }
           }
         }
@@ -732,6 +739,40 @@ public class GeneratorUtil {
       }
     }
     return null;
+  }
+  
+  public static String generateParamAssignmentElements(final ParamAssignmentElements elements) {
+    final Function<Expression, String> _function = (Expression x) -> {
+      return GeneratorUtil.generateExpression(x);
+    };
+    return GeneratorUtil.generateParamAssignmentElements(elements, _function);
+  }
+  
+  public static String generateParamAssignmentElements(final ParamAssignmentElements elements, final Function<Expression, String> gExp) {
+    final Function<ParamAssignment, String> _function = (ParamAssignment x) -> {
+      return GeneratorUtil.generateParamAssignment(x, gExp);
+    };
+    return IterableExtensions.join(elements.getElements().stream().<String>map(_function).collect(Collectors.<String>toList()), ", ");
+  }
+  
+  private static String generateParamAssignment(final ParamAssignment ele, final Function<Expression, String> gExp) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = ele.getVariable().getName();
+    _builder.append(_name);
+    _builder.append(" ");
+    {
+      AssignmentType _assig = ele.getAssig();
+      boolean _equals = Objects.equal(_assig, AssignmentType.IN);
+      if (_equals) {
+        _builder.append(":=");
+      } else {
+        _builder.append("=>");
+      }
+    }
+    _builder.append(" ");
+    String _apply = gExp.apply(ele.getValue());
+    _builder.append(_apply);
+    return _builder.toString();
   }
   
   private static String generateEquOperators(final EquOperator op) {

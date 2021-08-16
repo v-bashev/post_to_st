@@ -3,6 +3,7 @@ package su.nsk.iae.post.generator.plcopen.xml.common.util
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.function.Function
+import java.util.stream.Collectors
 import su.nsk.iae.post.generator.plcopen.xml.common.ProcessGenerator
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.VarHelper
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.data.VarData
@@ -10,6 +11,7 @@ import su.nsk.iae.post.poST.AddExpression
 import su.nsk.iae.post.poST.AddOperator
 import su.nsk.iae.post.poST.AndExpression
 import su.nsk.iae.post.poST.ArrayVariable
+import su.nsk.iae.post.poST.AssignmentType
 import su.nsk.iae.post.poST.CompExpression
 import su.nsk.iae.post.poST.CompOperator
 import su.nsk.iae.post.poST.Constant
@@ -19,6 +21,8 @@ import su.nsk.iae.post.poST.Expression
 import su.nsk.iae.post.poST.IntegerLiteral
 import su.nsk.iae.post.poST.MulExpression
 import su.nsk.iae.post.poST.MulOperator
+import su.nsk.iae.post.poST.ParamAssignment
+import su.nsk.iae.post.poST.ParamAssignmentElements
 import su.nsk.iae.post.poST.PowerExpression
 import su.nsk.iae.post.poST.PrimaryExpression
 import su.nsk.iae.post.poST.ProcessStatusExpression
@@ -134,7 +138,7 @@ class GeneratorUtil {
 	static def String generateXMLStart() '''
 		<?xml version="1.0" encoding="utf-8"?>
 		<project xmlns="http://www.plcopen.org/xml/tc6_0200">
-			<fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP11" creationDateTime="«generateCurrentTime»" />
+			<fileHeader companyName="" productName="poSTIDE" productVersion="" creationDateTime="«generateCurrentTime»" />
 			<contentHeader name="poST.project">
 				 <coordinateInfo>
 					<fbd>
@@ -147,11 +151,6 @@ class GeneratorUtil {
 						<scaling x="1" y="1" />
 					</sfc>
 				</coordinateInfo>
-				<addData>
-					<data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
-						<ProjectInformation />
-					</data>
-				</addData>
 			</contentHeader>
 			<types>
 				<dataTypes />
@@ -230,6 +229,8 @@ class GeneratorUtil {
 						return gPStatus.apply(exp.procStatus)
 					}
 					return ''''''
+				} else if (exp.funCall !== null) {
+					return '''«exp.funCall.function.name»(«exp.funCall.args.generateParamAssignmentElements([x | x.generateExpression(gVar, gArray, gPStatus)])»)'''
 				} else {
 					return '''(«exp.nestExpr.generateExpression(gVar, gArray, gPStatus)»)'''
 				}
@@ -253,6 +254,18 @@ class GeneratorUtil {
 			Expression:
 				return '''«exp.left.generateExpression(gVar, gArray, gPStatus)» OR «exp.right.generateExpression(gVar, gArray, gPStatus)»'''
 		}
+	}
+	
+	static def String generateParamAssignmentElements(ParamAssignmentElements elements) {
+		return generateParamAssignmentElements(elements, [x | x.generateExpression])
+	}
+	
+	static def String generateParamAssignmentElements(ParamAssignmentElements elements, Function<Expression, String> gExp) {
+		return elements.elements.stream.map([x | x.generateParamAssignment(gExp)]).collect(Collectors.toList).join(", ")
+	}
+	
+	private static def String generateParamAssignment(ParamAssignment ele, Function<Expression, String> gExp) {
+		return '''«ele.variable.name» «IF ele.assig == AssignmentType.IN»:=«ELSE»=>«ENDIF» «gExp.apply(ele.value)»'''
 	}
 	
 	private static def String generateEquOperators(EquOperator op) {

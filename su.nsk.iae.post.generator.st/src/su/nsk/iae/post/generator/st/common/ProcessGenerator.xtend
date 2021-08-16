@@ -89,11 +89,11 @@ class ProcessGenerator {
 		return (!process.procInVars.empty) || (!process.procOutVars.empty) || (!process.procInOutVars.empty)
 	}
 	
-	def void prepareStateVars() {
+	def void prepareStateVars(boolean templateProcess) {
 		for (var i = 0; i < stateList.size; i++) {
 			program.addVar(generateEnumStateConstant(stateList.get(i).name), "INT", i.toString, true)
 		}
-		if (active || program.isFirstProcess(this)) {
+		if ((templateProcess && active) || (!templateProcess && program.isFirstProcess(this))) {
 			program.addVar(generateEnumName, "INT", generateEnumStateConstant(stateList.get(0).name))
 		} else {
 			program.addVar(generateEnumName, "INT", generateStopConstant)
