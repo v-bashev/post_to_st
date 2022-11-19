@@ -1,11 +1,15 @@
 package su.nsk.iae.post.generator.plcopen.xml
 
+import java.io.File
 import java.util.LinkedList
 import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import org.eclipse.xtext.generator.JavaIoFileSystemAccess
+import su.nsk.iae.post.IDsmExecutor
+import su.nsk.iae.post.PoSTStandaloneSetup
 import su.nsk.iae.post.generator.IPoSTGenerator
 import su.nsk.iae.post.generator.plcopen.xml.common.ProgramGenerator
 import su.nsk.iae.post.generator.plcopen.xml.common.vars.GlobalVarHelper
@@ -29,10 +33,6 @@ import su.nsk.iae.post.poST.Variable
 import static extension org.eclipse.emf.ecore.util.EcoreUtil.*
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import static extension su.nsk.iae.post.generator.plcopen.xml.common.util.GeneratorUtil.*
-import java.util.LinkedHashMap
-import su.nsk.iae.post.DsmUtils
-import su.nsk.iae.post.IDsmExecutor
-import java.io.File
 
 class XMLGenerator implements IDsmExecutor, IPoSTGenerator {
 
@@ -40,21 +40,19 @@ class XMLGenerator implements IDsmExecutor, IPoSTGenerator {
 	VarHelper globVarList = new GlobalVarHelper
 	List<ProgramGenerator> programs = new LinkedList
 
-	override execute(LinkedHashMap<String, Object> request) {
+	override execute(String root, String fileName, Resource resource) {
 		try {
-			val fsa = DsmUtils.fileSystemAccess;
-			val generatePath = DsmUtils.getRoot(request) + File.separator + "xml" + File.separator +
-				DsmUtils.getFileName(request);
+			val fsa = PoSTStandaloneSetup.getInjector().getInstance(JavaIoFileSystemAccess);
+			val generatePath = root + File.separator + "st" + File.separator + fileName;
 			fsa.setOutputPath(generatePath);
 
-			val resource = DsmUtils.getResource(request)
-			model = DsmUtils.getModel(resource)
+			model = resource.allContents.toIterable.filter(Model).get(0)
 			beforeGenerate(resource, fsa, null);
 			doGenerate(resource, fsa, null);
 			afterGenerate(resource, fsa, null);
 			return "Files generated in " + generatePath;
-		} catch (Throwable ignore) {
-			// Do nothing
+		} catch (Throwable th) {
+			//Do nothing
 		}
 		return "Failure";
 	}

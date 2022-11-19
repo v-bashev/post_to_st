@@ -1,8 +1,8 @@
 package su.nsk.iae.post.generator.st;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
 import java.io.File;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -18,9 +18,11 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.generator.JavaIoFileSystemAccess;
+import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import su.nsk.iae.post.DsmUtils;
+import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import su.nsk.iae.post.IDsmExecutor;
+import su.nsk.iae.post.PoSTStandaloneSetup;
 import su.nsk.iae.post.generator.IPoSTGenerator;
 import su.nsk.iae.post.generator.st.common.ProgramGenerator;
 import su.nsk.iae.post.generator.st.common.util.GeneratorUtil;
@@ -58,18 +60,12 @@ public class STGenerator implements IDsmExecutor, IPoSTGenerator {
   private List<ProgramGenerator> programs = new LinkedList<ProgramGenerator>();
   
   @Override
-  public String execute(final LinkedHashMap<String, Object> request) {
+  public String execute(final String root, final String fileName, final Resource resource) {
     try {
-      final JavaIoFileSystemAccess fsa = DsmUtils.getFileSystemAccess();
-      String _root = DsmUtils.getRoot(request);
-      String _plus = (_root + File.separator);
-      String _plus_1 = (_plus + "st");
-      String _plus_2 = (_plus_1 + File.separator);
-      String _fileName = DsmUtils.getFileName(request);
-      final String generatePath = (_plus_2 + _fileName);
+      final JavaIoFileSystemAccess fsa = PoSTStandaloneSetup.getInjector().<JavaIoFileSystemAccess>getInstance(JavaIoFileSystemAccess.class);
+      final String generatePath = ((((root + File.separator) + "st") + File.separator) + fileName);
       fsa.setOutputPath(generatePath);
-      final Resource resource = DsmUtils.getResource(request);
-      this.setModel(DsmUtils.getModel(resource));
+      this.setModel(((Model[])Conversions.unwrapArray((Iterables.<Model>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), Model.class)), Model.class))[0]);
       this.beforeGenerate(resource, fsa, null);
       this.doGenerate(resource, fsa, null);
       this.afterGenerate(resource, fsa, null);
