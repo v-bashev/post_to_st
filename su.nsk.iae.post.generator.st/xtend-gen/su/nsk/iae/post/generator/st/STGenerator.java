@@ -1,6 +1,8 @@
 package su.nsk.iae.post.generator.st;
 
 import com.google.common.base.Objects;
+import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -9,11 +11,16 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.generator.JavaIoFileSystemAccess;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+import su.nsk.iae.post.DsmUtils;
+import su.nsk.iae.post.IDsmExecutor;
 import su.nsk.iae.post.generator.IPoSTGenerator;
 import su.nsk.iae.post.generator.st.common.ProgramGenerator;
 import su.nsk.iae.post.generator.st.common.util.GeneratorUtil;
@@ -36,7 +43,6 @@ import su.nsk.iae.post.poST.Program;
 import su.nsk.iae.post.poST.ProgramConfElement;
 import su.nsk.iae.post.poST.ProgramConfElements;
 import su.nsk.iae.post.poST.ProgramConfiguration;
-import su.nsk.iae.post.poST.Resource;
 import su.nsk.iae.post.poST.SymbolicVariable;
 import su.nsk.iae.post.poST.TemplateProcessAttachVariableConfElement;
 import su.nsk.iae.post.poST.TemplateProcessConfElement;
@@ -44,12 +50,38 @@ import su.nsk.iae.post.poST.TimeoutStatement;
 import su.nsk.iae.post.poST.Variable;
 
 @SuppressWarnings("all")
-public class STGenerator implements IPoSTGenerator {
+public class STGenerator implements IDsmExecutor, IPoSTGenerator {
   private ConfigurationGenerator configuration = null;
   
   private VarHelper globVarList = new GlobalVarHelper();
   
   private List<ProgramGenerator> programs = new LinkedList<ProgramGenerator>();
+  
+  @Override
+  public String execute(final LinkedHashMap<String, Object> request) {
+    try {
+      final JavaIoFileSystemAccess fsa = DsmUtils.getFileSystemAccess();
+      String _root = DsmUtils.getRoot(request);
+      String _plus = (_root + File.separator);
+      String _plus_1 = (_plus + "st");
+      String _plus_2 = (_plus_1 + File.separator);
+      String _fileName = DsmUtils.getFileName(request);
+      final String generatePath = (_plus_2 + _fileName);
+      fsa.setOutputPath(generatePath);
+      final Resource resource = DsmUtils.getResource(request);
+      this.setModel(DsmUtils.getModel(resource));
+      this.beforeGenerate(resource, fsa, null);
+      this.doGenerate(resource, fsa, null);
+      this.afterGenerate(resource, fsa, null);
+      return ("Files generated in " + generatePath);
+    } catch (final Throwable _t) {
+      if (_t instanceof Throwable) {
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return "Failure";
+  }
   
   @Override
   public void setModel(final Model model) {
@@ -65,7 +97,7 @@ public class STGenerator implements IPoSTGenerator {
       Configuration _conf_1 = model.getConf();
       ConfigurationGenerator _configurationGenerator = new ConfigurationGenerator(_conf_1);
       this.configuration = _configurationGenerator;
-      final Function<Resource, EList<ProgramConfiguration>> _function_1 = (Resource res) -> {
+      final Function<su.nsk.iae.post.poST.Resource, EList<ProgramConfiguration>> _function_1 = (su.nsk.iae.post.poST.Resource res) -> {
         return res.getResStatement().getProgramConfs();
       };
       final Function<EList<ProgramConfiguration>, Stream<ProgramConfiguration>> _function_2 = (EList<ProgramConfiguration> res) -> {
@@ -93,17 +125,17 @@ public class STGenerator implements IPoSTGenerator {
   }
   
   @Override
-  public void beforeGenerate(final org.eclipse.emf.ecore.resource.Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+  public void beforeGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.preparePrograms();
   }
   
   @Override
-  public void doGenerate(final org.eclipse.emf.ecore.resource.Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+  public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     this.generateSingleFile(fsa, "");
   }
   
   @Override
-  public void afterGenerate(final org.eclipse.emf.ecore.resource.Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+  public void afterGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
   }
   
   private void generateSingleFile(final IFileSystemAccess2 fsa, final String path) {
@@ -140,7 +172,7 @@ public class STGenerator implements IPoSTGenerator {
     if ((this.configuration == null)) {
       return;
     }
-    final Function<Resource, EList<ProgramConfiguration>> _function = (Resource res) -> {
+    final Function<su.nsk.iae.post.poST.Resource, EList<ProgramConfiguration>> _function = (su.nsk.iae.post.poST.Resource res) -> {
       return res.getResStatement().getProgramConfs();
     };
     final Function<EList<ProgramConfiguration>, Stream<ProgramConfiguration>> _function_1 = (EList<ProgramConfiguration> res) -> {
