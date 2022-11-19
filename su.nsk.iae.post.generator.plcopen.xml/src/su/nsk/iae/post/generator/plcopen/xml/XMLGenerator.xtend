@@ -43,7 +43,7 @@ class XMLGenerator implements IDsmExecutor, IPoSTGenerator {
 	override execute(String root, String fileName, Resource resource) {
 		try {
 			val fsa = PoSTStandaloneSetup.getInjector().getInstance(JavaIoFileSystemAccess);
-			val generatePath = root + File.separator + "st" + File.separator + fileName;
+			val generatePath = root + File.separator + "xml" + File.separator + fileName;
 			fsa.setOutputPath(generatePath);
 
 			model = resource.allContents.toIterable.filter(Model).get(0)

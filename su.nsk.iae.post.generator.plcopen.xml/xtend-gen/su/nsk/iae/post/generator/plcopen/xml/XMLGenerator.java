@@ -63,7 +63,7 @@ public class XMLGenerator implements IDsmExecutor, IPoSTGenerator {
   public String execute(final String root, final String fileName, final Resource resource) {
     try {
       final JavaIoFileSystemAccess fsa = PoSTStandaloneSetup.getInjector().<JavaIoFileSystemAccess>getInstance(JavaIoFileSystemAccess.class);
-      final String generatePath = ((((root + File.separator) + "st") + File.separator) + fileName);
+      final String generatePath = ((((root + File.separator) + "xml") + File.separator) + fileName);
       fsa.setOutputPath(generatePath);
       this.setModel(((Model[])Conversions.unwrapArray((Iterables.<Model>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), Model.class)), Model.class))[0]);
       this.beforeGenerate(resource, fsa, null);
