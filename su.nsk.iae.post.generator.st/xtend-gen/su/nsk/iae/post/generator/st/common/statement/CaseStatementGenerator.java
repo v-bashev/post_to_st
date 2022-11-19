@@ -8,6 +8,7 @@ import su.nsk.iae.post.generator.st.common.StateGenerator;
 import su.nsk.iae.post.generator.st.common.StatementListGenerator;
 import su.nsk.iae.post.generator.st.common.util.GeneratorUtil;
 import su.nsk.iae.post.poST.CaseElement;
+import su.nsk.iae.post.poST.CaseListElement;
 import su.nsk.iae.post.poST.CaseStatement;
 import su.nsk.iae.post.poST.SignedInteger;
 import su.nsk.iae.post.poST.Statement;
@@ -36,12 +37,12 @@ public class CaseStatementGenerator extends IStatementGenerator {
     {
       EList<CaseElement> _caseElements = s.getCaseElements();
       for(final CaseElement e : _caseElements) {
+        _builder.append("\t");
         {
-          EList<SignedInteger> _caseListElement = e.getCaseList().getCaseListElement();
-          for(final SignedInteger c : _caseListElement) {
-            _builder.append("\t");
-            String _generateSignedInteger = GeneratorUtil.generateSignedInteger(c);
-            _builder.append(_generateSignedInteger, "\t");
+          EList<CaseListElement> _caseListElement = e.getCaseList().getCaseListElement();
+          for(final CaseListElement c : _caseListElement) {
+            String _generateCaseListElement = this.generateCaseListElement(c);
+            _builder.append(_generateCaseListElement, "\t");
             {
               int _indexOf = e.getCaseList().getCaseListElement().indexOf(c);
               int _size = e.getCaseList().getCaseListElement().size();
@@ -53,9 +54,9 @@ public class CaseStatementGenerator extends IStatementGenerator {
                 _builder.append(":");
               }
             }
-            _builder.newLineIfNotEmpty();
           }
         }
+        _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t");
         String _generateStatementList = this.context.generateStatementList(e.getStatement());
@@ -79,6 +80,22 @@ public class CaseStatementGenerator extends IStatementGenerator {
     }
     _builder.append("END_CASE");
     _builder.newLine();
+    return _builder.toString();
+  }
+  
+  private String generateCaseListElement(final CaseListElement e) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      SignedInteger _num = e.getNum();
+      boolean _tripleNotEquals = (_num != null);
+      if (_tripleNotEquals) {
+        String _generateSignedInteger = GeneratorUtil.generateSignedInteger(e.getNum());
+        _builder.append(_generateSignedInteger);
+      } else {
+        String _generateVar = this.context.generateVar(e.getVariable());
+        _builder.append(_generateVar);
+      }
+    }
     return _builder.toString();
   }
 }
